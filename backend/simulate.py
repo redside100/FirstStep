@@ -1,6 +1,7 @@
 from util import create_groups, generate_test_user
 from entities.user import User, Rating
 import json
+import time
 
 def dump_to_json(obj):
     with open(str(int(time.time())) + '_simulate.json', 'w+') as f:

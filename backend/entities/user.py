@@ -13,6 +13,7 @@ class Rating:
 
 @dataclass
 class User:
+    id: int
     first_name: str
     last_name: str
     student_id: int
