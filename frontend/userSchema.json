@@ -1,0 +1,61 @@
+{
+  "$id": "https://example.com/person.schema.json",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Person",
+  "type": "object",
+  "properties": {
+    "Name": {
+      "type": "string",
+      "description": "The person's name."
+    },
+    "email": {
+      "type": "string",
+      "description": "The person's email."
+    },
+    "isPartOfTeam": {
+      "type": "boolean",
+      "description": "Stores if the member is currently part of a team or not."
+    },
+    "TeamID": {
+      "type": "string",
+      "description": "generated string unique for this team."
+    },
+    "preferences": {
+        "type": "array",
+        "items": { "$ref": "#/$defs/preferences" }
+      }
+    },
+    "$defs": {
+      "preferences": {
+        "type": "object",
+        "required": [ "softwarePref","leadershipPref", "databasePref", "writingPref",  "hardwarePref", "embeddedPref" ],
+        "properties": {
+          "softwarePref": {
+            "type": "integer",
+            "description": "Their preference for software related projects"
+          },
+          "leadershipPref": {
+            "type": "integer",
+            "description": "Their preference for leadership roles"
+          },
+          "databasePref": {
+            "type": "integer",
+            "description": "Their preference of working with databases"
+          },
+          "writingPref": {
+            "type": "integer",
+            "description": "Their preference to do writing work"
+          },
+          "hardwarePref": {
+            "type": "integer",
+            "description": "Their preference for hardware related projects"
+          },
+          "embeddedPref": {
+            "type": "integer",
+            "description": "Their preference for working on embedded software projects"
+          }
+        }
+      }
+    }
+
+}

@@ -1,0 +1,81 @@
+{
+    "$schema": "http://json-schema.org/draft-04/schema#",
+    "type": "object",
+    "properties": {
+      "status": {
+        "type": "string"
+      },
+      "data": {
+        "type": "array",
+        "items": [
+          {
+            "type": "object",
+            "properties": {
+              "name": {
+                "type": "string"
+              },
+              "email": {
+                "type": "string"
+              },
+              "userID": {
+                "type": "integer"
+              },
+              "isPartOfTeam": {
+                "type": "boolean"
+              },
+              "TeamID": {
+                "type": "string"
+              },
+              "preferences": {
+                "type": "array",
+                "items": [
+                  {
+                    "type": "object",
+                    "properties": {
+                      "softwarePref": {
+                        "type": "number"
+                      },
+                      "leadershipPref": {
+                        "type": "number"
+                      },
+                      "databasePref": {
+                        "type": "number"
+                      },
+                      "writingPref": {
+                        "type": "number"
+                      },
+                      "hardwarePref": {
+                        "type": "number"
+                      },
+                      "embeddedPref": {
+                        "type": "number"
+                      }
+                    },
+                    "required": [
+                      "softwarePref",
+                      "leadershipPref",
+                      "databasePref",
+                      "writingPref",
+                      "hardwarePref",
+                      "embeddedPref"
+                    ]
+                  }
+                ]
+              }
+            },
+            "required": [
+              "name",
+              "email",
+              "isPartOfTeam",
+              "TeamID",
+              "preferences"
+            ]
+          }
+        ]
+      }
+    },
+    "required": [
+      "status",
+      "data"
+    ]
+  }

@@ -1,0 +1,28 @@
+{
+    "status": "200",
+    "data": [
+        {
+            "description": "A representation of a team",
+            "type": "object",
+            "properties": {
+                "TeamMembers": {
+                    "type": "array",
+                    "items": {
+                        "MemberName": "string",
+                        "MemberID": "integer",
+                        "MemberSkills": {
+                            "type": "array",
+                            "items": {}
+                        }
+                    }
+                },
+                "vegetables": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/$defs/veggie"
+                    }
+                }
+            }
+        }
+    ]
+}
