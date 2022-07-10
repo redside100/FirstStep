@@ -1,3 +1,5 @@
+import os
+
 from flask import Flask, request, jsonify
 from util import generate_test_user, create_groups
 import json
@@ -68,10 +70,10 @@ def get_all_preferences():
 
 def init():
     global config
-    with open("config.json", "r") as f:
-        config = json.loads(f.read())
+    config['POSTGRES_HOST'] = os.environ.get('POSTGRES_HOST') if os.environ.get('POSTGRES_HOST') else 'localhost'
+    config['POSTGRES_PORT'] = int(os.environ.get('POSTGRES_PORT')) if os.environ.get('POSTGRES_PORT') else 5432
 
 
 if __name__ == '__main__':
     init()
-    app.run()
+    app.run(host='0.0.0.0', threaded=True)
