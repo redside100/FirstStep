@@ -2,27 +2,19 @@
     "status": "200",
     "data": [
         {
-            "description": "A representation of a team",
-            "type": "object",
-            "properties": {
-                "TeamMembers": {
-                    "type": "array",
-                    "items": {
-                        "MemberName": "string",
-                        "MemberID": "integer",
-                        "MemberSkills": {
-                            "type": "array",
-                            "items": {}
-                        }
+                "isTeamPermanent": false,
+                "dateOfCreation": "2012-04-23T18:25:43.511Z",
+                "TeamMembers": [
+                	{
+                        "MemberName": "John Smith",
+                        "MemberID": 1234567
+                    },
+                    {
+                        "MemberName": "Sarah Black",
+                        "MemberID": 9871234
                     }
-                },
-                "vegetables": {
-                    "type": "array",
-                    "items": {
-                        "$ref": "#/$defs/veggie"
-                    }
-                }
+                    
+                ]
             }
-        }
-    ]
+        ]
 }

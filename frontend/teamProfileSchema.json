@@ -1,0 +1,53 @@
+{
+    "type": "object",
+    "properties": {
+      "status": {
+        "type": "string"
+      },
+      "data": {
+        "type": "array",
+        "items": [
+          {
+            "type": "object",
+            "properties": {
+              "isTeamPermanent": {
+                "type": "boolean"
+              },
+              "dateOfCreation": {
+                "type": "string"
+              },
+              "TeamMembers": {
+                "type": "array",
+                "items": [
+                  {
+                    "type": "object",
+                    "properties": {
+                      "MemberName": {
+                        "type": "string"
+                      },
+                      "MemberID": {
+                        "type": "integer"
+                      }
+                    },
+                    "required": [
+                      "MemberName",
+                      "MemberID"
+                    ]
+                  }
+                ]
+              }
+            },
+            "required": [
+              "isTeamPermanent",
+              "dateOfCreation",
+              "TeamMembers"
+            ]
+          }
+        ]
+      }
+    },
+    "required": [
+      "status",
+      "data"
+    ]
+  }
