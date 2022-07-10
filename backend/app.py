@@ -3,6 +3,7 @@ import os
 from flask import Flask, request, jsonify
 from util import generate_test_user, create_groups
 import json
+import db
 
 app = Flask(__name__)
 config = {}
@@ -11,7 +12,9 @@ config = {}
 
 @app.route('/')
 def hello_world():  # put application's code here
-    return 'Hello World!'
+    return {
+        "message": "FirstStep API v1"
+    }
 
 @app.post('/user')
 def create_user():
@@ -72,6 +75,10 @@ def init():
     global config
     config['POSTGRES_HOST'] = os.environ.get('POSTGRES_HOST') if os.environ.get('POSTGRES_HOST') else 'localhost'
     config['POSTGRES_PORT'] = int(os.environ.get('POSTGRES_PORT')) if os.environ.get('POSTGRES_PORT') else 5432
+    config['POSTGRES_USER'] = os.environ.get('POSTGRES_USER') if os.environ.get('POSTGRES_USER') else 'fs'
+    config['POSTGRES_PASSWORD'] = os.environ.get('POSTGRES_PASSWORD') if os.environ.get('POSTGRES_PASSWORD') else 'default'
+    config['POSTGRES_DB'] = os.environ.get('POSTGRES_DB') if os.environ.get('POSTGRES_DB') else 'master'
+    db.init_db(config['POSTGRES_HOST'], config['POSTGRES_PORT'], config['POSTGRES_USER'], config['POSTGRES_PASSWORD'], config['POSTGRES_DB'])
 
 
 if __name__ == '__main__':

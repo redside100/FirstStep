@@ -1,16 +1,18 @@
 version: "3.9"
 services:
+  fs_postgres:
+    build: postgres
+    ports:
+      - "5432:5432"
   fs_backend:
     build: backend
     ports:
       - "5000:5000"
+    links:
+      - fs_postgres
     environment:
-      - POSTGRES_HOST=localhost
-      - POSTGRES_PORT=5432
-
-  fs_postgres:
-    image: "postgres:latest"
-    environment:
-      - POSTGRES_PASSWORD=default
-    ports:
-      - "5432:5432"
+      POSTGRES_HOST: fs_postgres
+      POSTGRES_PORT: 5432
+      POSTGRES_USER: fs
+      POSTGRES_PASSWORD: default
+      POSTGRES_DB: master
