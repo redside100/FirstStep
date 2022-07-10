@@ -1,7 +1,9 @@
 from flask import Flask, request, jsonify
 from util import generate_test_user, create_groups
+import json
 
 app = Flask(__name__)
+config = {}
 
 #f.write(json.dumps(obj, default=lambda x: x.__dict__, indent=4)) to write a json object
 
@@ -63,5 +65,13 @@ def get_all_skillsets():
 def get_all_preferences():
     return {"preferences": { "hardware": "true", "embedded systems": "true"}}, 200
 
+
+def init():
+    global config
+    with open("config.json", "r") as f:
+        config = json.loads(f.read())
+
+
 if __name__ == '__main__':
+    init()
     app.run()
