@@ -4,9 +4,9 @@ import time
 import psycopg2
 
 connection = None
-
-
 logger = logging.Logger("db")
+
+
 def init_db(host, port, user, password, database):
     global connection
     for _ in range(10):
