@@ -2,9 +2,11 @@
     "status": "200",
     "data": [
         {
-                "isTeamPermanent": false,
+                "isGroupPermanent": false,
                 "dateOfCreation": "2012-04-23T18:25:43.511Z",
-                "TeamMembers": [
+                "groupID": "internal_id_here",
+                "groupName": "Group_name_here",
+                "groupMembers": [
                 	{
                         "MemberName": "John Smith",
                         "MemberID": 1234567

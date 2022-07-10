@@ -10,13 +10,13 @@
           {
             "type": "object",
             "properties": {
-              "isTeamPermanent": {
+              "isGroupPermanent": {
                 "type": "boolean"
               },
               "dateOfCreation": {
                 "type": "string"
               },
-              "TeamMembers": {
+              "GroupMembers": {
                 "type": "array",
                 "items": [
                   {
@@ -38,9 +38,9 @@
               }
             },
             "required": [
-              "isTeamPermanent",
+              "isGroupPermanent",
               "dateOfCreation",
-              "TeamMembers"
+              "GroupMembers"
             ]
           }
         ]
