@@ -16,3 +16,9 @@ services:
       POSTGRES_USER: fs
       POSTGRES_PASSWORD: default
       POSTGRES_DB: master
+  fs_frontend:
+    build: frontend
+    ports:
+      - "3000:3000"
+    depends_on:
+      - fs_backend
