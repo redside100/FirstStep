@@ -25,8 +25,8 @@ def scrape():
     for i, expandable in enumerate(expandables):
         entries.append({
             'id': 1000 + i,
-            'title': expandable.h2.text,
-            'description': expandable.div.p.text.split("Team members:")[0],
+            'title': expandable.h2.text.strip(),
+            'description': expandable.div.p.text.split("Team members:")[0].strip(),
             'year': 2020
         })
 
@@ -46,8 +46,8 @@ def scrape():
             if title.isnumeric():
                 entries.append({
                     'id': 2000 + int(title),
-                    'title': " ".join(stack),
-                    'description': paragraphs.pop(0),
+                    'title': " ".join(stack).strip(),
+                    'description': paragraphs.pop(0).strip(),
                     'year': 2021
                 })
                 stack.clear()
