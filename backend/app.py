@@ -2,13 +2,10 @@ import os
 
 from flask import Flask, request, jsonify
 from util import generate_test_user, create_groups
-import json
 import db
 
 app = Flask(__name__)
 config = {}
-
-#f.write(json.dumps(obj, default=lambda x: x.__dict__, indent=4)) to write a json object
 
 @app.route('/')
 def hello_world():  # put application's code here
@@ -64,11 +61,11 @@ def post_matching():
 
 @app.get('/skillsets/all')
 def get_all_skillsets():
-    return {"leadership" : "1", "communication": "3"}, 200
+    return {"leadership": "1", "communication": "3"}, 200
 
 @app.get('/preferences/all')
 def get_all_preferences():
-    return {"preferences": { "hardware": "true", "embedded systems": "true"}}, 200
+    return {"preferences": {"hardware": "true", "embedded systems": "true"}}, 200
 
 
 def init():
