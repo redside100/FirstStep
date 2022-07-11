@@ -1,0 +1,3 @@
+[submodule "frontend/firststep-fe"]
+	path = frontend/firststep-fe
+	url = ist-git@git.uwaterloo.ca:sqguo/firststep-fe.git
