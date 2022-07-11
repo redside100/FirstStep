@@ -1,0 +1,806 @@
+[
+    {
+        "id": 1000,
+        "title": "Goldilocks: Consumer Electronics Comparator and Price Tracker",
+        "description": "A growing share of consumer electronics sales are being conducted online. However, comparing products across different online retailers can be difficult. The objective of this project is to consolidate information across major retailers into one platform, making online shopping simpler and saving time, money, and effort. The benefit of this project is that it puts an emphasis on comparison of similar products within the same electronics category so as to allow consumers to shop for electronics when they are undecided on a particular product.\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0",
+        "year": 2020
+    },
+    {
+        "id": 1001,
+        "title": "EyeGuide: Smart Cane for the Visually Impaired",
+        "description": "500,000 Canadians are estimated to be affected by sight loss, and have difficulty navigating unfamiliar spaces. The objective of EyeGuide is to attach an embedded device onto a traditional white cane. This system is responsible for detecting and identifying nearby objects, providing navigation assistance and providing location sharing. The main advantage of EyeGuide is that it provides more information to the blind than the traditional white cane and does not require training unlike guide dogs.\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0",
+        "year": 2020
+    },
+    {
+        "id": 1002,
+        "title": "Tutorr",
+        "description": "Market research has shown a rising demand in tutoring services as the percentage of students meeting provincial standards continue to decrease year-by-year. To address this, a crowd-sourced platform for private tutoring services that promotes personal engagement and immediate feedback has been created. With Tutorr, students are matched with mentors within their geographical location that possess relevant subject expertise, and a full-scale application integrated with payment services and live-chat is used to facilitate this experience seamlessly and efficiently.\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0",
+        "year": 2020
+    },
+    {
+        "id": 1003,
+        "title": "Dallo: Targeted Giving Platform",
+        "description": "Charities often receive donated items that they cannot use, and disposing of these items diverts time and money from the organization\u2019s main focus. The Dallo application reduces the number of unwanted donations by matching users with items to donate with the local charities that need them the most. This allows users to efficiently find good homes for their items while giving visibility to lesser-known charities.\u00a0\u00a0\u00a0",
+        "year": 2020
+    },
+    {
+        "id": 1004,
+        "title": "ReceiptIt: A Receipt Image Recognition Application",
+        "description": "ReceiptIt is a digital bookkeeping application which recognizes essential texts from receipt images and provides interactive expense management experience via personalized expenditure reports and comparison functionalities. The major advantage of this design over other alternatives is that the tedious aspects of organizing receipts and inputting data manually have been automated and users will have a better overview of their expenses via personalized reports and expense comparisons.",
+        "year": 2020
+    },
+    {
+        "id": 1005,
+        "title": "Mira:\u00a0 Smart Mirror Platform",
+        "description": "Everybody has their morning routine - from personal grooming and catching up with emails, to reading up on social media. Mira is a smart mirror that simplifies the daily process by integrating these common activities into a household item. The physical device comes bundled with an ecosystem that allows the user to customize their mirror by downloading and configuring widgets from an online marketplace. A platform will also be included to allow developers to take advantage of the in-built sensors and build their own widgets.\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0",
+        "year": 2020
+    },
+    {
+        "id": 1006,
+        "title": "Locus: An App for Roommates",
+        "description": "Currently, there are no mobile applications that focus on improving communication between roommates. As such, students have to deal with the varying idiosyncrasies of new roommates each term. Verbal agreements regarding house rules and chores are often difficult to maintain, causing arguments and conflicts. The objective of this project is to design an app that can integrate collaboration and planning tools to facilitate sharing a communal living environment. This will provide users with a streamlined approach to make their shared home more comfortable and enjoyable.\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0",
+        "year": 2020
+    },
+    {
+        "id": 1007,
+        "title": "Bicycle Brake Assistance System (BBAS)",
+        "description": "BBAS is an integrated system built on bicycle brakes, and it can provide the speed control to the bike as the bike speeding up while going down a ramp or unintentional high-speed riding. This system can prevent potential injuries from happening by limiting the speed. The BBAS is developed with a variety of theories, including control theory, embedded system design and mechanical knowledge. The main advantage of the BBAS is to leave the rider with more time of reaction as unexpected obstacles come up.\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0",
+        "year": 2020
+    },
+    {
+        "id": 1008,
+        "title": "Brazo",
+        "description": "Brazo is a smart testing platform that can automatically record test flows and replay the motions to physically test various mobile devices. Computer vision and image processing are used to interpret the users\u2019 interactions with the device, which is translated to executable sequences for the robotic arm control system to be used for verification. Brazo can save time and costs in development teams by providing real-time and detailed UI feedback during testing across multiple devices, where mobile farms or other software-based automation are inherently limited.",
+        "year": 2020
+    },
+    {
+        "id": 1009,
+        "title": "Command & Locker",
+        "description": "When renting or sharing access to a residence, handling keys can be challenging. Timing and security of physical transfers can be difficult to arrange, and keypad codes can be compromised. This project\u2019s goal is to design an accessible-anywhere system for digital sharing and revocation of keys. A user can access a lock via wireless authentication; key sharing permissions are hierarchical. The design\u2019s value is in the ability to instantly and remotely grant and revoke access, without requiring physical transfers or changing a lock or code.",
+        "year": 2020
+    },
+    {
+        "id": 1010,
+        "title": "TexTure: Using Electrovibration-based Haptics to Simulate Real Textures for Immersive Note Taking",
+        "description": "There is a growing demand for digital note-taking, but existing products are expensive and do not provide the same haptic experience as paper. These barriers discourage people who want to transition their note-taking experience to a digital space. This project aims to solve this challenge by designing a tablet that integrates electrovibration-based haptic feedback along with the ability to capture visual and audio data. The advantage of TexTure over existing alternatives is that it provides realistic haptic feedback to the user at an affordable price.\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0",
+        "year": 2020
+    },
+    {
+        "id": 1011,
+        "title": "Polyphonic Pagination",
+        "description": "Polyphonic Pagination is a convenient enhancement to digital sheet music. The application displays a PDF of sheet music and monitors the performer's progress through the piece, interpreting each note being played through statistical pattern matching. This allows the application to turn the pages at the appropriate time, without musician intervention.\u00a0 Unlike other automatic page turners, it requires no instrument training, and can correctly predict a user's progress when experiencing disruptions in play.\u00a0\u00a0\u00a0",
+        "year": 2020
+    },
+    {
+        "id": 1012,
+        "title": "Rendezvue: Augmented Reality Based Location Finder",
+        "description": "With GPS technology existing within all cell phones, navigation through maps and locating nearby venues has become simpler. However, due to the nature of the technology itself, accuracy is often not guaranteed. In ride sharing applications for example, customers are picked up based on their GPS locations, but drivers experience challenges with pinpointing the exact location of their riders. With a mobile application that places an augmented reality marker around the person\u2019s actual location, one can find a hyper-accurate location of anyone or anything.\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0",
+        "year": 2020
+    },
+    {
+        "id": 1013,
+        "title": "Brevity: An Application for Summarizing Documents",
+        "description": "The objective of this project is to design an application to assist in creating concise and effective outlines from large volumes of text to increase comprehension when reading. The application allows users to upload documents, then uses natural language processing to extract the information and finally outputs a meaningful summary of the document. The main advantage of this design is the flexibility to summarize a variety of documents and generate a compact overview of the material.\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0",
+        "year": 2020
+    },
+    {
+        "id": 1014,
+        "title": "StreamingOS: Low Cost Education System",
+        "description": "Technology in education is becoming increasingly common in today\u2019s world. However, due to increasingly high costs, it is not readily available to everyone. StreamingOS is a system that aims to reduce these costs by providing students and teachers with inexpensive thin endpoint devices such as a Raspberry Pi or a tablet which streams resource-intensive applications from virtualized containers running on a backend server. The advantage of this system is cost effectiveness and a better teacher-student interaction capability for a holistic learning environment.\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0",
+        "year": 2020
+    },
+    {
+        "id": 1015,
+        "title": "Gauntlet: A Virtual Reality Glove",
+        "description": "Gauntlet is a motion controller that provides individual finger movement tracking and touch-sensation to virtual reality users. It accomplishes this by using embedded motion tracking sensors and haptic feedback units contained in a glove that is paired to a virtual reality environment designed to provide these more immersive virtual reality experiences. The main advantage of Gauntlet over existing virtual reality motion controllers is its ability to better emulate and simulate complex tasks and interactions that would be too dangerous or impractical to perform in reality.\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0",
+        "year": 2020
+    },
+    {
+        "id": 1016,
+        "title": "Mouthguard Machine Interface",
+        "description": "The Mouthguard Machine Interface is a way for people with limited mobility in their arms and legs to interact with an electric wheelchair. It reads sensor data from the user\u2019s tongue as an input and translates this to inputs for the wheelchair. The sensor data is processed and filtered to discern the intent of the user. The advantage of this system over alternative designs is that it can be easily integrated into the user\u2019s existing electric wheelchair.\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0",
+        "year": 2020
+    },
+    {
+        "id": 1017,
+        "title": "Receiptify \u2013 The Digital Receipt System",
+        "description": "Receiptify is an eco-friendly solution to paper receipts which provides users a convenient way to access and manage them. It is a new frontier to paperless economy. Receiptify is a portable device that plugs into a point of sale (POS) system and provides digital receipts to customers after their purchase. The user can then view and manage their digital receipts on the Receiptify mobile application. The major benefits of this design are that it is secure and reliable and requires no commitment from merchants.\u00a0\u00a0",
+        "year": 2020
+    },
+    {
+        "id": 1018,
+        "title": "LISP Machine on a Chip",
+        "description": "LISP is a powerful and yet simple programming language, allowing very concise encoding of the solution to even complex AI problems. However, LISP like languages come at the cost of increased running time and memory usage when run on conventional computer hardware. This project utilizes FPGA technology to accelerate the processing of LISP programs by providing a dedicated LISP coprocessor alongside a standard RISC processor. This dedicated hardware acceleration allows for increased LISP performance over standard software interpreters, without decreasing overall functionality.\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0",
+        "year": 2020
+    },
+    {
+        "id": 1019,
+        "title": "Quantlab:\u00a0Quantitative Trading Analysis Platform",
+        "description": "QuantLab utilizes alternative datasets as a new angle to generate alphas for investments. The platform provides the ability to quickly iterate trading signals on alternative datasets using techniques such as PCA with multiple linear regression and lasso. The performance of each trading signal can be compared with one another using different parameters.\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0",
+        "year": 2020
+    },
+    {
+        "id": 1020,
+        "title": "Garden Sentry",
+        "description": "The goal of this project is to design an autonomous garden sentry that sprays water at garden pests to scare them away. This system will prevent pests from damaging the owner\u2019s garden, while at the same time avoiding harm to said pests. This is done using cameras and computer vision to detect the targets, a water gun attached to a pump to fire and a server to store logs of the camera footage.\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0",
+        "year": 2020
+    },
+    {
+        "id": 1021,
+        "title": "Vdrobe: A Virtual Reality Wardrobe",
+        "description": "The lack of 3-D interaction for online apparel shopping makes many of the customers unsatisfied with their purchases. The objective of this project is to design a virtual reality environment where users can try on different clothes before they make any purchase. Vdrobe combines a virtual reality headgear with a 3-D scanner that recreates a virtual fitting room environment along with a custom-made avatar that mimics the user\u2019s body, enabling customers to see the true fit of the selected apparel on the tailored model.\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0",
+        "year": 2020
+    },
+    {
+        "id": 1022,
+        "title": "Digital Museum",
+        "description": "The experience of museum tours received by visitors can be drastically improved. The objective of this project is to design a mobile app with its underlying online services that provides a personalized and comprehensive experience for museum visitors to interact with museum exhibits. With beacon-based location awareness and QR support, visitors can effortlessly gain in-depth information of each exhibit from the app with loaded contents in the form of text, audio, video and AR available in different languages.\u00a0\u00a0\u00a0\u00a0",
+        "year": 2020
+    },
+    {
+        "id": 1023,
+        "title": "MIXR",
+        "description": "With the rise of music sharing platforms, it has never been easier for a musician to share their work. However, creating professional sounding music requires access to high-quality equipment, expensive software, and advanced production knowledge. MIXR provides a low-budget multi-track recording device that takes raw recordings and automatically applies digital signal processing techniques, such as filtering and compression, to create high-quality, professional sounding output.\u00a0 It then pairs with your smart device to allow users to play and share their music.\u00a0",
+        "year": 2020
+    },
+    {
+        "id": 1024,
+        "title": "Clairvoyant: An Intelligent Military Detection, Reconnaissance, and Surveillance System",
+        "description": "Every second, the men and women who serve our country are put into high-risk environments where their lives are in constant danger, surrounded by unanticipated adversaries. Clairvoyant is a mesh network of intelligent devices designed to autonomously detect humans, vehicles, gunshots, and missile launches. The Clairvoyant system will provide an accurate, portable, and low-cost solution for event and threat detection across large geographical areas. Valid detection notifications are pushed through the mesh, to an encrypted cloud database, viewable via an online portal.\u00a0\u00a0",
+        "year": 2020
+    },
+    {
+        "id": 1025,
+        "title": "P&DC Platform (Patient and Doctor Connection Research)",
+        "description": "P&DC Research Platform (Patient and Doctor Connection Research Platform) is a remote platform that provides a communication system. It consists of a website and a Mobile App that can collect from sensor and display medical information of patients. Doctors can communicate with patients according to their data and give in-time feedback. This design can save readmission fees for patients, allow doctors to monitor patients more efficiently, as well as provide a more convenient way for patient and doctor to connect.\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0",
+        "year": 2020
+    },
+    {
+        "id": 1026,
+        "title": "minRISC: Free and Open Platform Security",
+        "description": "As modern systems become increasingly distributed, the need to secure devices against adversaries seeking unauthorized physical access has increased. While most popular processors include Trusted Execution Environments to protect the system memory, existing implementations are closed-source black boxes that cannot be audited, reducing trust. As a free and open-source alternative, minRISC provides a flexible, extensible secure computing system. It is an implementation of a RISC-V based System-on-Chip, incorporating memory encryption and authentication to defend against physical attacks, ensuring security even in hostile environments.\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0",
+        "year": 2020
+    },
+    {
+        "id": 1027,
+        "title": "ProjecTable: Interactive Projection Based Learning Tool",
+        "description": "School-issued electronics can improve student engagement and provide feedback at the cost of being expensive and fragile. Meanwhile, traditional tools such as handouts or blocks are durable and inexpensive but lack immediate feedback. ProjecTable bridges this gap by using a projector and camera sensors to display a tabletop user interface and to detect interactions with the surface and manipulatives. The advantage of this design is that it leverages the durability and low cost of traditional learning methods while providing immediate feedback to improve student learning.\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0",
+        "year": 2020
+    },
+    {
+        "id": 1028,
+        "title": "Flux: Water Flow Insight System",
+        "description": "At over 100,000 litres per year, Canada is the largest per capita consumer of water behind the United States. Water meters used at a household level are not capable of the finer granularity needed to determine the largest source of water usage. The Flux system detects water usage at different points within the house and provides the user with information about usage reductions that can be made. The low-cost system provides an economic benefit to the user and an environmental benefit to the world.\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0",
+        "year": 2020
+    },
+    {
+        "id": 1029,
+        "title": "Motionor: The Interactive Motion Tutoring System",
+        "description": "Motionor is an interactive motion tutoring system which can improve self-learning efficiency of courses that involve body movements. It compares learner's real-time motion data with instructor\u2019s pre-recorded standard movements and gives real-time vibration feedback on learner\u2019s specific body parts to signal inaccuracy. It can also provide detailed analysis report on learner\u2019s performance throughout the whole course. The advantage of this design is that Motionor allows learners to master the movements on their own in a more intuitive way instead of watching pure videos.",
+        "year": 2020
+    },
+    {
+        "id": 1030,
+        "title": "Portunus: A Wide-Scale Secure Temporary Physical Storage Solution",
+        "description": "Portunus is a wide-scale temporary physical storage solution that allows anyone to access electronic lockers at any time. It consists of many distributed electronic locker clusters, a central web application, and an android app that allows users to access the system. The main advantage of this design over current alternatives is that any user can use any available locker at any time, and it will prevent users from monopolizing locker usage.\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0",
+        "year": 2020
+    },
+    {
+        "id": 1031,
+        "title": "Simpose (Simple Compose)",
+        "description": "Music transcription typically requires the transcriber to manually distinguish notes of a piece. Automating this process reduces the time and effort involved. The goal of Simpose is to design a device that uses audio and video inputs to produce sheet music with high accuracy. The main benefit of this design over only audio processing alternatives is the usage of image processing and machine learning to increase the accuracy of the transcription and the speed of real-time processing.\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0",
+        "year": 2020
+    },
+    {
+        "id": 1032,
+        "title": "Swarm Nav",
+        "description": "Swarm Nav is a vehicle coordination system designed for local roadway operation using a vehicle-to-infrastructure design. It enables vehicles to make safe real-time decisions about future road conditions that a standard vehicle cannot detect or see. Additionally, synchronized operation increases the safety of maneuvers, optimizes fuel costs, and boosts traffic flow by coordinating the speed and acceleration of vehicles. The overall system demonstration is done using a test track with small remote-control model cars that communicate with a coordinator infrastructure wirelessly.\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0",
+        "year": 2020
+    },
+    {
+        "id": 1033,
+        "title": "Sweet Dreams - A Sleep Aid",
+        "description": "A lack of quality sleep is something that affects many people, and can significantly impact mental and physical health. To help fight sleep deprivation, Sweet Dreams is a set of comfortable Bluetooth headphones, which utilize active noise canceling and white noise to create the optimal sleep environment. The Sweet Dreams headset surrounds the user with peaceful sounds, is comfortable to sleep in, and the user interface is simple enough that you can use it even while half-asleep.\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0",
+        "year": 2020
+    },
+    {
+        "id": 1034,
+        "title": "ReelTime",
+        "description": "The evolution of sports broadcasting and its continued integration with social media platforms have made it necessary for highlight clips to be edited and clipped automatically rather than manually. The objective of ReelTime is to automate this process by identifying highlights through the usage of event logs, audio data, and visual classification. The main advantage compared to existing solutions is that ReelTime leverages a combination of data sources which yields a higher degree of accuracy and efficiency.\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0",
+        "year": 2020
+    },
+    {
+        "id": 1035,
+        "title": "SnoWorry: A Smart Snow Shovelling Robot",
+        "description": "SnoWorry is a tracked robot that removes snow automatically from a user-defined area. Users will also be able to view and control cleaning schedule and robot behaviours on a mobile application. The main advantage of this design over the current alternatives is that it provides an autonomous snow cleaning service while requiring only a fixed amount of cost and minimum human labour effort.\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0",
+        "year": 2020
+    },
+    {
+        "id": 1036,
+        "title": "Fit and Fabric: AR Fitting Room with Realistic Cloth Simulation",
+        "description": "As online clothes shopping grows in popularity, retailers are dealing with over twice the number of returns at physical stores, which hurts margins and complicates logistics. The goal of this project is to prototype an augmented reality fitting room that reduces return rates by allowing consumers to see what clothes look like on themselves before buying. Our approach involves simulating clothing material on a 3D model of the user\u2019s body and overlaying the results on a video feed in real-time, using a single camera input.",
+        "year": 2020
+    },
+    {
+        "id": 1037,
+        "title": "Hey Intern",
+        "description": "During meetings, conventional note-taking has significant drawbacks. Suboptimal note taking results in loss of organization, missed agenda items, or disagreement on actionable conclusions. Hey Intern is an autonomous solution to note-taking and meeting-flow management that uses an audio recording of the meeting as input and outputs a document summarizing the meeting notes and action items. The solution implements voice-to-text technology to transcribe meetings and utilizes a deep learning model supplemented by a classical rule-based system to understand and summarize the conclusions of meetings.\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0",
+        "year": 2020
+    },
+    {
+        "id": 1038,
+        "title": "Eagle Eye Search Drone System",
+        "description": "Eagle Eye is a drone which provides real-time messaging and maneuvering capabilities and uses computer vision to detect humans in at the site of a disaster. It uses a camera to capture images at the disaster site, which are later transferred to a server via radio transmissions and processed using pre-trained computer vision models. The main advantage of the design is that it minimizes time spent identifying potential critical zones leading to more accurate risk assessment and faster extraction.\u00a0\u00a0\u00a0",
+        "year": 2020
+    },
+    {
+        "id": 1039,
+        "title": "Synergy \u2013 Distributed Computing Network",
+        "description": "Synergy is a distributed computing network where underutilized compute resources are leveraged using blockchain technology. By connecting users to clients who require compute resources, our platform will enable users to harness their personal computers in exchange for monetary compensation. Synergy will provide a more cost-effective and accessible computing platform compared to current alternatives such as Amazon Web Services. Furthermore, the publicly verifiable blockchain ledger will provide full transparency and auditability for all users.\u00a0\u00a0\u00a0",
+        "year": 2020
+    },
+    {
+        "id": 1040,
+        "title": "Dandelion",
+        "description": "Dandelion is a digital Out-of-Home (OOH) advertisement solution. It consists of a web analytics platform and an LCD device which is placed on top of taxi cabs. An advertiser can deploy ad campaigns onto the LCD device using the web platform and track its progress in real time. Dandelion is a good alternative to billboards and print media, as it provides feedback about the ad campaign and allows advertisers to make dynamic adjustments. It also provides taxi drivers with a form of passive income.\u00a0\u00a0\u00a0",
+        "year": 2020
+    },
+    {
+        "id": 1041,
+        "title": "NaviStore",
+        "description": "NaviStore intends to assist customers in positioning and navigating within commercial stores. Using a Bluetooth-powered indoor positioning system, this project can support quick, affordable navigation for a multitude of customers and stores, accessible through the convenience of a mobile device. The received signal strength indicator from the Bluetooth beacons attached throughout the store assists in more accurately locating the user\u2019s position compared to other solutions such as a GPS.\u00a0\u00a0\u00a0",
+        "year": 2020
+    },
+    {
+        "id": 1042,
+        "title": "Liftd",
+        "description": "In 2017, there were 526,350 reported injuries sustained while using gym equipment in the United States. Of those cases, over exertion and poor form were the most common causes, accounting for 36% of all injuries. Liftd is a smart weight collar system that retrofits any barbell to track barbell movement, provide live feedback on exercise form, and record playback and statistics such as force, velocity, weight and rep tracking. Athletes can easily integrate Liftd into their training plans to train smarter and reduce risk of injury.\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0",
+        "year": 2020
+    },
+    {
+        "id": 1043,
+        "title": "MapBot",
+        "description": "MapBot is a small, remotely operated robot used to survey an environment from a safe distance. Using a pivoting camera mounted on the chassis, the robot will collect information and generate a 3D reconstruction of the previously explored area, which will then be made available to interact on a user device. By remotely reconstructing the terrain, it is possible to identify potential risks before physically entering the medium, mitigating the risk of injury and reducing operation time.\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0",
+        "year": 2020
+    },
+    {
+        "id": 1044,
+        "title": "Sense: IoT Platform",
+        "description": "It\u2019s been predicted that by 2025 there will be approximately 75.44 billion internet connected devices worldwide. Sense aims to be an IoT playground environment for early developers to get a taste of development in tune with the physical world. It offers plug and play IoT sensors paired with a web application, allowing visualization of incoming and outgoing data and rapid testing in its sandbox environment. Sense abstract discouraging work, focuses on educating and is the first stepping stone into the world of IoT development.",
+        "year": 2020
+    },
+    {
+        "id": 1045,
+        "title": "Mudio - Intelligent Scenery-Music Matching System",
+        "description": "We perceive the world from vision, but the visually impaired are not fortunate enough to see the beautiful scenery. Despite the loss of eyesight, we can help them to feel the world with their ears. Our objective is to help the visually impaired perceive the world via music. The user records a video of the scenery and Mudio will generate a description of the scene and a playlist of music that fits the atmosphere. With Mudio, the visually impaired will perceive the world more comprehensively.",
+        "year": 2020
+    },
+    {
+        "id": 1046,
+        "title": "Kept - A Smart Housekeeper",
+        "description": "Among households in Canada, the number of senior householders are rapidly increasing. Many elderly people are incapable of doing housework such as house cleaning, or mowing the lawn. General households also require these house services due to traveling, busy work, etc. The objective of this project is to implement a fair and convenient platform for housework-service providers and householders to communicate, provide and receive services. This project will incorporate features such as job verification, a ranking algorithm, GPS tracking, and a payment system.\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0",
+        "year": 2020
+    },
+    {
+        "id": 1047,
+        "title": "Transportation Fare Evasion Detection (TFED)",
+        "description": "The Transportation Fare Evasion Detection System is a platform that leverages deep learning assisted human detection and tracking to visually detect fare evaders inside the vehicles. The system updates the current location of the vehicle and the number of fare evaders in it on an accompanying web application and allows transportation authorities to easily inspect the vehicles of interest. The Transportation Fare Evasion Detection System provides TTC is a low-cost solution that reduces fare evasion while increasing the efficiency of TTC's controls.\u00a0\u00a0\u00a0\u00a0\u00a0",
+        "year": 2020
+    },
+    {
+        "id": 1048,
+        "title": "Automatic Intelligent Suitcase",
+        "description": "For those people that often travel, dragging the suitcase is inconvenient. The objective of this project is to design an automated suitcase that follows the owner and operates under all the urban road conditions. It sends an alert to the owner if the owner exceeds the acceptable distance. It has special design wheels that operate under different road conditions. The main advantage of this design over the current alternative is that it provides similar functions while being more convenient for travelers.\u00a0\u00a0\u00a0\u00a0\u00a0",
+        "year": 2020
+    },
+    {
+        "id": 1049,
+        "title": "Resource Provisioning in High Performance Computing Environment",
+        "description": "Task execution efficiency is paramount in a distributed system and leveraging local temp storage can increase the throughput and ensure stable job operation. Three components are designed to integrate with Nvidia\u2019s existing LSF task scheduler, to provide functionality to support the transfer of any task execution data between network-attached storage to and from local storage, the ability to limit and regulate storage access of each job and to provide a precise and real-time data visualization as well as task administration.\u00a0 \u00a0",
+        "year": 2020
+    },
+    {
+        "id": 1050,
+        "title": "GordonBot: Kitchen Monitoring System",
+        "description": "GordonBot is a kitchen monitoring system that constantly watches over stovetop equipment, warning everyone in the vicinity through an audible alarm as well as mobile notifications when hot stovetop equipment has been left unattended, potentially catching fire. The system is enclosed and installed near the stovetop to provide active monitoring with low power consumption. The advantage of GordonBot\u2019s design is that it provides and leverages a thermal live feed to detect and prevent kitchen fires, allowing home cooks to remotely monitor their kitchen stovetops.\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0",
+        "year": 2020
+    },
+    {
+        "id": 1051,
+        "title": "SquatGuard",
+        "description": "Cybersquatting refers to the registration of someone else\u2019s trademark as a domain name in bad faith. It is an issue that businesses around the world pay millions to solve as costs range from brand damage to lost sales due to counterfeiting. SquatGuard is an affordable software-as-a-service platform that monitors the internet for infringing domain names using both high-volume DNS queries and zone file analysis; reporting back to trademark holders when infringing names are found, created, and deleted.\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0 \u00a0\u00a0\u00a0",
+        "year": 2020
+    },
+    {
+        "id": 1052,
+        "title": "Metastability Blocking Circuitry for Enabling Reduced Fault Asynchronous Communications",
+        "description": "With increasing complexity in integrated circuits, many different clock domains are required in a given chip. Communication between different domains can produce metastability, potentially causing fatal errors. The objective of this project is to design localized circuitry to reduce metastability in asynchronous clock domain crossings. Several different possible solutions are designed and evaluated. A printed circuit board is used to prototype the designs and demonstrate the phenomenon of metastability, utilizing mixed-signal circuit design, circuit simulation techniques, and control systems.\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0",
+        "year": 2020
+    },
+    {
+        "id": 1053,
+        "title": "BeyondBlock: Blockchain Application for Healthcare",
+        "description": "BeyondBlock is an integrated healthcare system that facilitates the insurance claiming process. It utilizes blockchain to store insurance policies and medical information, including smart contracts to implement business logic. The project enables patients to view their medical records and claims history. Health service providers can also request medical records of the patients. Both patients and health service providers can file insurance claims electronically. The main advantage of this design over the alternatives is that it offers an integrated healthcare system of high efficiency, security and integrity.\u00a0\u00a0\u00a0",
+        "year": 2020
+    },
+    {
+        "id": 1054,
+        "title": "Daak - Smart Mail Recipient",
+        "description": "Statistics gathered from mail carriers exhibit that 20% of the packages aren\u2019t delivered in the first attempt leading to inconvenience for clients and huge monetary losses for carriers. An Edelman Intelligence study indicates that from the delivered packages, a staggering 11 million homeowners had their package stolen in 2017. Daak, a smart IoT based mailbox, leverages a Human Machine Interface, local box sensor scanning and communication over a cloud with the user\u2019s mobile app to provide a scalable and low-cost solution to mitigate such problems.",
+        "year": 2020
+    },
+    {
+        "id": 1055,
+        "title": "StealthWealth",
+        "description": "Stealth Wealth is a user-friendly stock simulation application which provides an all-in-one educational platform that features stock information, recommendations, and predictions. The application computes statistics to generate stock predictions and recommendations. The main advantage of this design over current alternatives is its ability to cater to a novice audience with an interest in learning about the market with minimal risk. It also employs a more robust algorithm which is capable of making stock predictions with improved accuracy and speed.",
+        "year": 2020
+    },
+    {
+        "id": 1056,
+        "title": "trAIner: Computer Vision Based Form Corrector",
+        "description": "trAIner is a computer vision based form corrector which provides real time feedback to correct a user\u2019s form during exercises. It observes a user\u2019s movements, tracking key points on the body, and compares against an ideal movement pattern. The advantages of this system are that it is modular, fast, and easily accessible in comparison to existing means of form correction such as personal coaching.\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0",
+        "year": 2020
+    },
+    {
+        "id": 1057,
+        "title": "EasySalt: An automated walkway ice buildup prevention system",
+        "description": "EasySalt is an automated and intelligent brine application system that prevents and eliminates ice buildup on walkways. It uses local weather data and environmental sensors to detect freezing rain and icy conditions, after which a sprinkler system applies a brine to a fixed area. The advantage of this design is that EasySalt prevents the need to traverse icy surfaces to manually apply road salt. It also offers flexibility in the choice of brine which can reduce environmental and property damage.\u00a0\u00a0\u00a0\u00a0",
+        "year": 2020
+    },
+    {
+        "id": 1058,
+        "title": "SSRE: Machine Learning Assisted Delivery of Playable Video Game Streaming",
+        "description": "The Streaming Super Resolution Engine (SSRE) aims to reduce the bandwidth requirement for game streaming by using machine learning to greatly reduce the amount of streamed data. SSRE works by intelligently upscaling low-resolution video in real-time to the client, resulting in greater video quality than what was streamed. Benefits of game streaming using SSRE include bandwidth reductions at the client and server, and reductions in server resources needed to run the game. SSRE is compatible with existing devices and does not require specialized hardware.\u00a0\u00a0\u00a0\u00a0\u00a0",
+        "year": 2020
+    },
+    {
+        "id": 1059,
+        "title": "DAVE: Deep-Learning Accelerated Value Engine",
+        "description": "Neural network execution on traditional hardware is cumbersome and generally inefficient. Existing accelerator solutions offer significant performance and power benefits when compared to execution on general purpose hardware, but these solutions are fragmented and introduce unnecessary recreation of common workflows. This project\u2019s objective is to create an optimization engine using an open-source compiler to translate neural network models in high level software frameworks into optimal hardware implementations on an open hardware architecture. Together, this flow adds value to new and existing neural network accelerator solutions.",
+        "year": 2020
+    },
+    {
+        "id": 1060,
+        "title": "Snapshot: A Cryptographic Image Verification System",
+        "description": "Snapshot is an image verification camera and associated web platform. Using cryptography, images taken with the Snapshot camera can be verified for authenticity. An associated web application allows for anyone with a copy of a photo to detect if an image taken with a snapshot camera has been modified. The camera is designed to be used for professional and amateur photographers for any use case where image integrity is important.\u00a0\u00a0\u00a0\u00a0",
+        "year": 2020
+    },
+    {
+        "id": 1061,
+        "title": "CryptoTrader: A Fully Automated Cryptocurrency Trader",
+        "description": "On an annual basis, individual investors have a lower average rate of return than the markets, and many of them lose large sums of money due to mistakes and inconsistencies in their decisions. The main objective of this project is to create a software tool that will analyze trends on the cryptocurrency market on a high-frequency basis, allowing it to automate the trading process. This application will control risk in cryptocurrency trading and earn a higher rate of return for the investor.\u00a0",
+        "year": 2020
+    },
+    {
+        "id": 1062,
+        "title": "elEVate",
+        "description": "elEVate is a portable battery charger for electric vehicles that aims to act as an additional source of power for the vehicle to draw from. The external source, to be contained within trailers towed behind electric vehicles, will have the capability to recharge via conventional outlets in a consumer\u2019s home. The primary advantage of this design is that elEVate will provide a greater range over which electric vehicles will remain operable when on the road.",
+        "year": 2020
+    },
+    {
+        "id": 1063,
+        "title": "Railway Sensing: Railway Crossing Safety Radar System",
+        "description": "Railway Sensing is a powerful radar system built using high frequency chips similar to the ones used in autonomous driving. It will be able to detect objects at railway crossings over a very large area with a high resolution by cascading multiple chips together. The system will be able to detect an object on the tracks regardless of harsh weather conditions or low visibility. Railway sensing provides an additional layer of safety at railway crossings to minimize fatalities across Canada and possibly even the world.\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0",
+        "year": 2020
+    },
+    {
+        "id": 1064,
+        "title": "Vigilant Systems- AI-Enabled Security Cameras for Realtime Threat Detection",
+        "description": "Vigilant Systems are AI-enabled security cameras capable of detecting security threats in real-time. Vigilant cameras stream footage to its cloud platform, which leverages deep learning algorithms to detect when users raise their hands in surrender. Once a threat is detected, Vigilant performs facial detection and up-scales these captures using AI algorithms, which are forwarded to the authorities for improved response times. Vigilant systems combine embedded systems, deep learning and distributed systems to provide the first security camera capable of detecting and responding to threats.\u00a0\u00a0",
+        "year": 2020
+    },
+    {
+        "id": 1065,
+        "title": "Cyberphysical Security with a Smart Door",
+        "description": "In 2015, burglaries resulting from property invasion amounted to $14.5 billion in damages. The objective of this project is to design a smart door system that is more secure and convenient by utilizing facial recognition technology and secure embedded systems. This project consists of embedded devices running facial recognition software to determine user access. In addition, the device is secured from malicious software attacks using cybersecurity techniques.\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0",
+        "year": 2020
+    },
+    {
+        "id": 2001,
+        "title": "AR Piano Teacher",
+        "description": "Learning to play a new instrument such as the piano can be quite challenging. The objective of this project is to aid a student to learn to play the piano. Our proposed solution will show the student which keys to play and how long to sustain them. To achieve this, an augmented reality (AR) environment can be created using any virtual reality (VR) viewer and a smartphone. It is affordable and accessible since it only requires a smartphone, and a cardboard virtual reality viewer.",
+        "year": 2021
+    },
+    {
+        "id": 2002,
+        "title": "PETER: Precision End-To-End Relay",
+        "description": "In emergency situations when WiFi and cellular networks tend to break down due to either physical damage or congestion, communication via ordinary tools (SMS, messaging apps, phone calls) becomes difficult. The PETER project constructs a wireless ad-hoc network of mobile devices in which devices in close proximity communicate with each other using Bluetooth and 5 GHz Wi-Fi. The message from the source is propagated and relayed by intermediate devices to the destination.",
+        "year": 2021
+    },
+    {
+        "id": 2003,
+        "title": "Dynamic Mesh Simplification for Bullet3",
+        "description": "Most modern video games are written with the aid of a video game engine. These engines allow the game developer to focus on the content of the game rather than the simulated game environment by including a pre-built rendering engine which does graphics support and collision simulation. This engine\u00e2\u0080\u0099s job is to render many complex objects at the same time. Our project seeks to improve the performance of a physics engine by intelligently degrading certain models.",
+        "year": 2021
+    },
+    {
+        "id": 2004,
+        "title": "Old Companion",
+        "description": "Today, seniors struggle with the ever changing world of technology. From new user interfaces to new hand gesture shortcuts, technology is becoming difficult for seniors to comprehend and utilize. The objective of this project is to create a smart-device application that bridges this gap for seniors providing an easy to use and intuitive user interface which contains only the essential features, while providing a highly secured environment for them to use on their device(s). The Old Companion application will provide the user with basic features, which could be as simple as calling and video chatting or as complex as a Bluetooth earpiece that can be used with any hearing aid. These essential features will be determined by gathering and analyzing data and feedback from senior citizens, and their families. Furthermore, we will implement features that will be used to improve a senior\u00e2\u0080\u0099s wellbeing (such as medication reminders). The advantage of this application over what currently exists in the market is that our application will study what basic features are used by seniors and display them in an intuitive fashion so that seniors can easily and securely access the full capabilities of their current smart devices.",
+        "year": 2021
+    },
+    {
+        "id": 2005,
+        "title": "Phantom-React: Augmented Reality Rendering Engine",
+        "description": "The growth of augmented reality (AR) technology has motivated developers to scramble to recreate some of that Pok\u00c3\u00a9mon Go miracle, therefore searching out AR engines to support consistent mobile experiences. Phantom-React aims to design and implement a usable AR library that is compatible with the latest version of React Native. With the Redux architecture designing approach, users implementing this library can develop AR applications incorporating full functional support from React Native without having to worry about manually adjusting AR performance to compromise for hardware conditions.",
+        "year": 2021
+    },
+    {
+        "id": 2006,
+        "title": "HousingPad",
+        "description": "AI-powered housing search platform for interns. HousingPad allows co-op students to find personalized short-term rentals in safe areas using recommendation and safety scoring engines wrapped in a functional web application.",
+        "year": 2021
+    },
+    {
+        "id": 2007,
+        "title": "Theia",
+        "description": "Increased demand for streaming and recording events creates a market for affordable video solutions. Theia implements a multi-camera solution that identifies subjects using Android phones while capturing and streaming high-definition video. Comprised of motorized phone mounts that smoothly and quietly follow subjects, a phone application leveraging computer vision to control a mount, and management console to control multiple devices and output. Unlike existing systems, Theia intuitively and automatically tracks performers while requiring minimal setup and investment, ensuring that the focus is always on you.",
+        "year": 2021
+    },
+    {
+        "id": 2008,
+        "title": "Garbage Sorter 9000",
+        "description": "The Garbage Sorter 9000 will help users sort garbage so that it goes into the correct bin. The core application of the system involves taking a picture of the garbage and using machine learning and image recognition to identify the item. It then uses a database to determine the right classification and directs the garbage to the appropriate bin. This system is small and portable enough to be placed in anyone\u00e2\u0080\u0099s home and is more accurate than the typical human.",
+        "year": 2021
+    },
+    {
+        "id": 2009,
+        "title": "GameFlex",
+        "description": "GameFlex is an online web application that allows people to play any card game they desire. Players can take pictures of and upload owned physical cards to use in gameplay, design the \u00e2\u0080\u009ctable\u00e2\u0080\u009d that the game will be played on and join games with friends or strangers. The advantage of GameFlex over existing alternatives is that it provides a free, easy-to-use online platform with very low system requirements, fast load times and the ability to play any card game the user wishes to.",
+        "year": 2021
+    },
+    {
+        "id": 2010,
+        "title": "Erebus: The Robust Spacefaring Computer",
+        "description": "Erebus is a computer designed to withstand processor-damaging radiation in space while using off-the-shelf components. Its initial purpose will be to perform radiation-based experiments designed by the Waterloo Rocketry team. The main advantage of this design over current alternatives is that it is more affordable than current computers for space applications, in addition to providing more computing resources and using less power.",
+        "year": 2021
+    },
+    {
+        "id": 2011,
+        "title": "Project Odyssey: 3D Audio Rendering Software",
+        "description": "Project Odyssey aims to create a 3D audio rendering software that uses recent technological advancements in audio engineering like Head-Related Transfer Function (HRTF) and head tracking to build an immersive 3D audio experience. Traditionally, calculating this transfer function for the listener is expensive and is done with specialized microphones and speakers in a lab. As part of the project, the team will synthesize the transfer function in real-time using anatomic features from the listener\u00e2\u0080\u0099s head and ear to create a virtual environment that can simulate the real world.",
+        "year": 2021
+    },
+    {
+        "id": 2012,
+        "title": "Autonomous Robot Car for Delivery System",
+        "description": "An autonomous robot vehicle can be used for point-to-point delivery services which can be widely implemented in different scenarios. It consists of hardware and software development based on the NVIDIA Jetson Nano platform which enables parallel running of multiple neural networks to complete delivery tasks. Limitations will be specified such as distance and type of cargo. The advantage of this design is that it reduces the delivery costs and improves safety by avoiding unnecessary contact.",
+        "year": 2021
+    },
+    {
+        "id": 2013,
+        "title": "DCache",
+        "description": "Infrastructure giants like Google and AWS have improved content delivery experiences by having servers as close as possible to users. DCache aims to take this to the next level by allowing developers to serve content using a smartphones\u00e2\u0080\u0099 idle memory. DCache provides a reliable and cheaper way to deliver content to end-users directly from nearby devices running the DCache app. Not only does this bring down infrastructure costs, but it also creates an economy where people are able to host the content they use every day.",
+        "year": 2021
+    },
+    {
+        "id": 2014,
+        "title": "FlashAI",
+        "description": "FlashAI is a website that automatically generates flashcards (question and answer pairs) for any text that a user inputs, using machine learning and natural language processing. The advantage of this design is that it overcomes the most common roadblock people face when trying to study with flashcards; the process of creating a variety of detailed question-answer pairs. This way users can spend time doing what matters: reviewing and learning, instead of tediously creating cards.",
+        "year": 2021
+    },
+    {
+        "id": 2015,
+        "title": "Pathways",
+        "description": "Keeping up with the latest technologies is an overwhelming proposition for developers. The objective of this project is to create a platform where developers can learn the required skills tailored to a job opportunity. Pathways recommends resources and courses based on job descriptions and enables industry experts to offer paid courses. With a course progression tracker, employers can gain another perspective of a candidate's ability, beyond the traditional resume and coding challenges. Pathways\u00e2\u0080\u0099 NLP algorithm also ensures credibility of user reviews for jobs and courses.",
+        "year": 2021
+    },
+    {
+        "id": 2016,
+        "title": "PhysioTelepy",
+        "description": "PhysioTelepy will leverage tracking ability from a motion-sensing input device to analyze self-managed active exercises. The objective of this project is to provide a rehabilitation system that incorporates skeletal recognition to assist in the virtual delivery of physiotherapy services. Real-time analysis is done through the combination of computer vision techniques against a physiotherapist\u00e2\u0080\u0099s exercise model and a classification neural network. This is more accessible, lighter, and costs less than current physiotherapy devices that are temporarily placed in patients\u00e2\u0080\u0099 homes.",
+        "year": 2021
+    },
+    {
+        "id": 2017,
+        "title": "Dronee",
+        "description": "The objective of this project is to design an online 3D modeling system used on targets of interest. This system utilizes an autonomous drone and existing computer vision technology for 3D modeling. The project utilizes localization algorithms incorporated with multiple sensors such as Internal Measurement Unit and Global Positioning System to localize the drone. The drone also utilizes autonomous path planning to navigate itself through the target area safely. Meanwhile, computer vision technology is used to complete the task of 3D modeling of given objects.",
+        "year": 2021
+    },
+    {
+        "id": 2018,
+        "title": "University Life Manager",
+        "description": "University Life Manager (ULM) is an app that generates schedules tailored to university students. The application takes in the users\u00e2\u0080\u0099 academic and social goals. For academic goals, it creates a study schedule adapted to the user\u00e2\u0080\u0099s ongoing academic performance and goals. For social goals, it suggests social events based on users\u00e2\u0080\u0099 locations and free time. The advantage of ULM is that it produces flexible schedules by integrating tightly with university resources and by measuring a user\u00e2\u0080\u0099s ongoing academic performance to which the scheduler adapts.",
+        "year": 2021
+    },
+    {
+        "id": 2019,
+        "title": "ASL2SiGML",
+        "description": "Of the 466 million people with disabling hearing loss globally, most use sign languages primarily, limiting communication with people using spoken languages. Most engineering efforts focus on translating American Sign Language (ASL) to English, assuming ASL users have a proficient understanding of English, thus neglecting English-to-ASL translation. ASL and English are linguistically independent; most people only know one natively. ASL2SiGML greatly increases the ease of integrating English-to-ASL translation into existing applications, which allows native signers to face less obstacles during social interactions with English speakers.",
+        "year": 2021
+    },
+    {
+        "id": 2020,
+        "title": "TypeInBlog",
+        "description": "TyplnBlog is expected to have nearly all the advantages that Instagram offers, but our project provides real-time communication. It is like a mixture of Instagram and Wechat, which is a popular social media platform that has over 1 billion users in Asian countries. People can share their life, view others' lives, make friends and talk to their friends at any time.",
+        "year": 2021
+    },
+    {
+        "id": 2021,
+        "title": "Valens: Computer Vision Intelligent Gym Mirror",
+        "description": "Risk of injury can intimidate individuals from learning new exercises and can discourage a healthy lifestyle. A promising solution to this problem is a smart posture-detection system that provides real-time feedback to prevent injuries. Valens is a computer-vision powered intelligent gym mirror that overlays posture-correcting feedback on a user\u00e2\u0080\u0099s reflection. Visual sensors track key points on the user\u00e2\u0080\u0099s body and feed data into pose-estimation algorithms to determine the optimal posture for an exercise. This design offsets hardware complexity and costs using AI and computer-vision models.",
+        "year": 2021
+    },
+    {
+        "id": 2022,
+        "title": "SafeFarm",
+        "description": "Many small farms lack fire detection systems in their barns as a result of not having affordable options that suit their needs. SafeFarm is a solution that combines the use of infrared and computer vision to detect fires the moment that they occur. It incorporates an RF message delivery to provide an audible alarm when an incident occurs. SafeFarm's advantages are that it provides an inexpensive, real-time fire detection system that gives this population the peace of mind that their livelihood is safe.",
+        "year": 2021
+    },
+    {
+        "id": 2023,
+        "title": "CIRKOPT: Intelligent Circuit Sizing Optimization",
+        "description": "CIRKOPT is a program to assist in the design of transistor-level circuits and to allow higher-quality circuit designs with less effort. It automatically optimizes transistor sizes using an intelligent search algorithm to find a solution that minimizes power, delay, and area. Manual transistor sizing takes a great deal of time and expertise, therefore automating this will produce better performing circuits faster and allow more designer effort to be focused on topological and architectural changes.",
+        "year": 2021
+    },
+    {
+        "id": 2024,
+        "title": "CTRL F: Optimize Your Shopping Experience",
+        "description": "CTRL F is an indoor positioning system that can be deployed in stores allowing users to search for and receive map-based navigation to an item or list of items within the store via a mobile app. The advantage of the CTRL F system is that it allows users to eliminate the time spent wandering through stores looking for specific items by providing an optimal route through the store to collect their item(s) while providing their real-time location along the way.",
+        "year": 2021
+    },
+    {
+        "id": 2025,
+        "title": "Ichnaea",
+        "description": "Ichnaea is an affordable and comprehensive object tracking system, that will allow users to track specific objects, analogous to a sports broadcasting setup. It will consist of dual-cameras set on a swivel, that will feed information to the backend, where computer vision software will detect and track the object, as well as, issue commands to rotate the camera, keeping the object in focus. This project will deliver greater benefits over existing alternatives due to its low-cost, reliable object tracking, and detailed statistical output.",
+        "year": 2021
+    },
+    {
+        "id": 2026,
+        "title": "Wearable Cardiovascular Abnormality Monitor",
+        "description": "This project creates a wearable health monitor and alert system for use in residential homes. The main advantages over current solutions are its hands-free emergency alert system and early emergency detection mechanisms, using a combination of health diagnostic information not available in existing smartwatches. With the wristband comes a stationary hub, allowing for low-power sensor data forwarding, and a remote server, allowing for the congregation and analysis of medical data. Both the hub and server have available emergency communication systems with residential homes\u00e2\u0080\u0099 medical staff.",
+        "year": 2021
+    },
+    {
+        "id": 2027,
+        "title": "FitKit: Advanced Pet Nutrition System",
+        "description": "FitKit is an automated pet nutrition system which regulates a pet\u00e2\u0080\u0099s food consumption by implementing a control system to dispense the amount of food specified by the owner and based on the pet\u00e2\u0080\u0099s weight, age, dietary restrictions, and activity level. The food is hidden by a mechanical actuator until the pet with the corresponding RFID tag is nearby, preventing access from other pets. The advantage of the FitKit is the built-in scale and accompanying user-focused app with data analytics to track the pet\u00e2\u0080\u0099s weight loss journey.",
+        "year": 2021
+    },
+    {
+        "id": 2028,
+        "title": "Ebbe",
+        "description": "Online collaboration improves productivity in the workplace by 20-30%. Web browsing has long been a solitary activity that is shared only through cumbersome, high-friction solutions such as screen-sharing. Ebbe is a Chrome Extension that enables users to browse the web with other users in real-time on any website across the Internet. Users share a visually synchronized browser environment and are able to consume events from one another including mouse and keyboard events. Ebbe has the potential to substantially reduce the friction and complexity of online collaboration in a manner that moves away from existing screen-sharing and screen-takeover solutions and toward both a user-friendly and network-friendly approach.",
+        "year": 2021
+    },
+    {
+        "id": 2029,
+        "title": "AIWitness",
+        "description": "In application areas such as crime detection or anti-terrorism evasion, the photos of criminal suspects are often not directly available. The objective of this system is to provide an AI solution to assist the police during the investigation and help the police to identify suspect individuals more efficiently. It is a conversation-based mechanism that enables witnesses to describe the appearance of criminal suspects, which returns an AI-generated image based on that information and starts an automatic image-matching search in the database.",
+        "year": 2021
+    },
+    {
+        "id": 2030,
+        "title": "Whitebox",
+        "description": "Airplane blackboxes often suffer from a loss of data or become unrecoverable in the event of a crash and there are no current technologies that can retain a copy of the in-flight data. With the advancement of satellite internet in airplanes, blackbox data could be compressed and sent in intervals to a public blockchain network during the flight. The added benefit of a public ledger can reduce propaganda and political tensions surrounding airline crashes. Airlines would only need to add an external device to their blackbox that would handle the transfer and communication of the blackbox data. The public availability of this data will have widespread effects. It may make crash investigations easier and significantly cheaper, without the need for recovery of the physical blackbox. Furthermore, the availability of this data would advance the research into airplane malfunctions, such as the Boeing 737 MAX, for pilot training or airplane design purposes.",
+        "year": 2021
+    },
+    {
+        "id": 2031,
+        "title": "LearnLab",
+        "description": "The COVID-19 pandemic has made an unprecedented impact on the lives of young learners around the world. LearnLab's objective is to provide a comprehensive e-learning platform tailored for teachers and students. It offers an insightful learning environment by using computer vision to provide real-time classroom engagement analysis and feedback. With LearnLab, remote teaching extends beyond basic video conferencing functionality to provide features that are necessary for a real classroom experience.",
+        "year": 2021
+    },
+    {
+        "id": 2032,
+        "title": "Energy Scavenging Cellphone",
+        "description": "The objective of this project is to develop a basic cell phone that never needs to be recharged with a wall charger. Combining energy scavenging tactics, such as a hand crank and integrated solar panels, the device can accumulate energy from its environment or user. The advantage of this design over existing solar or crank based phone chargers is that the important features of the phone are designed with power optimization in mind, thereby reducing inefficiencies in the system.",
+        "year": 2021
+    },
+    {
+        "id": 2033,
+        "title": "Chulo",
+        "description": "We want to create a dating application that will help alleviate the pressure and distrust when getting matched with a stranger. Introducing Chulo, a dating app that matches users with their friends, or friends of friends, all through a mutual middleman whom you know and trust. Chulo allows the middleman to initiate the matching process by picking two of their friends whom they believe would connect well, creating a match if accepted by both friends.",
+        "year": 2021
+    },
+    {
+        "id": 2034,
+        "title": "Outdoor Insulator Defect Identification System",
+        "description": "The Outdoor Insulator Defect Identification System is a handheld device that maintenance personnel can use to distinguish between various types of line insulator defects on a distribution line, avoiding manual inspections. It would employ acoustic sensors to detect electrical discharge patterns and abnormalities in insulators and utilizes this data to perform defect classification using machine learning. The goal of this system is to help the High Voltage Power Sector improve their maintenance procedures and provide a cost-effective method of identifying outdoor insulator defects.",
+        "year": 2021
+    },
+    {
+        "id": 2035,
+        "title": "Grocery Wayfinder",
+        "description": "The Grocery Wayfinder provides shoppers with the most efficient route through a grocery store. This allows shoppers to safely and quickly complete their shopping in times of social distancing. By pairing their mobile device to an ultra-wideband indoor positioning system, shoppers are shown a path through the store, guiding them to their desired items. The advantage of ultra-wideband technology is that it provides the highest level of indoor accuracy while being the most cost-effective solution, ensuring users always have the most efficient route.",
+        "year": 2021
+    },
+    {
+        "id": 2036,
+        "title": "SignSense",
+        "description": "SignSense is a solution that can interpret American Sign Language (ASL) in real-time and translate the signs into English, thereby bridging the communication gap between hearing people and those with auditory disabilities. Using machine learning and computer vision, this system is responsible for accurately detecting signs and translating them with correct meaning and minimal latency.",
+        "year": 2021
+    },
+    {
+        "id": 2037,
+        "title": "RedLife",
+        "description": " ",
+        "year": 2021
+    },
+    {
+        "id": 2038,
+        "title": "Soundinator",
+        "description": "University students often suffer from mental health problems due to factors such as academic workload and homesickness. Social media platforms such as Reddit can offer valuable information on students\u00e2\u0080\u0099 mental health status. RedLife is an application that classifies mental health related posts in the university subreddit and presents them in a user-friendly dashboard. The main advantage of RedLife is that it provides an efficient and intelligent way for wellness counsellors to monitor mental health problems that are developing among students.",
+        "year": 2021
+    },
+    {
+        "id": 2039,
+        "title": "Personal.id",
+        "description": "Soundinator is a voice separation tool which leverages deep learning to isolate overlapping voices in audio; a prime solution to the cocktail party problem. It provides a convenient method for ordinary users \u00e2\u0080\u0094 without high quality and costing tools \u00e2\u0080\u0094 to isolate the desired voices in recordings using their mobile phones. While other designs may only be able to separate noise, Soundinator is able to isolate a variety of overlapping voices, extending the usability beyond commercial convenience into larger-scale voice processing and recognition toolchains.",
+        "year": 2021
+    },
+    {
+        "id": 2040,
+        "title": "BudgetEats",
+        "description": "Personal.id is a system that amalgamates all government identification into one system. The scanner has a biometric sensor that samples the individual\u00e2\u0080\u0099s biometric data and a wireless reader to extract the individual\u00e2\u0080\u0099s credentials from their transponder. The scanner validates the individual\u00e2\u0080\u0099s identity by comparing the biometric stored on the blockchain to the sampled data. The advantages of this design are the use of biometric data for authentication, secure storage of identifying information, and simplification of user experience.",
+        "year": 2021
+    },
+    {
+        "id": 2041,
+        "title": "ParkSimply",
+        "description": "BudgetEats uses an adaptive algorithm for customizable meal planning and recipe finding application. It allows the user to intelligently generate healthy meal plans and dynamically update grocery lists with real time pricing from local stores. Its algorithm considers a user\u00e2\u0080\u0099s dietary restrictions, budget, calorie requirements, favourite recipes and much more. Users can plan a week of meals with the click of a button. BudgetEats merges existing meal planning alternatives with deal hunting apps to provide a robust and cheap meal planning experience.",
+        "year": 2021
+    },
+    {
+        "id": 2042,
+        "title": "Sieve: Processor Architecture for Modern Computing",
+        "description": "ParkSimply is a parking spot detection application that helps streamline the process of parking for drivers using computer vision and search algorithms. It matches each user with an empty parking spot and communicates the directions to them. The advantage of this design is that it requires minimal set up and does not rely on sensors which are usually expensive and unreliable.",
+        "year": 2021
+    },
+    {
+        "id": 2043,
+        "title": "FOMOGO Chat: A World-Wide Messenger",
+        "description": "Sieve is a novel processor architecture that provides affordable and customizable accelerated processing power. Sieve allows users to exploit emerging computing paradigms such as machine learning without developing custom hardware - the architecture provides the developers the ability to design and implement algorithms entirely in software. This design has the advantage of providing performance with customizability compared to existing systems that do not provide both customizability and performance.",
+        "year": 2021
+    },
+    {
+        "id": 2044,
+        "title": "Wildlife Monitoring System",
+        "description": "The Wildlife Monitoring System is a remote wireless trail camera system which autonomously monitors, identifies, and generates analytics on deer in a given area. The system utilizes custom low-power long-range wireless trail cameras to capture and transmit wildlife images to a server where the species are identified through image processing. The main advantage of this design is that it automatically identifies species, operates in remote locations, and does not require manual retrieval of trail camera images.",
+        "year": 2021
+    },
+    {
+        "id": 2045,
+        "title": "IntelliHelm: A Smart Motorcycle Helmet",
+        "description": "IntelliHelm is a motorcycle helmet which incorporates a multitude of distraction mitigation and safety solutions to aid motorcyclists. Information from a blind-spot detection system, a rear-view camera, and real-time navigation data are displayed on the visor in a non-intrusive manner. Furthermore, voice assistance is implemented for the user\u00e2\u0080\u0099s ease and a breathalyzer is integrated to discourage intoxicated motoring. Intellihelm\u00e2\u0080\u0099s benefits include a low-cost design and an all-encompassing suite of safety features, which are typically left out of current alternatives on the market.",
+        "year": 2021
+    },
+    {
+        "id": 2046,
+        "title": "CrowdGrip",
+        "description": "CrowdGrip is a crowd-sourced data sharing platform that allows professionals and enthusiasts alike to have access to high-quality and diverse training data for their custom machine learning models. Using the CrowdGrip app, users can record and upload real world data on-the-fly. Then, software developers can use the CrowdGrip data consumption tool to download, stream, or further curate collected data. Through providing an open and public platform for aggregating training data, CrowdGrip solves the fundamental challenges of training data diversity and accessibility when creating ML models.",
+        "year": 2021
+    },
+    {
+        "id": 2047,
+        "title": "Medical Conversational AI for Patient Diagnosis",
+        "description": "The COVID-19 pandemic has revealed that our current medical\u00e2\u0080\u00afsystems lack efficiency in handling large volumes of patients. By installing kiosks in medical\u00e2\u0080\u00afcentres through which patients converse with an artificial\u00e2\u0080\u00afintelligence (AI) to assess their symptoms and produce potential diagnoses before they interact with the doctor, patient\u00e2\u0080\u00afwait\u00e2\u0080\u00aftimes and staff loads are reduced. The main advantages of our solution over chatbots are direct integration into medical\u00e2\u0080\u00afcentres, direct review of diagnoses by doctors, measurement of vital\u00e2\u0080\u00afsigns, and accommodation of the visually\u00e2\u0080\u00afimpaired.",
+        "year": 2021
+    },
+    {
+        "id": 2048,
+        "title": "Solit: Emergency Solar Lighting System",
+        "description": "Solit is a low-cost, modular, portable\u00e2\u0080\u00afand easy-to-use solar lighting system to help health practitioners in refugee settlements and peri-slum areas in northern Uganda increase the quality of care. A battery stores energy produced during the day and a suite of sensors capture system usage data which is uploaded to the cloud for analysis and monitoring. The main advantages\u00e2\u0080\u00afof this design over other alternatives\u00e2\u0080\u00afare\u00e2\u0080\u00afthat the system\u00e2\u0080\u00afoptimizes\u00e2\u0080\u00afsolar energy harvesting\u00e2\u0080\u00afat an affordable price\u00e2\u0080\u00afand data is collected to improve future installations.",
+        "year": 2021
+    },
+    {
+        "id": 2049,
+        "title": "Digit",
+        "description": "People all around the world suffer from carpal tunnel syndrome which severely hinders their ability to use a computer. This problem extends to others with limited hand mobility, such as the elderly. The aim of this project, Digit, is to reimagine the way we use computers to make it more accessible for those who struggle to use a mouse. Digit analyzes finger movements and maps them to computer UI actions, allowing for seamless navigation at your fingertips.",
+        "year": 2021
+    },
+    {
+        "id": 2050,
+        "title": "SunFyre Sports",
+        "description": "SunFyre Sports is a sports analytics application that gives users feedback/analysis based on inputted game footage. The application uses computer vision, machine learning and image/video processing to convert the video input into a digitized format that can be analyzed and studied to see where players/teams can improve. The advantage of this automated, data-driven approach is that it enables unprecedented throughput in footage analysis and can include massive amounts of data in the developed model.",
+        "year": 2021
+    },
+    {
+        "id": 2051,
+        "title": "KitchenLens",
+        "description": "Buying something from the grocery store that you had at home can be frustrating. KitchenLens helps users manage their ingredient inventory using cameras inside the user\u00e2\u0080\u0099s fridge to upload what it sees to a server. On the server, computer vision techniques identify what ingredient was purchased. Afterward, the ingredient shows up in the user\u00e2\u0080\u0099s mobile app which tells the users which recipes are ready to make, or suggests where to find missing ingredients. KitchenLens automates the manual task of maintaining kitchen inventory without sacrificing accuracy.",
+        "year": 2021
+    },
+    {
+        "id": 2052,
+        "title": "ThunderScope: A Novel Software Defined Oscilloscope",
+        "description": "The 1000-series oscilloscope is a staple of education, hobbyist, and small business sales for test equipment manufacturers. To meet the low cost expected in this market segment, manufacturers restrict key features such as bandwidth, memory depth, and update rate. ThunderScope is a disruptive competitor with flexible bandwidth, orders of magnitude more memory, and over one million waveform updates per second. It achieves these goals by offloading the oscilloscope\u00e2\u0080\u0099s processing, memory, and interface to the user\u00e2\u0080\u0099s computer, greatly reducing total system cost.",
+        "year": 2021
+    },
+    {
+        "id": 2053,
+        "title": "Pettion: Pet Monitoring System",
+        "description": "People are busy in their lives, whether it's school or work and this may leave their pets unattended to at home. Owners need a way to feed their pets without hiring a pet sitter. This project\u00e2\u0080\u0099s objective is to design a system that will feed and monitor their pets. The product is an embedded system connected to a software application that allows remote interaction with the physical system through an application. Our system will offer essential features at a low cost compared to existing offerings.",
+        "year": 2021
+    },
+    {
+        "id": 2054,
+        "title": "Meetcha",
+        "description": "The COVID-19 pandemic has not only cast a blinding spotlight on the importance of online video conferencing tools, but it has also exposed the flaws of current solutions. Phrases like \u00e2\u0080\u0098Zoom fatigue\u00e2\u0080\u0099 have become a part of our everyday vocabulary. Meetcha is a secure video conferencing application offering features missing in existing solutions, enabling more collaborative and organized meetings. It integrates a collaborative whiteboard to emulate a real meeting room and the ability to automatically transcribe meetings.",
+        "year": 2021
+    },
+    {
+        "id": 2055,
+        "title": "FLARES: Fire Location Alert Response System",
+        "description": "Uncontrolled forest fires are some of the world\u00e2\u0080\u0099s most devastating, yet common disasters. FLARES is a solution that uses a distributed sensor network to effectively and efficiently detect wildfires. By using an alert based notification system and low power communication protocols, each node is able to accurately report fires for extended periods of time. With its emphasis on efficiency, scalability, and cost, FLARES provides a universal solution for conservationists to quickly detect and prevent forest fires.",
+        "year": 2021
+    },
+    {
+        "id": 2056,
+        "title": "myKitchen",
+        "description": "To effectively realize food recipes, complex ingredients and culinary knowledge is often required. As a result, many households struggle to prepare nutritionally diverse meals. The goal of myKitchen is to create a highly personalized and customizable recipe recommendation and instructional system. myKitchen will continuously learn about the user\u00e2\u0080\u0099s taste using a combination of techniques such as user input and feedback, and machine learning. This ensures that over time, myKitchen truly becomes yourKitchen, with each new recipe made for you and you only.",
+        "year": 2021
+    },
+    {
+        "id": 2057,
+        "title": "BobaTron",
+        "description": "BobaTron, a bubble tea self-serving machine, fully automates the bubble tea making and serving process. With simple clicks on the outer touch-screen, the inner conveyor system directs cups through three major stages \u00e2\u0080\u0094 fluid dispensing, topping dispensing, and shaking \u00e2\u0080\u0094 of the drink assembly, delivering quality drinks to the hands of customers. To maintain taste consistency and storage longevity, ingredients are stored in temperature-controlled compartments. BobaTron outperforms hand-made bubble tea shops in terms of production efficiency, taste uniformity, and operational cost.",
+        "year": 2021
+    },
+    {
+        "id": 2058,
+        "title": "MiRROR: Check Yourself Out, But Better",
+        "description": "MiRROR is a seamless hub that provides customizable on-demand information to the user in the form of a mirror. The mirror also has proximity and gesture control functionality, which can be personalized by the user in a convenient mobile application. The advantage of this design over existing options is that MiRROR features additional functionality with the use of sensing technology, while being available at a more competitive cost.",
+        "year": 2021
+    },
+    {
+        "id": 2059,
+        "title": "CimTutor: A C++ Code Visualization Tool",
+        "description": "As the world becomes more digitized, software development has become increasingly popular. More individuals are starting to learn how to program, however they face a steep learning curve at the early stage of their learning process. The goal of CimTutor is to provide these individuals with a basic understanding of computer science concepts through code visualization. CimTutor is a web application that analyzes C++ code snippets and presents the associated machine level processes graphically to the user. The program visualizes key data structures used in the code segment and performs time complexity breakdowns. CimTutor will be built and scaled out using distributed systems. The main advantage of CimTutor is that it is able to correlate algorithms and their corresponding data structures visually and present them more intuitively.",
+        "year": 2021
+    },
+    {
+        "id": 2060,
+        "title": "Waste Warriors",
+        "description": "Improper disposal of recycling costs the City of Toronto, a single municipality, $15.6 million each year. Waste Warriors is a mobile app which provides users an easy and convenient way of accessing instructions about how to properly dispose of their waste whether at home, work, or during their commute. Waste Warriors merges the waste disposal instruction databases of multiple municipalities and serves them to users based on their subscribed locations, thus providing a reliable source of information for proper waste disposal information.",
+        "year": 2021
+    },
+    {
+        "id": 2061,
+        "title": "LazyLecture",
+        "description": "LazyLecture\u00e2\u0080\u00afaims to make online lesson delivery more accessible by providing a platform for students and teachers to upload lectures. LazyLecture generates a timestamped transcript of every lecture, which gives students the ability to quickly discover, navigate,\u00e2\u0080\u00afand revisit\u00e2\u0080\u00afits contents.\u00e2\u0080\u00afThe transcript enables users to take richer notes, ask better questions, and engage in more thoughtful discussions. The website also provides a platform for users to collaborate\u00e2\u0080\u00afvia questions and discussions that directly references\u00e2\u0080\u00aflecture transcripts.",
+        "year": 2021
+    },
+    {
+        "id": 2062,
+        "title": "Simplii",
+        "description": "With the current exponential growth of data, the ability to condense and understand information is becoming more difficult. Voice assistants and search engines only provide summaries for 16% of all queries, of which most do not sound human. The goal of Simplii is to make information accessible and understandable by providing summaries to queries that sound human using clustering, classification machine learning algorithms, and natural language processing.",
+        "year": 2021
+    },
+    {
+        "id": 2063,
+        "title": "ButtBot",
+        "description": "Cigarette butts are often littered, adding harmful chemicals to the environment. ButtBot is a small autonomous ground vehicle (AGV) capable of detecting and collecting cigarette butts. The AGV has searching, navigation, and collection abilities. The AGV includes a drivetrain system, battery system, machine vision neural net, collision avoidance system, and a vacuum collection arm. The dedicated purpose of this robot allows it to achieve a small form factor.",
+        "year": 2021
+    },
+    {
+        "id": 2064,
+        "title": "HoloView: Interactive Holographic Display Platform",
+        "description": "Holographic displays serve to facilitate the investigation and visualization of complex 3D models. Modern displays are expensive and lack user interaction. A high price point results in a high barrier of entry for consumers in industries such as medicine, engineering, and education, who could otherwise benefit greatly from this technology. HoloView provides an intuitive and inexpensive all-in-one solution with user interaction and multi-platform support. This will facilitate the adoption and enhance the capabilities of holographic technology in commercial, industrial, and academic applications.",
+        "year": 2021
+    },
+    {
+        "id": 2065,
+        "title": "JouleBox",
+        "description": "A large amount of power is wasted when electronic devices are absent-mindedly left on or idling in standby. The objective of JouleBox is to save consumers\u00e2\u0080\u0099 money and conserve energy while introducing a degree of automation. This can be achieved by designing a smart power-bar which can monitor and control power flow to various devices, and provide users with various reports and recommendations through a graphic user interface. The JouleBox will also offer a Bluetooth based presence detection system to enable completely autonomous power control.",
+        "year": 2021
+    },
+    {
+        "id": 2066,
+        "title": "SmartPantry",
+        "description": "In Canada 49.5 billion dollars of food is wasted annually with 20% of this loss occurring in households. SmartPantry is an application which tracks a user\u00e2\u0080\u0099s food usage and provides statistics and tools to aid users in managing their food. It leverages image recognition to catalogue food and provides recommendations on recipes and groceries personalized per user. The main advantage that SmartPantry provides is automation with image recognition and a personalized plan regarding diet and groceries.",
+        "year": 2021
+    },
+    {
+        "id": 2067,
+        "title": "Strayless",
+        "description": "The project\u00e2\u0080\u0099s objective is to develop a platform for precise indoor location tracking leveraging Ultra-wideband technology. This will be used to improve coordination between human and robot workers, reducing collisions. Sub-meter precision is achieved using anchored beacons that communicate with moving client devices. The obtained geometric coordinates are forwarded from clients to a location processing server, which calculates the likelihood of imminent collision between two entities. These coordinates are saved to a database and accessible via API for future analysis to eliminate workplace hazards.",
+        "year": 2021
+    },
+    {
+        "id": 2068,
+        "title": "Distributed Charity Management System",
+        "description": "Due to the frequent phenomenon of non-profit organizations' embezzling donations, the public's trust in charities is substantially reduced. This project is to design a decentralized system that guarantees the transparency and security of the donation processes. The system achieves transactional transparency using blockchain paired with distributed computing. Cryptography is applied to guarantee the security of the system. The main advantage of this design is that it enhances charities' credibility and stimulates the public's enthusiasm for charity while being transparent and secure.",
+        "year": 2021
+    }
+]
