@@ -11,21 +11,21 @@ class Rating:
     embedded: float
 
     def get_rating(self, rating: str):
-        match rating.lower():
-            case 'software':
-                return self.software
-            case 'leadership':
-                return self.leadership
-            case 'database':
-                return self.database
-            case 'writing':
-                return self.writing
-            case 'hardware':
-                return self.hardware
-            case 'embedded':
-                return self.embedded
-            case _:
-                return 0
+        rating = rating.lower()
+        if rating == 'software':
+            return self.software
+        elif rating == 'leadership':
+            return self.leadership
+        elif rating == 'database':
+            return self.database
+        elif rating == 'writing':
+            return self.writing
+        elif rating == 'hardware':
+            return self.hardware
+        elif rating == 'embedded':
+            return self.embedded
+
+        return 0
 
     def get_ratings_sorted(self):
         base = [(self.software, 'software'),
