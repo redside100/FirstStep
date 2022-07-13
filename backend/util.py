@@ -17,6 +17,7 @@ def create_groups(users: List[User], size=4):
         partial_group = Group(id=i, name=f"Test Group {i}", expire=9999999999, members=[])
         for j in range(size):
             u = random.choice(users)
+            u.in_group = True
             users.remove(u)
             partial_group.members.append(u)
         
@@ -29,11 +30,23 @@ def create_groups(users: List[User], size=4):
     
     return groups
 
-def generate_test_user():
+def a_prefer_b1_b2(a: User, b1: User, b2: User):
+    sorted_ratings = a.ratings.get_ratings_sorted()
+    for rating_pair in sorted_ratings:
+        if b1.ratings.get_rating(rating_pair[1]) > b2.ratings.get_rating(rating_pair[1]):
+            return b1
+        elif b2.ratings.get_rating(rating_pair[1]) > b1.ratings.get_rating(rating_pair[1]):
+            return b2
+    
+    return b1
+
+def generate_test_user(user_id=None):
     programs = ["ELEC", "COMP", "MECH", "ARCH", "CIVIL"]
     current_time = int(time.time())
+    if not user_id:
+        user_id = random.randint(1, 999999)
     return User(
-        id=random.randint(1, 999999),
+        id=user_id,
         first_name=names.get_first_name(),
         last_name=names.get_last_name(),
         student_id=random.randint(100000, 999999),

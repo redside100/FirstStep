@@ -10,7 +10,7 @@ def dump_to_json(obj):
 def simulate_matching():
     users = []
     for i in range(50):
-        users.append(generate_test_user())
+        users.append(generate_test_user(i))
     
     groups = create_groups(users)
     print(groups)
