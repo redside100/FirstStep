@@ -50,4 +50,4 @@ class User:
     in_group: bool
     group_id: int
     intent_stay: bool
-    join_date: int
+    join_date: str

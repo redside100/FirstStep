@@ -1,6 +1,9 @@
 import os
 
 from flask import Flask, request, jsonify
+
+from entities.user import User
+from entities.group import Group
 from util import generate_test_user, create_groups
 import db
 
@@ -16,26 +19,52 @@ def hello_world():  # put application's code here
 @app.post('/user')
 def create_user():
     #TODO create user and return new user id
-    user = request.get_json()
+    data = request.get_json()
+    user = User(
+        id=0,  # unused
+        first_name=data['first_name'],
+        last_name=data['last_name'],
+        student_id=data['student_id'],
+        program=data['program'],
+        avatar_url=data['avatar_url'],
+        bio=data['bio'],
+        ratings=data['ratings'],
+        in_group=data['in_group'],
+        group_id=data['group_id'],
+        intent_stay=data['intent_stay'],
+        join_date=data['join_date']
+    )
+    db.create_user(user)
     return '', 204
 
 @app.get('/user/<int:user_id>/profile')
 def get_user_profile(user_id):
-    #TODO: get user from schema
-    return jsonify(generate_test_user()), 200
+    user = db.get_user(user_id)
+    return jsonify(user), 200
 
 @app.post('/user/<int:user_id>/profile')
 def post_user_profile(user_id):
-    #TODO: update user from request
+    user = request.get_json()
+    db.update_user(user)
     return "updated user", 204
 
 @app.get('/group/<int:group_id>')
 def get_group(group_id):
-    users = []
-    for i in range(4):
-        users.append(generate_test_user())
-    group = create_groups(users, 4)
-    return jsonify(group), 200
+    response = db.get_group(group_id)
+    return jsonify(response), 200
+
+@app.post('/group')
+def create_group():
+    data = request.get_json()
+    group = Group(
+        id=0,  # unused
+        name=data['name'],
+        expire=data['expire'],
+        members=[]  # unused
+    )
+    db.create_group(group)
+    return '', 204
+
 
 @app.post('/group/<int:group_id>/disband')
 def disband_group(group_id):
