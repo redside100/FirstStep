@@ -2,13 +2,14 @@ import os
 
 from flask import Flask, request, jsonify
 
-from entities.user import User
-from entities.group import Group
-from util import generate_test_user, create_groups
+from entities.user import UserUpdate
+from entities.group import DatabaseGroup
 import db
+import re
 
 app = Flask(__name__)
 config = {}
+
 
 @app.route('/')
 def hello_world():  # put application's code here
@@ -16,85 +17,162 @@ def hello_world():  # put application's code here
         "message": "FirstStep API v1"
     }
 
+
 @app.post('/user')
 def create_user():
-    #TODO create user and return new user id
     data = request.get_json()
-    user = User(
+    user = UserUpdate(
         id=0,  # unused
-        first_name=data['first_name'],
-        last_name=data['last_name'],
-        student_id=data['student_id'],
-        program=data['program'],
-        avatar_url=data['avatar_url'],
+        email=data["email"],
+        class_year=data['classYear'],
+        first_name=data['firstName'],
+        last_name=data['lastName'],
+        program_id=data['program']["id"],
+        avatar_url=data['avatarURL'],
         bio=data['bio'],
-        ratings=data['ratings'],
-        in_group=data['in_group'],
-        group_id=data['group_id'],
-        intent_stay=data['intent_stay'],
-        join_date=data['join_date']
+        display_name=data['displayName']
     )
     db.create_user(user)
     return '', 204
 
-@app.get('/user/<int:user_id>/profile')
-def get_user_profile(user_id):
-    user = db.get_user(user_id)
+
+@app.get('/user/profile')
+def get_user():
+    email = request.args.get("email")
+    user = db.get_user(email)
     return jsonify(user), 200
 
-@app.post('/user/<int:user_id>/profile')
-def post_user_profile(user_id):
-    user = request.get_json()
-    db.update_user(user)
-    return "updated user", 204
 
-@app.get('/group/<int:group_id>')
-def get_group(group_id):
-    response = db.get_group(group_id)
-    return jsonify(response), 200
+@app.post('/user/profile')
+def update_user():
+    data = request.get_json()
+    json_body = data["newProfile"]
+    user = UserUpdate(
+        id=json_body["id"],
+        email=json_body["email"],
+        class_year=json_body["classYear"],
+        first_name=json_body["firstName"],
+        last_name=json_body["lastName"],
+        program_id=json_body["program"]["id"],
+        avatar_url=json_body["avatarURL"],
+        display_name=json_body["displayName"],
+        bio=json_body["bio"]
+    )
+    db.update_user(user)
+    return '', 204
+
+
+@app.get('/user/skillsets')
+def get_user_skillsets():
+    user_id = request.args.get("userId")
+    data = db.get_user_skillsets(user_id)
+    return jsonify(data), 200
+
+
+@app.get('/user/preferences')
+def get_user_preferences():
+    user_id = request.args.get("userId")
+    data = db.get_user_preferences(user_id)
+    return jsonify(data), 200
+
+
+@app.post('/user/skillsets')
+def update_user_skillsets():
+    data = request.get_json()
+    user_id = data["userId"]
+    skillsets = data["newSkillsets"]
+    db.update_user_skills(user_id, skillsets)
+    return '', 204
+
+
+@app.post('/user/preferences')
+def update_user_preferences():
+    data = request.get_json()
+    user_id = data["userId"]
+    preferences = data["newPreferences"]
+    db.update_user_preferences(user_id, preferences)
+    return '', 204
+
+
+@app.post('/user/matching/join')
+def update_user_matching_join():
+    data = request.get_json()
+    user_id = data["userId"]
+    match_round_id = data["matchroundId"]
+    db.add_user_to_matching_round(user_id, match_round_id)
+    return '', 204
+
+
+@app.post('/user/matching/leave')
+def update_user_matching_leave():
+    data = request.get_json()
+    user_id = data["userId"]
+    match_round_id = data["matchroundId"]
+    db.remove_user_from_matching_round(user_id, match_round_id)
+    return '', 204
+
 
 @app.post('/group')
 def create_group():
     data = request.get_json()
-    group = Group(
+    group = DatabaseGroup(
         id=0,  # unused
         name=data['name'],
-        expire=data['expire'],
-        members=[]  # unused
+        is_permanent=data["isPermanent"],
+        creation_date=data["creationDate"],
+        members=data['members']
     )
     db.create_group(group)
     return '', 204
 
 
-@app.post('/group/<int:group_id>/disband')
-def disband_group(group_id):
-    #Return status of group being deleted
-    #TODO: disband group
+@app.get('/group/profile')
+def get_group():
+    group_id = request.args.get("groupId")
+    response = db.get_group(group_id)
+    return jsonify(response), 200
+
+
+@app.post('/group/matching')
+def group_commitment():
+    data = request.get_json()
+    commitment = False if data["action"] == 0 else True
+    db.group_commitment(data["userId"], data["groupId"], commitment)
     return '', 204
 
-@app.post('/group/<int:group_id>/commit')
-def commit_group(group_id):
-    #Return status of group being created
-    #TODO: commit group
-    return '', 204
 
-@app.get('/matching/status')
-def get_matching():
-    user_id = request.args.get('userid')
-    return {"matching": "true"}, 200
+@app.get('/global/matching/current')
+def get_matching_round():
+    data = db.get_matching_rounds()
+    return jsonify(data), 200
 
-@app.post('/matching')
-def post_matching():
-    #TODO: update matching data from request
-    return '', 204
 
-@app.get('/skillsets/all')
+@app.get('/global/skillsets/all')
 def get_all_skillsets():
-    return {"leadership": "1", "communication": "3"}, 200
+    data = db.get_all_skillsets()
+    return jsonify(data), 200
 
-@app.get('/preferences/all')
+
+@app.get('/global/preferences/all')
 def get_all_preferences():
-    return {"preferences": {"hardware": "true", "embedded systems": "true"}}, 200
+    data = db.get_all_preferences()
+    return jsonify(data), 200
+
+
+@app.get('/global/programs/all')
+def get_all_programs():
+    data = db.get_all_programs()
+    return jsonify(data), 200
+
+
+@app.post('/onboarding/validate_email')
+def validate_email():
+    data = request.get_json()
+    email_regex = re.compile(r"[^@]+@[^@]+\.[^@]+")
+    valid_email = False
+    if email_regex.match(data["email"]):
+        valid_email = True
+    return jsonify({"isNewValidEmail": valid_email}), 200
 
 
 def init():
@@ -102,9 +180,11 @@ def init():
     config['POSTGRES_HOST'] = os.environ.get('POSTGRES_HOST') if os.environ.get('POSTGRES_HOST') else 'localhost'
     config['POSTGRES_PORT'] = int(os.environ.get('POSTGRES_PORT')) if os.environ.get('POSTGRES_PORT') else 5432
     config['POSTGRES_USER'] = os.environ.get('POSTGRES_USER') if os.environ.get('POSTGRES_USER') else 'fs'
-    config['POSTGRES_PASSWORD'] = os.environ.get('POSTGRES_PASSWORD') if os.environ.get('POSTGRES_PASSWORD') else 'default'
+    config['POSTGRES_PASSWORD'] = os.environ.get('POSTGRES_PASSWORD') if os.environ.get(
+        'POSTGRES_PASSWORD') else 'default'
     config['POSTGRES_DB'] = os.environ.get('POSTGRES_DB') if os.environ.get('POSTGRES_DB') else 'master'
-    db.init_db(config['POSTGRES_HOST'], config['POSTGRES_PORT'], config['POSTGRES_USER'], config['POSTGRES_PASSWORD'], config['POSTGRES_DB'])
+    db.init_db(config['POSTGRES_HOST'], config['POSTGRES_PORT'], config['POSTGRES_USER'], config['POSTGRES_PASSWORD'],
+               config['POSTGRES_DB'])
 
 
 if __name__ == '__main__':

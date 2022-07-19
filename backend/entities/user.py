@@ -51,3 +51,15 @@ class User:
     group_id: int
     intent_stay: bool
     join_date: str
+
+@dataclass
+class UserUpdate:
+    id: int
+    email: str
+    class_year: int
+    first_name: str
+    last_name: str
+    program_id: int
+    avatar_url: str
+    bio: str
+    display_name: str

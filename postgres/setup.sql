@@ -3,7 +3,6 @@ BEGIN;
 CREATE TABLE Groups(
     id SERIAL PRIMARY KEY,
     group_name VARCHAR(64),
-    expire INT NOT NULL,
     is_permanent BOOLEAN,
     creation_date TIMESTAMP
 );
@@ -35,47 +34,47 @@ CREATE TABLE Users(
     id SERIAL PRIMARY KEY,
     email VARCHAR(128),
     class_year INT,
-    group_id INT NOT NULL,
+    group_id INT,
     first_name VARCHAR(64) NOT NULL,
     last_name VARCHAR(64) NOT NULL,
-    student_id INT UNIQUE NOT NULL,
-    program_id INT NOT NULL,
-    skills_id INT NOT NULL,
-    match_round_id INT NOT NULL,
+    program_id INT,
+    match_round_id INT,
     avatar_url VARCHAR(2048),
     bio TEXT,
     display_name VARCHAR(128),
     FOREIGN KEY (group_id) REFERENCES Groups(id),
     FOREIGN KEY (program_id) REFERENCES Programs(id),
-    FOREIGN KEY (skills_id) REFERENCES Skillsets(id),
     FOREIGN KEY (match_round_id) REFERENCES MatchRounds(id)
 );
 
 CREATE TABLE UserSkills(
-    user_rating INT NOT NULL,
+    user_rating FLOAT NOT NULL,
     user_id INT,
     skill_id INT,
     FOREIGN KEY (user_id) REFERENCES Users(id),
     FOREIGN KEY (skill_id) REFERENCES Skillsets(id)
 );
 
-CREATE TABLE FYDPProjects(
+CREATE TABLE Preferences(
     id SERIAL PRIMARY KEY,
-    project_name VARCHAR(64),
+    project_name VARCHAR(2048),
     project_description TEXT,
-    software_rating FLOAT,
-    hardware_rating FLOAT,
-    embedded_rating FLOAT,
-    database_rating FLOAT,
-    writing_rating FLOAT,
-    leadership_rating FLOAT,
     image_url TEXT,
-    project_type INT
+    project_type INT,
+    response_required BOOLEAN
+);
+
+CREATE TABLE UserPreferences(
+    preferred BOOLEAN,
+    user_id INT,
+    preference_id INT,
+    FOREIGN KEY (user_id) REFERENCES Users(id),
+    FOREIGN KEY (preference_id) REFERENCES Preferences(id)
 );
 
 INSERT INTO 
     Skillsets (skill_name, skill_description, skill_type) 
-VALUES
+VALUES 
     ('Embedded Software', 'Embedded software is a piece of software that is embedded in hardware or non-PC devices.', 0),
     ('Distributed Systems', 'A distributed system is a computing environment in which various components are spread across multiple computers (or other computing devices) on a network.', 0),
     ('Database Systems', 'A database typically requires a comprehensive database software program known as a database management system (DBMS).', 0),
@@ -83,11 +82,24 @@ VALUES
     ('Leadership', 'Leadership is the ability of an individual or a group of individuals to influence and guide followers or other members of an organization.', 0),
     ('Technical Writing', 'Technical writing is any writing designed to explain complex, technical, and specialized information to audiences who may or may not be familiar with them.', 0);
 
+INSERT INTO
+    Preferences(project_name, project_description, image_url, project_type, response_required)
+VALUES
+    ('Goldilocks: Consumer Electronics Comparator and Price Tracker', 'A growing share of consumer electronics sales are being conducted online. However, comparing products across different online retailers can be difficult. The objective of this project is to consolidate information across major retailers into one platform, making online shopping simpler and saving time, money, and effort. The benefit of this project is that it puts an emphasis on comparison of similar products within the same electronics category so as to allow consumers to shop for electronics when they are undecided on a particular product.', 'https://www.eng.uwaterloo.ca/2021-capstone-design/software/__@_@__images@_/software1_team-photo.55dda2fb4f26.png', 2, TRUE),
+    ('EyeGuide: Smart Cane for the Visually Impaired', '"C500,000 Canadians are estimated to be affected by sight loss, and have difficulty navigating unfamiliar spaces. The objective of EyeGuide is to attach an embedded device onto a traditional white cane. This system is responsible for detecting and identifying nearby objects, providing navigation assistance and providing location sharing. The main advantage of EyeGuide is that it provides more information to the blind than the traditional white cane and does not require training unlike guide dogs.', 'https://www.eng.uwaterloo.ca/2021-capstone-design/software/__@_@__images@_/software1_team-photo.55dda2fb4f26.png', 2, TRUE),
+    ('Tutorr', 'Market research has shown a rising demand in tutoring services as the percentage of students meeting provincial standards continue to decrease year-by-year. To address this, a crowd-sourced platform for private tutoring services that promotes personal engagement and immediate feedback has been created. With Tutorr, students are matched with mentors within their geographical location that possess relevant subject expertise, and a full-scale application integrated with payment services and live-chat is used to facilitate this experience seamlessly and efficiently.', NULL, 2, TRUE);
+
 INSERT INTO 
     Programs (code, program_name)
 VALUES 
     ('CE', 'Computer Engineering'),
     ('EE', 'Electrical Engineering'),
     ('SE', 'Software Engineering');
+
+INSERT INTO
+    MatchRounds (current_status, next_status, last_updated, current_start, next_start, next_end)
+VALUES
+    (5, 5, '2020-1-11 05:00:00', '2020-1-11 05:00:00', NULL, NULL),
+    (5, 5, '2020-1-11 05:00:00', '2020-1-11 05:00:00', '2022-12-22 12:30:00', '2022-12-25 12:30:00');
 
 COMMIT;

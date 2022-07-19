@@ -26,41 +26,143 @@ def init_db(host, port, user, password, database):
         logger.info("Connected to postgres.")
 
 
-def get_user(user_id):
-    cursor.execute(f"SELECT * FROM Users WHERE id = {user_id}")
+def get_matching_rounds():
+    cursor.execute("SELECT * FROM MatchRounds")
+    data = cursor.fetchall()
+    if data:
+        return data
+    return None
+
+
+def get_all_skillsets():
+    cursor.execute("SELECT * FROM Skillsets")
+    data = cursor.fetchall()
+    if data:
+        return data
+    return None
+
+
+def get_all_preferences():
+    cursor.execute("SELECT * FROM Preferences")
+    data = cursor.fetchall()
+    if data:
+        return data
+    return None
+
+
+def get_all_programs():
+    cursor.execute("SELECT * FROM Programs")
+    data = cursor.fetchall()
+    if data:
+        return data
+    return None
+
+
+def get_user(email):
+    cursor.execute(f"SELECT * FROM Users WHERE email = '{email}'")
     data = cursor.fetchone()
     if data:
+        return data
+    return None
+
+
+def get_user_skillsets(user_id):
+    cursor.execute(f"SELECT * from UserSkills WHERE user_id = {user_id}")
+    data = cursor.fetchall()
+    if data:
+        return data
+    return None
+
+
+def get_user_preferences(user_id):
+    cursor.execute(f"SELECT * from UserPreferences WHERE user_id = {user_id}")
+    data = cursor.fetchall()
+    if data:
+        return data
+    return None
+
+
+def get_group(group_id):
+    cursor.execute(f"SELECT * FROM Groups WHERE id = {group_id}")
+    data = list(cursor.fetchone())
+
+    if data:
+        cursor.execute(f"SELECT * from Users WHERE group_id = {group_id}")
+        members = cursor.fetchall()
+        data.append(members)
         return data
     return None
 
 
 def create_user(user):
-    cursor.execute("INSERT INTO Users "
-                   "VALUES (%d, '%s', '%s', %d, '%s', '%s', '%s', %d, %d, %d, %d, %d, %d, '%s', '%s', '%s')" %
-                   (user.group_id, user.first_name, user.last_name, user.student_id, user.program,
-                    user.avatar_url, user.bio, user.ratings['software'], user.ratings['leadership'],
-                    user.ratings['database'], user.ratings['writing'], user.ratings['hardware'],
-                    user.ratings['embedded'], user.in_group, user.intent_stay, user.join_date))
+    cursor.execute(f"INSERT INTO "
+                   f"Users (email, class_year, first_name, last_name, program_id, avatar_url, bio, display_name)"
+                   f"VALUES "
+                   f"('{user.email}', {user.class_year}, '{user.first_name}', '{user.last_name}', '{user.program_id}',"
+                   f"'{user.avatar_url}', '{user.bio}', '{user.display_name}') RETURNING id")
+    user_id = cursor.fetchone()[0]
+
+    skillsets = len(get_all_skillsets())
+    for i in range(skillsets):
+        cursor.execute(f"INSERT INTO UserSkills(user_rating, user_id, skill_id) VALUES (0, {user_id}, {i+1})")
+
+    preferences = len(get_all_preferences())
+    for i in range(preferences):
+        cursor.execute(f"INSERT INTO UserPreferences(preferred, user_id, preference_id) VALUES (FALSE, {user_id}, {i+1})")
     connection.commit()
 
 
 def update_user(user):
-    cursor.execute(f"UPDATE Users WHERE id = {user.id} SET first_name = {user.first_name},"
-                   f" last_name = {user.last_name}, student_id = {user.student_id},"
-                   f" program = {user.program}, avatar_url = {user.avatar_url}, bio = {user.bio}")
+    cursor.execute(f"UPDATE Users SET first_name = '{user.first_name}',"
+                   f"last_name = '{user.last_name}', email = '{user.email}', class_year = {user.class_year},"
+                   f" program_id = {user.program_id}, avatar_url = '{user.avatar_url}',"
+                   f" bio = '{user.bio}', display_name = '{user.display_name}' WHERE id = {user.id}")
     connection.commit()
-
-
-def get_group(group_id):
-    cursor.execute(f"SELECT * FROM Groups WHERE id = {group_id}")
-    data = cursor.fetchone()
-
-    if data:
-        return data
-    return None
 
 
 def create_group(group):
-    cursor.execute("INSERT INTO Groups VALUES ('%s', %d)" % (group.name, group.expire))
-
+    cursor.execute(f"INSERT INTO Groups (group_name, is_permanent, creation_date)"
+                              f" VALUES ('{group.name}', {group.is_permanent},"
+                              f" '{group.creation_date}') RETURNING id")
+    group_id = cursor.fetchone()[0]
+    for member in group.members:
+        cursor.execute(f"UPDATE Users SET group_id = {group_id} WHERE id = {member}")
     connection.commit()
+
+
+def group_commitment(user_id, group_id, action):
+    if not action:
+        cursor.execute(f"UPDATE Users SET group_id = NULL WHERE id = {user_id}")
+    elif action:
+        cursor.execute(f"UPDATE Users SET group_id = {group_id} WHERE id = {user_id}")
+    connection.commit()
+
+
+def update_user_skills(user_id, skillsets):
+    for skills in skillsets:
+        skill_rating = skills["data"]
+        skill_id = skills["attributeId"]
+        cursor.execute(f"UPDATE UserSkills SET user_rating = {skill_rating}"
+                       f" WHERE user_id = {user_id} AND skill_id = {skill_id}")
+    connection.commit()
+
+
+def update_user_preferences(user_id, preferences):
+    for preference in preferences:
+        preference_data = preference["data"]
+        preference_id = preference["attributeId"]
+        cursor.execute(f"UPDATE UserPreferences SET preferred = {preference_data}"
+                       f" WHERE user_id = {user_id} AND preference_id = {preference_id}")
+    connection.commit()
+
+
+def add_user_to_matching_round(user_id, match_round_id):
+    cursor.execute(f"UPDATE Users SET match_round_id = {match_round_id} WHERE id = {user_id}")
+    connection.commit()
+
+
+def remove_user_from_matching_round(user_id, match_round_id):
+    cursor.execute(f"UPDATE Users SET match_round_id = NULL"
+                   f" WHERE id = {user_id} AND match_round_id = {match_round_id}")
+    connection.commit()
+
