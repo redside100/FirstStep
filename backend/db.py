@@ -34,6 +34,14 @@ def get_matching_rounds():
     return None
 
 
+def get_all_users():
+    cursor.execute("SELECT * FROM Users")
+    data = cursor.fetchall()
+    if data:
+        return data
+    return None
+
+
 def get_all_skillsets():
     cursor.execute("SELECT * FROM Skillsets")
     data = cursor.fetchall()
