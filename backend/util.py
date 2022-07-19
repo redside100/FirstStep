@@ -45,6 +45,7 @@ def generate_test_user(user_id=None):
     current_time = int(time.time())
     if not user_id:
         user_id = random.randint(1, 999999)
+    current_time = time.time()
     return User(
         id=user_id,
         first_name=names.get_first_name(),

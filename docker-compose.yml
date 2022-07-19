@@ -13,7 +13,7 @@ services:
     environment:
       POSTGRES_HOST: fs_postgres
       POSTGRES_PORT: 5432
-      POSTGRES_USER: fs
+      POSTGRES_USER: postgres
       POSTGRES_PASSWORD: default
       POSTGRES_DB: master
   fs_frontend:

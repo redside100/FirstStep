@@ -9,3 +9,13 @@ class Group:
     name: str
     expire: int
     members: List[User]
+
+
+@dataclass
+class DatabaseGroup:
+    id: int
+    name: str
+    is_permanent: bool
+    creation_date: str
+    members: List[int]
+
