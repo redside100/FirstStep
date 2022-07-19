@@ -4,6 +4,7 @@ from flask import Flask, request, jsonify
 
 from entities.user import UserUpdate
 from entities.group import DatabaseGroup
+from util import generate_database_user
 import db
 import re
 
@@ -185,6 +186,13 @@ def init():
     config['POSTGRES_DB'] = os.environ.get('POSTGRES_DB') if os.environ.get('POSTGRES_DB') else 'master'
     db.init_db(config['POSTGRES_HOST'], config['POSTGRES_PORT'], config['POSTGRES_USER'], config['POSTGRES_PASSWORD'],
                config['POSTGRES_DB'])
+
+    # Generate 50 users with mock data if no users are in the table
+    users = db.get_all_users()
+    if users is None:
+        for i in range(50):
+            user = generate_database_user()
+            db.create_user(user)
 
 
 if __name__ == '__main__':

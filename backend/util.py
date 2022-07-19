@@ -1,6 +1,6 @@
 from typing import List
 
-from entities.user import User, Rating
+from entities.user import User, UserUpdate, Rating
 from entities.group import Group
 import random
 import names
@@ -66,4 +66,20 @@ def generate_test_user(user_id=None):
         group_id=0,
         intent_stay=False,
         join_date=current_time
+    )
+
+def generate_database_user():
+    programs = [1, 2, 3]
+    first_name = names.get_first_name()
+    last_name = names.get_last_name()
+    return UserUpdate(
+        id=0,  # unused due to auto increment generation
+        email=f"{first_name}_{last_name}@uwaterloo.ca",
+        class_year=random.randint(2020, 2030),
+        first_name=first_name,
+        last_name=last_name,
+        program_id=random.choice(programs),
+        avatar_url="https://www.allaboutbirds.org/guide/assets/photo/59953191-480px.jpg",
+        bio="Life is bigcat",
+        display_name=f"{first_name}-{last_name}{random.randint(0, 100)}"
     )
