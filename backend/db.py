@@ -7,11 +7,11 @@ connection = None
 cursor = None
 logger = logging.Logger("db")
 
-
+CONNECTION_TIMEOUT = 25
 def init_db(host, port, user, password, database):
     global connection
     global cursor
-    for _ in range(10):
+    for _ in range(CONNECTION_TIMEOUT):
         try:
             connection = psycopg2.connect(user=user, password=password, host=host, port=port, database=database)
             cursor = connection.cursor()
@@ -21,7 +21,7 @@ def init_db(host, port, user, password, database):
             time.sleep(1)
 
     if not connection:
-        logger.error("Couldn't connect to postgres (within 10 seconds)")
+        logger.error(f"Couldn't connect to postgres (within {CONNECTION_TIMEOUT} seconds)")
     else:
         logger.info("Connected to postgres.")
 
