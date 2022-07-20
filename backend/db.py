@@ -2,6 +2,7 @@ import logging
 import time
 
 import psycopg2
+from psycopg2.extras import RealDictCursor
 
 connection = None
 cursor = None
@@ -14,7 +15,7 @@ def init_db(host, port, user, password, database):
     for _ in range(CONNECTION_TIMEOUT):
         try:
             connection = psycopg2.connect(user=user, password=password, host=host, port=port, database=database)
-            cursor = connection.cursor()
+            cursor = connection.cursor(cursor_factory=RealDictCursor)
             break
         except psycopg2.OperationalError:
             logger.warning("Could not connect to postgres, retrying in 1 second")
@@ -70,12 +71,21 @@ def get_user(email):
     cursor.execute(f"SELECT * FROM Users WHERE email = '{email}'")
     data = cursor.fetchone()
     if data:
+        if data["program_id"] is not None:
+            program_id = data["program_id"]
+            cursor.execute(f"SELECT * From Programs WHERE id = {program_id}")
+            data["program"] = cursor.fetchone()
+        # remove foreign key ids from the request (not needed)
+        del data["program_id"]
+        user_id = data["id"]
+        cursor.execute(f"SELECT onboarding_status, is_verified, is_eligible FROM UserOnboarding WHERE user_id = {user_id}")
+        data["onboarding"] = cursor.fetchone()
         return data
     return None
 
 
 def get_user_skillsets(user_id):
-    cursor.execute(f"SELECT * from UserSkills WHERE user_id = {user_id}")
+    cursor.execute(f"SELECT skill_id, rating from UserSkills WHERE user_id = {user_id}")
     data = cursor.fetchall()
     if data:
         return data
@@ -83,7 +93,7 @@ def get_user_skillsets(user_id):
 
 
 def get_user_preferences(user_id):
-    cursor.execute(f"SELECT * from UserPreferences WHERE user_id = {user_id}")
+    cursor.execute(f"SELECT preference_id, preferred from UserPreferences WHERE user_id = {user_id}")
     data = cursor.fetchall()
     if data:
         return data
@@ -92,12 +102,12 @@ def get_user_preferences(user_id):
 
 def get_group(group_id):
     cursor.execute(f"SELECT * FROM Groups WHERE id = {group_id}")
-    data = list(cursor.fetchone())
+    data = cursor.fetchone()
 
     if data:
         cursor.execute(f"SELECT * from Users WHERE group_id = {group_id}")
         members = cursor.fetchall()
-        data.append(members)
+        data["members"] = members
         return data
     return None
 
@@ -108,16 +118,19 @@ def create_user(user):
                    f"VALUES "
                    f"('{user.email}', {user.class_year}, '{user.first_name}', '{user.last_name}', '{user.program_id}',"
                    f"'{user.avatar_url}', '{user.bio}', '{user.display_name}') RETURNING id")
-    user_id = cursor.fetchone()[0]
+    user_id = cursor.fetchone()["id"]
 
     skillsets = len(get_all_skillsets())
     for i in range(skillsets):
-        cursor.execute(f"INSERT INTO UserSkills(user_rating, user_id, skill_id) VALUES (0, {user_id}, {i+1})")
+        cursor.execute(f"INSERT INTO UserSkills(rating, user_id, skill_id) VALUES (0, {user_id}, {i + 1})")
 
     preferences = len(get_all_preferences())
     for i in range(preferences):
-        cursor.execute(f"INSERT INTO UserPreferences(preferred, user_id, preference_id) VALUES (FALSE, {user_id}, {i+1})")
+        cursor.execute(f"INSERT INTO UserPreferences(preferred, user_id, preference_id) VALUES (FALSE, {user_id}, {i + 1})")
+
+    cursor.execute(f"INSERT INTO UserOnboarding VALUES ({user_id}, 0, FALSE, FALSE)")
     connection.commit()
+    return user_id
 
 
 def update_user(user):
@@ -129,13 +142,14 @@ def update_user(user):
 
 
 def create_group(group):
-    cursor.execute(f"INSERT INTO Groups (group_name, is_permanent, creation_date)"
-                              f" VALUES ('{group.name}', {group.is_permanent},"
-                              f" '{group.creation_date}') RETURNING id")
-    group_id = cursor.fetchone()[0]
+    cursor.execute(f"INSERT INTO Groups (name, is_group_permanent, date_of_creation)"
+                   f" VALUES ('{group.name}', {group.is_group_permanent},"
+                   f" '{group.date_of_creation}') RETURNING id")
+    group_id = cursor.fetchone()["id"]
     for member in group.members:
         cursor.execute(f"UPDATE Users SET group_id = {group_id} WHERE id = {member}")
     connection.commit()
+    return group_id
 
 
 def group_commitment(user_id, group_id, action):
@@ -150,7 +164,7 @@ def update_user_skills(user_id, skillsets):
     for skills in skillsets:
         skill_rating = skills["data"]
         skill_id = skills["attributeId"]
-        cursor.execute(f"UPDATE UserSkills SET user_rating = {skill_rating}"
+        cursor.execute(f"UPDATE UserSkills SET rating = {skill_rating}"
                        f" WHERE user_id = {user_id} AND skill_id = {skill_id}")
     connection.commit()
 
@@ -167,10 +181,14 @@ def update_user_preferences(user_id, preferences):
 def add_user_to_matching_round(user_id, match_round_id):
     cursor.execute(f"UPDATE Users SET match_round_id = {match_round_id} WHERE id = {user_id}")
     connection.commit()
+    cursor.execute(f"SELECT * FROM MatchRounds WHERE id = {match_round_id}")
+    data = cursor.fetchone()
+    if data:
+        return data
+    return None
 
 
 def remove_user_from_matching_round(user_id, match_round_id):
     cursor.execute(f"UPDATE Users SET match_round_id = NULL"
                    f" WHERE id = {user_id} AND match_round_id = {match_round_id}")
     connection.commit()
-
