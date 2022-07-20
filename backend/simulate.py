@@ -11,23 +11,27 @@ def dump_to_json(obj):
 
 def simulate_matching():
     users = []
-    for i in range(50):
+    for i in range(100):
         users.append(generate_test_user(i))
     
-    groups = create_groups(users)
+    groups = create_groups(users, min_size=4, max_size=5, max_groups=22)
+
+    print(f"Created {len(groups)} groups")
     data = [[] for _ in range(6)]
     print("Average Ratings Per Group")
     for group in groups:
         d = group.get_average_ratings()
-        print(d)
+        print(d, f"{len(group.members)} members")
         for i in range(6):
             data[i].append(d.as_tuple()[i])
 
     variances = []
+
     for category in data:
-        mean = sum(category) / len(category)
-        deviations = [(x - mean) ** 2 for x in category]
-        variances.append(sum(deviations) / len(category))
+        if len(category) > 0:
+            mean = sum(category) / len(category)
+            deviations = [(x - mean) ** 2 for x in category]
+            variances.append(sum(deviations) / len(category))
 
     # The lower the better
     print("Variance per category")
