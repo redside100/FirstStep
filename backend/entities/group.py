@@ -27,7 +27,7 @@ class Group:
 class DatabaseGroup:
     id: int
     name: str
-    is_permanent: bool
-    creation_date: str
+    is_group_permanent: bool
+    date_of_creation: str
     members: List[int]
 

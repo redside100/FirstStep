@@ -33,8 +33,8 @@ def create_user():
         bio=data['bio'],
         display_name=data['displayName']
     )
-    db.create_user(user)
-    return '', 204
+    user_id = db.create_user(user)
+    return jsonify({"id": user_id}), 201
 
 
 @app.get('/user/profile')
@@ -99,16 +99,16 @@ def update_user_preferences():
 def update_user_matching_join():
     data = request.get_json()
     user_id = data["userId"]
-    match_round_id = data["matchroundId"]
-    db.add_user_to_matching_round(user_id, match_round_id)
-    return '', 204
+    match_round_id = data["matchRoundId"]
+    data = db.add_user_to_matching_round(user_id, match_round_id)
+    return jsonify(data), 200
 
 
 @app.post('/user/matching/leave')
 def update_user_matching_leave():
     data = request.get_json()
     user_id = data["userId"]
-    match_round_id = data["matchroundId"]
+    match_round_id = data["matchRoundId"]
     db.remove_user_from_matching_round(user_id, match_round_id)
     return '', 204
 
@@ -119,12 +119,12 @@ def create_group():
     group = DatabaseGroup(
         id=0,  # unused
         name=data['name'],
-        is_permanent=data["isPermanent"],
-        creation_date=data["creationDate"],
+        is_group_permanent=data["isPermanent"],
+        date_of_creation=data["creationDate"],
         members=data['members']
     )
-    db.create_group(group)
-    return '', 204
+    group_id = db.create_group(group)
+    return jsonify({"id": group_id}), 201
 
 
 @app.get('/group/profile')
@@ -173,7 +173,7 @@ def validate_email():
     valid_email = False
     if email_regex.match(data["email"]):
         valid_email = True
-    return jsonify({"isNewValidEmail": valid_email}), 200
+    return jsonify({"is_new_valid_email": valid_email, "rejection_reason": None}), 200
 
 
 def init():
