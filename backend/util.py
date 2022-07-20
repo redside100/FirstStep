@@ -5,47 +5,74 @@ from entities.group import Group
 import random
 import names
 import time
+from mip import *
 
-# Temporary impl. (completely random)
-def create_groups(users: List[User], size=4):
+
+def split_list(l, n):
+    for i in range(0, n):
+        yield l[i::n]
+
+
+def add_ratings(ratings):
+    rating = Rating(0, 0, 0, 0, 0, 0)
+    for r in ratings:
+        rating += r
+    return rating
+
+
+# (Linear) Integer programming algorithm
+# Minimize "variance" between summed group ratings
+def create_groups(users: List[User], expire=int(time.time() + 172800), min_size=4, max_size=5):
     n = len(users)
-    if n < size:
+    if n < min_size:
         return None
 
+    max_group_num = n // min_size
+    m = Model()
+
+    # x[i][j] = 1 => j'th user is part of group i
+    x = [[m.add_var(var_type=BINARY) for _ in range(n)] for _ in range(max_group_num)]
+
+    # Each group must be between min and max size
+    for i in range(max_group_num):
+        m += xsum(x[i][j] for j in range(n)) >= min_size
+        m += xsum(x[i][j] for j in range(n)) <= max_size
+
+    # Each user cannot be in more than one group
+    for j in range(n):
+        m += xsum(x[i][j] for i in range(max_group_num)) == 1
+
+    # summed ratings for all groups
+    data = [add_ratings([users[j].ratings.mul(x[i][j]) for j in range(n)]) for i in range(max_group_num)]
+
+    # gonna be honest i'm 99% sure this is wrong but it looks like it works
+    mean = add_ratings(data).div(len(data))
+    # fake variance (can't square a linear expression)
+    variance = add_ratings([(r - mean) for r in data]).div(len(data))
+
+    m.objective = minimize(variance.avg())
+
+    m.verbose = 0
+    m.optimize()
+
     groups = []
-    for i in range(n // size):
-        partial_group = Group(id=i, name=f"Test Group {i}", expire=9999999999, members=[])
-        for j in range(size):
-            u = random.choice(users)
-            u.in_group = True
-            users.remove(u)
-            partial_group.members.append(u)
-        
+
+    for i in range(max_group_num):
+        partial_group = Group(id=i, name=f"Test Group {i}", expire=expire, members=[])
+        for j in range(n):
+            if x[i][j].x == 1.0:
+                partial_group.members.append(users[j])
+
         groups.append(partial_group)
-    
-    if not n % size == 0:
-        overflow = random.sample(groups, n % size)
-        for i in range(n % size):
-            overflow[i].members.append(users[i])
-    
+
     return groups
 
-def a_prefer_b1_b2(a: User, b1: User, b2: User):
-    sorted_ratings = a.ratings.get_ratings_sorted()
-    for rating_pair in sorted_ratings:
-        if b1.ratings.get_rating(rating_pair[1]) > b2.ratings.get_rating(rating_pair[1]):
-            return b1
-        elif b2.ratings.get_rating(rating_pair[1]) > b1.ratings.get_rating(rating_pair[1]):
-            return b2
-    
-    return b1
 
 def generate_test_user(user_id=None):
     programs = ["ELEC", "COMP", "MECH", "ARCH", "CIVIL"]
-    current_time = int(time.time())
     if not user_id:
         user_id = random.randint(1, 999999)
-    current_time = time.time()
+    current_time = int(time.time())
     return User(
         id=user_id,
         first_name=names.get_first_name(),
@@ -55,18 +82,19 @@ def generate_test_user(user_id=None):
         avatar_url="https://www.allaboutbirds.org/guide/assets/photo/59953191-480px.jpg",
         bio="Life is bigcat",
         ratings=Rating(
-            software=random.randint(0, 5),
-            leadership=random.randint(0, 5),
-            database=random.randint(0, 5),
-            writing=random.randint(0, 5),
-            hardware=random.randint(0, 5),
-            embedded=random.randint(0, 5)
+            software=random.randint(1, 5),
+            leadership=random.randint(1, 5),
+            database=random.randint(1, 5),
+            writing=random.randint(1, 5),
+            hardware=random.randint(1, 5),
+            embedded=random.randint(1, 5)
         ),
         in_group=False,
         group_id=0,
         intent_stay=False,
         join_date=current_time
     )
+
 
 def generate_database_user():
     programs = [1, 2, 3]

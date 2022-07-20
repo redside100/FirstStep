@@ -10,6 +10,13 @@ class Rating:
     hardware: float
     embedded: float
 
+    def as_tuple(self):
+        return self.software, self.leadership, self.database, self.writing, self.hardware, self.embedded
+
+    @staticmethod
+    def from_tuple(obj):
+        return Rating(obj[0], obj[1], obj[2], obj[3], obj[4], obj[5])
+
     def get_rating(self, rating: str):
         rating = rating.lower()
         if rating == 'software':
@@ -37,6 +44,49 @@ class Rating:
         base.sort()
         return base
 
+    def __sub__(self, other):
+        return Rating(
+            software=self.software - other.software,
+            leadership=self.leadership - other.leadership,
+            database=self.database - other.database,
+            writing=self.writing - other.writing,
+            hardware=self.hardware - other.hardware,
+            embedded=self.embedded - other.embedded
+        )
+
+    def __add__(self, other):
+        return Rating(
+            software=self.software + other.software,
+            leadership=self.leadership + other.leadership,
+            database=self.database + other.database,
+            writing=self.writing + other.writing,
+            hardware=self.hardware + other.hardware,
+            embedded=self.embedded + other.embedded
+        )
+
+    def mul(self, const):
+        return Rating(
+            software=self.software * const,
+            leadership=self.leadership * const,
+            database=self.database * const,
+            writing=self.writing * const,
+            hardware=self.hardware * const,
+            embedded=self.embedded * const
+        )
+
+    def div(self, const):
+        return Rating(
+            software=self.software / const,
+            leadership=self.leadership / const,
+            database=self.database / const,
+            writing=self.writing / const,
+            hardware=self.hardware / const,
+            embedded=self.embedded / const
+        )
+
+    def avg(self):
+        return (self.software + self.leadership + self.database + self.writing + self.hardware + self.embedded) / 6
+
 @dataclass
 class User:
     id: int
@@ -50,7 +100,7 @@ class User:
     in_group: bool
     group_id: int
     intent_stay: bool
-    join_date: str
+    join_date: int
 
 @dataclass
 class UserUpdate:
