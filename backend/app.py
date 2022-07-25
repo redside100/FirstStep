@@ -1,8 +1,10 @@
+import logging
 import os
 
 from flask import Flask, request, jsonify
 from flask_cors import CORS
 
+import matcher
 from entities.user import UserUpdate
 from entities.group import DatabaseGroup
 from util import generate_database_user
@@ -230,15 +232,22 @@ def init():
     config['POSTGRES_PASSWORD'] = os.environ.get('POSTGRES_PASSWORD') if os.environ.get(
         'POSTGRES_PASSWORD') else 'default'
     config['POSTGRES_DB'] = os.environ.get('POSTGRES_DB') if os.environ.get('POSTGRES_DB') else 'master'
+
+    logging.basicConfig(level=logging.INFO)
+
     db.init_db(config['POSTGRES_HOST'], config['POSTGRES_PORT'], config['POSTGRES_USER'], config['POSTGRES_PASSWORD'],
                config['POSTGRES_DB'])
 
-    # Generate 50 users with mock data if no users are in the table
-    users = db.get_all_users()
-    if users is None:
-        for i in range(50):
-            user = generate_database_user()
-            db.create_user(user)
+    if db.connection:
+        # Generate 50 users with mock data if no users are in the table
+        users = db.get_all_users()
+        if users is None:
+            for i in range(50):
+                user = generate_database_user()
+                db.create_user(user, mock=True)
+
+    # Start matching cronjob
+    matcher.init()
 
 
 if __name__ == '__main__':

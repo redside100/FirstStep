@@ -1,12 +1,12 @@
 import logging
 import time
+import random
 
 import psycopg2
 from psycopg2.extras import RealDictCursor
 
 connection = None
 cursor = None
-logger = logging.Logger("db")
 
 CONNECTION_TIMEOUT = 25
 def init_db(host, port, user, password, database):
@@ -18,13 +18,13 @@ def init_db(host, port, user, password, database):
             cursor = connection.cursor(cursor_factory=RealDictCursor)
             break
         except psycopg2.OperationalError:
-            logger.warning("Could not connect to postgres, retrying in 1 second")
+            logging.warning("Could not connect to postgres, retrying in 1 second")
             time.sleep(1)
 
     if not connection:
-        logger.error(f"Couldn't connect to postgres (within {CONNECTION_TIMEOUT} seconds)")
+        logging.error(f"Couldn't connect to postgres (within {CONNECTION_TIMEOUT} seconds)")
     else:
-        logger.info("Connected to postgres.")
+        logging.info("Connected to postgres.")
 
 
 def get_matching_rounds():
@@ -37,6 +37,14 @@ def get_matching_rounds():
 
 def get_all_users():
     cursor.execute("SELECT * FROM Users")
+    data = cursor.fetchall()
+    if data:
+        return data
+    return None
+
+
+def get_all_groups():
+    cursor.execute("SELECT * FROM Groups")
     data = cursor.fetchall()
     if data:
         return data
@@ -112,7 +120,7 @@ def get_group(group_id):
     return None
 
 
-def create_user(user):
+def create_user(user, mock=False):
     cursor.execute(f"INSERT INTO "
                    f"Users (email, class_year, first_name, last_name, program_id, avatar_url, bio, display_name)"
                    f"VALUES "
@@ -122,7 +130,10 @@ def create_user(user):
 
     skillsets = len(get_all_skillsets())
     for i in range(skillsets):
-        cursor.execute(f"INSERT INTO UserSkills(rating, user_id, skill_id) VALUES (0, {user_id}, {i + 1})")
+        if not mock:
+            cursor.execute(f"INSERT INTO UserSkills(rating, user_id, skill_id) VALUES (0, {user_id}, {i + 1})")
+        else:
+            cursor.execute(f"INSERT INTO UserSkills(rating, user_id, skill_id) VALUES ({random.randint(1, 5)}, {user_id}, {i + 1})")
 
     preferences = len(get_all_preferences())
     for i in range(preferences):

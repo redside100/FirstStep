@@ -23,7 +23,7 @@ def add_ratings(ratings):
 
 # (Linear) Integer programming algorithm
 # Minimize "variance" between summed group ratings
-def create_groups(users: List[User], expire=int(time.time() + 172800), min_size=4, max_size=5, max_groups=None):
+def create_groups(users: List[User], min_size=4, max_size=5, max_groups=None, timeout=300):
     n = len(users)
     if n < min_size:
         return None
@@ -60,7 +60,7 @@ def create_groups(users: List[User], expire=int(time.time() + 172800), min_size=
     m.objective = minimize(variance.avg())
 
     m.verbose = 0
-    m.optimize()
+    m.optimize(max_seconds=timeout)
 
     try:
         x[0][0].x
@@ -71,7 +71,7 @@ def create_groups(users: List[User], expire=int(time.time() + 172800), min_size=
     groups = []
 
     for i in range(max_group_num):
-        partial_group = Group(id=i, name=f"Test Group {i}", expire=expire, members=[])
+        partial_group = Group(id=i, name=f"Test Group {i}", is_permanent=False, members=[])
         for j in range(n):
             if x[i][j].x == 1.0:
                 partial_group.members.append(users[j])
@@ -91,22 +91,18 @@ def generate_test_user(user_id=None):
         id=user_id,
         first_name=names.get_first_name(),
         last_name=names.get_last_name(),
-        student_id=random.randint(100000, 999999),
         program=random.choice(programs),
         avatar_url="https://www.allaboutbirds.org/guide/assets/photo/59953191-480px.jpg",
         bio="Life is bigcat",
         ratings=Rating(
-            software=random.randint(1, 5),
+            distributed=random.randint(1, 5),
             leadership=random.randint(1, 5),
             database=random.randint(1, 5),
             writing=random.randint(1, 5),
             hardware=random.randint(1, 5),
             embedded=random.randint(1, 5)
         ),
-        in_group=False,
-        group_id=0,
-        intent_stay=False,
-        join_date=current_time
+        group_id=0
     )
 
 

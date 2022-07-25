@@ -13,8 +13,9 @@ def simulate_matching():
     users = []
     for i in range(100):
         users.append(generate_test_user(i))
-    
-    groups = create_groups(users, min_size=4, max_size=5, max_groups=22)
+
+    n = len(users)
+    groups = create_groups(users, min_size=4, max_size=5, max_groups=int((n / 4 + n / 5) / 2))
 
     print(f"Created {len(groups)} groups")
     data = [[] for _ in range(6)]

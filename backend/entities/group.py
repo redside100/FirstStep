@@ -1,19 +1,20 @@
 from dataclasses import dataclass
 from typing import List
-from entities.user import User, Rating
+from entities.user import User
+from entities.rating import Rating
 
 
 @dataclass
 class Group:
     id: int
     name: str
-    expire: int
+    is_permanent: int
     members: List[User]
 
     def get_average_ratings(self):
         if len(self.members) > 0:
             return Rating(
-                software=sum(u.ratings.software for u in self.members) / len(self.members),
+                distributed=sum(u.ratings.distributed for u in self.members) / len(self.members),
                 leadership=sum(u.ratings.leadership for u in self.members) / len(self.members),
                 database=sum(u.ratings.database for u in self.members) / len(self.members),
                 writing=sum(u.ratings.writing for u in self.members) / len(self.members),
