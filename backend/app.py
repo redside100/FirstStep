@@ -215,7 +215,7 @@ def get_all_programs():
 @app.post('/onboarding/validate_email')
 def validate_email():
     data = request.get_json()
-    email_regex = re.compile(r"[^@]+@[^@]+\.[^@]+")
+    email_regex = re.compile(r"[^@]+@uwaterloo.ca")
     valid_email = False
     if email_regex.match(data["email"]):
         valid_email = True
