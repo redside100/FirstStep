@@ -66,6 +66,11 @@ def match():
 
 def cleanup_groups():
     groups = db.get_all_groups()
+
+    if not groups:
+        logging.info(f'No groups to delete.')
+        return
+
     deleted = 0
     for group in groups:
         if not group['is_group_permanent']:

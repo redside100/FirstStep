@@ -241,8 +241,12 @@ def init():
     if db.connection:
         # Generate 50 users with mock data if no users are in the table
         users = db.get_all_users()
+
         if users is None:
-            for i in range(50):
+            test_user = generate_database_user()
+            test_user.email = 'test@uwaterloo.ca'
+            db.create_user(test_user, mock=True)
+            for i in range(49):
                 user = generate_database_user()
                 db.create_user(user, mock=True)
 
