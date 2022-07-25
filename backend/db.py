@@ -152,11 +152,44 @@ def create_group(group):
     return group_id
 
 
+def update_group(group):
+    cursor.execute(f"UPDATE Groups SET name = '{group.name}', is_group_permanent = {group.is_group_permanent}"
+                   f" WHERE id = {group.id}")
+    connection.commit()
+
+
+def update_members(group_id, group_members):
+    # Remove old members
+    cursor.execute(f"UPDATE Users SET group_id = NULL WHERE group_id = {group_id}")
+    for member in group_members:
+        cursor.execute(f"UPDATE Users SET group_id = {group_id} WHERE id = {member}")
+    connection.commit()
+
+
+def delete_user(user_id):
+    cursor.execute(f"DELETE FROM UserSkills WHERE user_id = {user_id}")
+    cursor.execute(f"DELETE FROM UserPreferences WHERE user_id = {user_id}")
+    cursor.execute(f"DELETE FROM UserOnboarding WHERE user_id = {user_id}")
+    cursor.execute(f"DELETE FROM Users WHERE id = {user_id}")
+    connection.commit()
+
+
+def delete_group(group_id):
+    cursor.execute(f"UPDATE Users SET group_id = NULL WHERE group_id = {group_id}")
+    cursor.execute(f"DELETE FROM Groups WHERE id = {group_id}")
+    connection.commit()
+
+
 def group_commitment(user_id, group_id, action):
     if not action:
         cursor.execute(f"UPDATE Users SET group_id = NULL WHERE id = {user_id}")
     elif action:
         cursor.execute(f"UPDATE Users SET group_id = {group_id} WHERE id = {user_id}")
+    connection.commit()
+
+
+def commit_group(group_id, commitment):
+    cursor.execute(f"UPDATE Groups SET is_group_permanent = {commitment} WHERE id = {group_id}")
     connection.commit()
 
 
