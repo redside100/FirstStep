@@ -115,6 +115,13 @@ def update_user_matching_leave():
     return '', 204
 
 
+@app.delete('/user/profile')
+def delete_user():
+    user_id = request.args.get("userId")
+    db.delete_user(user_id)
+    return jsonify({"deleted": True}), 200
+
+
 @app.post('/group')
 def create_group():
     data = request.get_json()
@@ -136,12 +143,49 @@ def get_group():
     return jsonify(response), 200
 
 
+@app.post('/group/profile')
+def update_group():
+    data = request.get_json()
+    group = DatabaseGroup(
+        id=data["id"],
+        name=data["name"],
+        is_group_permanent=data["isPermanent"],
+        date_of_creation=None,
+        members=None,
+    )
+    db.update_group(group)
+    return '', 204
+
+
+@app.post('/group/members')
+def update_members():
+    data = request.get_json()
+    group_id = data["id"]
+    members = data["members"]
+    db.update_members(group_id, members)
+    return '', 204
+
+
 @app.post('/group/matching')
 def group_commitment():
     data = request.get_json()
     commitment = False if data["action"] == 0 else True
     db.group_commitment(data["userId"], data["groupId"], commitment)
     return '', 204
+
+
+@app.post('/group/commitment')
+def commit_group():
+    data = request.get_json()
+    db.commit_group(data["groupId"], data["commit"])
+    return '', 204
+
+
+@app.delete('/group/profile')
+def delete_group():
+    group_id = request.args.get("groupId")
+    db.delete_group(group_id)
+    return jsonify({"deleted": True}), 200
 
 
 @app.get('/global/matching/current')
