@@ -8,6 +8,7 @@ import matcher
 from entities.user import UserUpdate
 from entities.group import DatabaseGroup
 from util import generate_database_user
+from integration import convert_user_to_profile
 import db
 import re
 
@@ -45,6 +46,8 @@ def create_user():
 def get_user():
     email = request.args.get("email")
     user = db.get_user(email)
+    user_profile = convert_user_to_profile(user)
+    user["profile"] = user_profile
     return jsonify(user), 200
 
 
@@ -140,8 +143,8 @@ def create_group():
 
 @app.get('/group/profile')
 def get_group():
-    group_id = request.args.get("groupId")
-    response = db.get_group(group_id)
+    user_id = request.args.get("userId")
+    response = db.get_group_by_user_id(user_id)
     return jsonify(response), 200
 
 

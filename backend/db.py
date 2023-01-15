@@ -5,6 +5,8 @@ import random
 import psycopg2
 from psycopg2.extras import RealDictCursor
 
+from integration import convert_user_to_profile
+
 connection = None
 cursor = None
 
@@ -91,6 +93,22 @@ def get_user(email):
         return data
     return None
 
+def _get_user_by_id(id):
+    cursor.execute(f"SELECT * FROM Users WHERE id = '{id}'")
+    data = cursor.fetchone()
+    if data:
+        if data["program_id"] is not None:
+            program_id = data["program_id"]
+            cursor.execute(f"SELECT * From Programs WHERE id = {program_id}")
+            data["program"] = cursor.fetchone()
+        # remove foreign key ids from the request (not needed)
+        del data["program_id"]
+        user_id = data["id"]
+        cursor.execute(f"SELECT onboarding_status, is_verified, is_eligible FROM UserOnboarding WHERE user_id = {user_id}")
+        data["onboarding"] = cursor.fetchone()
+        return data
+    return None
+
 
 def get_user_skillsets(user_id):
     cursor.execute(f"SELECT skill_id, rating from UserSkills WHERE user_id = {user_id}")
@@ -108,16 +126,26 @@ def get_user_preferences(user_id):
     return None
 
 
-def get_group(group_id):
+def _get_group(group_id):
     cursor.execute(f"SELECT * FROM Groups WHERE id = {group_id}")
     data = cursor.fetchone()
 
     if data:
         cursor.execute(f"SELECT * from Users WHERE group_id = {group_id}")
         members = cursor.fetchall()
-        data["members"] = members
+        users = []
+        for member in members:
+            users.append(_get_user_by_id(member['id']))
+        data["members"] = []
+        for user in users:
+            data["members"].append(convert_user_to_profile(user))
         return data
     return None
+
+def get_group_by_user_id(user_id):
+    cursor.execute(f"SELECT * FROM Users WHERE id = {user_id}")
+    user = cursor.fetchone()
+    return _get_group(user['group_id'])
 
 
 def create_user(user, mock=False):

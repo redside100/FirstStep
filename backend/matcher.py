@@ -15,7 +15,7 @@ from consts import *
 
 scheduler = None
 
-MATCHER_DEBUG = True
+MATCHER_DEBUG = False
 
 
 def init():
