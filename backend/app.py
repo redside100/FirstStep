@@ -8,7 +8,7 @@ import matcher
 from entities.user import UserUpdate, OnboardingStatus
 from entities.group import DatabaseGroup
 from util import generate_database_user
-from integration import reformat_user_payload, convert_user_to_profile, reformat_user_skills, reformat_user_preferences
+from integration import reformat_user_payload, convert_user_to_profile, reformat_user_skills, reformat_user_preferences, reformat_join_matchround_resp
 import db
 import re
 
@@ -118,18 +118,23 @@ def update_user_preferences():
 def update_user_matching_join():
     data = request.get_json()
     user_id = data["userId"]
-    match_round_id = data["matchRoundId"]
+    match_round_id = data["matchroundId"]
     data = db.add_user_to_matching_round(user_id, match_round_id)
-    return jsonify(data), 200
+    return jsonify(reformat_join_matchround_resp(user_id, data)), 200
 
 
 @app.post('/user/matching/leave')
 def update_user_matching_leave():
     data = request.get_json()
     user_id = data["userId"]
-    match_round_id = data["matchRoundId"]
+    match_round_id = data["matchroundId"]
     db.remove_user_from_matching_round(user_id, match_round_id)
-    return '', 204
+    payload = {
+        'userId': user_id,
+        'matchroundId': match_round_id,
+        'success': True
+    }
+    return jsonify(payload), 200
 
 
 @app.delete('/user/profile')
