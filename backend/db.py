@@ -116,7 +116,7 @@ def get_user(cursor, connection, email):
     return None
 
 @use_connection
-def _get_user_by_id(cursor, connection, id):
+def get_user_by_id(cursor, connection, id):
     cursor.execute(f"SELECT * FROM Users WHERE id = '{id}'")
     data = cursor.fetchone()
     if data:
@@ -158,7 +158,7 @@ def _get_group(cursor, connection, group_id):
         members = cursor.fetchall()
         users = []
         for member in members:
-            users.append(_get_user_by_id(member['id']))
+            users.append(get_user_by_id(member['id']))
         data["members"] = []
         for user in users:
             data["members"].append(convert_user_to_profile(user))
@@ -169,6 +169,8 @@ def _get_group(cursor, connection, group_id):
 def get_group_by_user_id(cursor, connection, user_id):
     cursor.execute(f"SELECT * FROM Users WHERE id = {user_id}")
     user = cursor.fetchone()
+    if user['group_id'] is None:
+        return None
     return _get_group(user['group_id'])
 
 
@@ -202,6 +204,11 @@ def update_user(cursor, connection, user):
                    f"last_name = '{user.last_name}', email = '{user.email}', class_year = {user.class_year},"
                    f" program_id = {user.program_id}, avatar_url = '{user.avatar_url}',"
                    f" bio = '{user.bio}', display_name = '{user.display_name}' WHERE id = {user.id}")
+    connection.commit()
+
+@use_connection
+def update_user_onboarding(cursor, connection, user_id, onboarding_status):
+    cursor.execute(f"UPDATE UserOnboarding SET onboarding_status = {onboarding_status} WHERE user_id = {user_id} AND onboarding_status < {onboarding_status}")
     connection.commit()
 
 @use_connection
@@ -261,7 +268,7 @@ def update_user_skills(cursor, connection, user_id, skillsets):
     for skills in skillsets:
         skill_rating = skills["data"]
         skill_id = skills["attributeId"]
-        cursor.execute(f"UPDATE UserSkills SET rating = {skill_rating}"
+        cursor.execute(f"UPDATE UserSkills SET rating = {skill_rating if skill_rating is not None else 'NULL'}"
                        f" WHERE user_id = {user_id} AND skill_id = {skill_id}")
     connection.commit()
 
@@ -270,7 +277,7 @@ def update_user_preferences(cursor, connection, user_id, preferences):
     for preference in preferences:
         preference_data = preference["data"]
         preference_id = preference["attributeId"]
-        cursor.execute(f"UPDATE UserPreferences SET preferred = {preference_data}"
+        cursor.execute(f"UPDATE UserPreferences SET preferred = {preference_data if preference_data is not None else 'NULL'}"
                        f" WHERE user_id = {user_id} AND preference_id = {preference_id}")
     connection.commit()
 

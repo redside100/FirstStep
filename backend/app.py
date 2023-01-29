@@ -5,10 +5,10 @@ from flask import Flask, request, jsonify
 from flask_cors import CORS
 
 import matcher
-from entities.user import UserUpdate
+from entities.user import UserUpdate, OnboardingStatus
 from entities.group import DatabaseGroup
 from util import generate_database_user
-from integration import convert_user_to_profile
+from integration import reformat_user_payload, convert_user_to_profile, reformat_user_skills, reformat_user_preferences
 import db
 import re
 
@@ -46,17 +46,17 @@ def create_user():
 def get_user():
     email = request.args.get("email")
     user = db.get_user(email)
-    user_profile = convert_user_to_profile(user)
-    user["profile"] = user_profile
-    return jsonify(user), 200
+    formatted_user = reformat_user_payload(user)
+    return jsonify(formatted_user), 200
 
 
 @app.post('/user/profile')
 def update_user():
     data = request.get_json()
     json_body = data["newProfile"]
+    user_id = json_body["id"]
     user = UserUpdate(
-        id=json_body["id"],
+        id=user_id,
         email=json_body["email"],
         class_year=json_body["classYear"],
         first_name=json_body["firstName"],
@@ -67,20 +67,26 @@ def update_user():
         bio=(json_body["bio"] if "bio" in json_body else "")
     )
     db.update_user(user)
-    return '', 204
+    updated_user = db.get_user_by_id(user_id)
+    db.update_user_onboarding(user_id, OnboardingStatus.Step1.value)
+    updated_profile = convert_user_to_profile(updated_user)
+    payload = { 'updatedProfile': updated_profile, 'userId': user_id }
+    return jsonify(payload), 200
 
 
 @app.get('/user/skillsets')
 def get_user_skillsets():
     user_id = request.args.get("userId")
-    data = db.get_user_skillsets(user_id)
+    rows = db.get_user_skillsets(user_id)
+    data = { "userId": user_id, "skillsets": reformat_user_skills(rows) }
     return jsonify(data), 200
 
 
 @app.get('/user/preferences')
 def get_user_preferences():
     user_id = request.args.get("userId")
-    data = db.get_user_preferences(user_id)
+    rows = db.get_user_preferences(user_id)
+    data = { "userId": user_id, "preferences": reformat_user_preferences(rows) }
     return jsonify(data), 200
 
 
@@ -90,7 +96,10 @@ def update_user_skillsets():
     user_id = data["userId"]
     skillsets = data["newSkillsets"]
     db.update_user_skills(user_id, skillsets)
-    return '', 204
+    db.update_user_onboarding(user_id, OnboardingStatus.Step2.value)
+    rows = db.get_user_skillsets(user_id)
+    payload = { "userId": user_id, "updatedSkillsets": reformat_user_skills(rows) }
+    return jsonify(payload), 200
 
 
 @app.post('/user/preferences')
@@ -99,7 +108,10 @@ def update_user_preferences():
     user_id = data["userId"]
     preferences = data["newPreferences"]
     db.update_user_preferences(user_id, preferences)
-    return '', 204
+    db.update_user_onboarding(user_id, OnboardingStatus.Completed.value)
+    rows = db.get_user_preferences(user_id)
+    payload = { "userId": user_id, "updatedPreferences": reformat_user_preferences(rows) }
+    return jsonify(payload), 200
 
 
 @app.post('/user/matching/join')
