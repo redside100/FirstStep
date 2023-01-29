@@ -4,8 +4,16 @@ WORKDIR /app
 
 # Build cbc binary (https://python-mip.readthedocs.io/en/latest/install.html) (modified)
 # install dependencies to build
-RUN apt-get update -y && apt-get upgrade -y
-RUN apt-get install -y gcc g++ gfortran liblapack-dev libamd2 libcholmod3 libmetis-dev libsuitesparse-dev libnauty2-dev git
+RUN apt-get update -y && apt-get install -y \
+    gcc \
+    g++ \
+    gfortran \
+    liblapack-dev \
+    libamd2 libcholmod3 \
+    libmetis-dev \
+    libsuitesparse-dev \
+    libnauty2-dev \
+    git
 # directory to download and compile CBC
 RUN mkdir -p ~/build; cd ~/build
 # download latest version of coinbrew
@@ -18,10 +26,8 @@ RUN bash coinbrew build Cbc@master --no-prompt --prefix=/home/fs/prog/ --tests=n
 RUN export LD_LIBRARY_PATH="/home/fs/prog/lib"
 RUN export DYLD_LIBRARY_PATH="/home/fs/prog/lib"
 
-RUN cd /app
+COPY * /app/
 
-COPY requirements.txt .
 RUN pip3 install -r requirements.txt
-COPY . .
 
 CMD ["python3", "app.py"]

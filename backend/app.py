@@ -5,9 +5,10 @@ from flask import Flask, request, jsonify
 from flask_cors import CORS
 
 import matcher
-from entities.user import UserUpdate
+from entities.user import UserUpdate, OnboardingStatus
 from entities.group import DatabaseGroup
 from util import generate_database_user
+from integration import reformat_user_payload, convert_user_to_profile, reformat_user_skills, reformat_user_preferences
 import db
 import re
 
@@ -45,39 +46,47 @@ def create_user():
 def get_user():
     email = request.args.get("email")
     user = db.get_user(email)
-    return jsonify(user), 200
+    formatted_user = reformat_user_payload(user)
+    return jsonify(formatted_user), 200
 
 
 @app.post('/user/profile')
 def update_user():
     data = request.get_json()
     json_body = data["newProfile"]
+    user_id = json_body["id"]
     user = UserUpdate(
-        id=json_body["id"],
+        id=user_id,
         email=json_body["email"],
         class_year=json_body["classYear"],
         first_name=json_body["firstName"],
         last_name=json_body["lastName"],
         program_id=json_body["program"]["id"],
-        avatar_url=json_body["avatarURL"],
+        avatar_url=(json_body["avatarURL"] if "avatarURL" in json_body else ""), # TODO temporary workaround, without ORM, hard to insert NULL
         display_name=json_body["displayName"],
-        bio=json_body["bio"]
+        bio=(json_body["bio"] if "bio" in json_body else "")
     )
     db.update_user(user)
-    return '', 204
+    updated_user = db.get_user_by_id(user_id)
+    db.update_user_onboarding(user_id, OnboardingStatus.Step1.value)
+    updated_profile = convert_user_to_profile(updated_user)
+    payload = { 'updatedProfile': updated_profile, 'userId': user_id }
+    return jsonify(payload), 200
 
 
 @app.get('/user/skillsets')
 def get_user_skillsets():
     user_id = request.args.get("userId")
-    data = db.get_user_skillsets(user_id)
+    rows = db.get_user_skillsets(user_id)
+    data = { "userId": user_id, "skillsets": reformat_user_skills(rows) }
     return jsonify(data), 200
 
 
 @app.get('/user/preferences')
 def get_user_preferences():
     user_id = request.args.get("userId")
-    data = db.get_user_preferences(user_id)
+    rows = db.get_user_preferences(user_id)
+    data = { "userId": user_id, "preferences": reformat_user_preferences(rows) }
     return jsonify(data), 200
 
 
@@ -87,7 +96,10 @@ def update_user_skillsets():
     user_id = data["userId"]
     skillsets = data["newSkillsets"]
     db.update_user_skills(user_id, skillsets)
-    return '', 204
+    db.update_user_onboarding(user_id, OnboardingStatus.Step2.value)
+    rows = db.get_user_skillsets(user_id)
+    payload = { "userId": user_id, "updatedSkillsets": reformat_user_skills(rows) }
+    return jsonify(payload), 200
 
 
 @app.post('/user/preferences')
@@ -96,7 +108,10 @@ def update_user_preferences():
     user_id = data["userId"]
     preferences = data["newPreferences"]
     db.update_user_preferences(user_id, preferences)
-    return '', 204
+    db.update_user_onboarding(user_id, OnboardingStatus.Completed.value)
+    rows = db.get_user_preferences(user_id)
+    payload = { "userId": user_id, "updatedPreferences": reformat_user_preferences(rows) }
+    return jsonify(payload), 200
 
 
 @app.post('/user/matching/join')
@@ -140,8 +155,8 @@ def create_group():
 
 @app.get('/group/profile')
 def get_group():
-    group_id = request.args.get("groupId")
-    response = db.get_group(group_id)
+    user_id = request.args.get("userId")
+    response = db.get_group_by_user_id(user_id)
     return jsonify(response), 200
 
 
@@ -192,25 +207,29 @@ def delete_group():
 
 @app.get('/global/matching/current')
 def get_matching_round():
-    data = db.get_matching_rounds()
+    result = db.get_matching_rounds()
+    data = { "matchRounds": result }
     return jsonify(data), 200
 
 
 @app.get('/global/skillsets/all')
 def get_all_skillsets():
-    data = db.get_all_skillsets()
+    result = db.get_all_skillsets()
+    data = { "skillsets": result }
     return jsonify(data), 200
 
 
 @app.get('/global/preferences/all')
 def get_all_preferences():
-    data = db.get_all_preferences()
+    result = db.get_all_preferences()
+    data = { "preferences": result }
     return jsonify(data), 200
 
 
 @app.get('/global/programs/all')
 def get_all_programs():
-    data = db.get_all_programs()
+    result = db.get_all_programs()
+    data = { "programs": result }
     return jsonify(data), 200
 
 
@@ -235,10 +254,10 @@ def init():
 
     logging.basicConfig(level=logging.INFO)
 
-    db.init_db(config['POSTGRES_HOST'], config['POSTGRES_PORT'], config['POSTGRES_USER'], config['POSTGRES_PASSWORD'],
+    connections = db.init_db(config['POSTGRES_HOST'], config['POSTGRES_PORT'], config['POSTGRES_USER'], config['POSTGRES_PASSWORD'],
                config['POSTGRES_DB'])
 
-    if db.connection:
+    if connections:
         # Generate 50 users with mock data if no users are in the table
         users = db.get_all_users()
 

@@ -1,7 +1,14 @@
 from dataclasses import dataclass
 from consts import *
 from entities.rating import Rating
+from enum import Enum
 
+class OnboardingStatus(Enum):
+  NotStarted = 0 # have not started onboarding
+  Step0 = 1 # tbd user's basic details
+  Step1 = 2 # tbd user's skills
+  Step2 = 3 # tbd user's preferences
+  Completed = 4 # completd onboarding
 
 @dataclass
 class User:

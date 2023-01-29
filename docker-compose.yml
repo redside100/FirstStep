@@ -16,6 +16,9 @@ services:
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: default
       POSTGRES_DB: master
+      FLASK_ENV: development
+    volumes:
+      - ./backend:/app
   fs_frontend:
     build: frontend
     ports:
