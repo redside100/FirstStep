@@ -53,25 +53,25 @@ CREATE TABLE Users(
     avatar_url VARCHAR(2048),
     bio TEXT,
     display_name VARCHAR(128),
-    FOREIGN KEY (group_id) REFERENCES Groups(id),
-    FOREIGN KEY (program_id) REFERENCES Programs(id),
-    FOREIGN KEY (match_round_id) REFERENCES MatchRounds(id)
+    FOREIGN KEY (group_id) REFERENCES Groups(id) ON DELETE SET NULL,
+    FOREIGN KEY (program_id) REFERENCES Programs(id) ON DELETE SET NULL,
+    FOREIGN KEY (match_round_id) REFERENCES MatchRounds(id) ON DELETE SET NULL
 );
 
 CREATE TABLE UserSkills(
     rating FLOAT NOT NULL,
     user_id INT,
     skill_id INT,
-    FOREIGN KEY (user_id) REFERENCES Users(id),
-    FOREIGN KEY (skill_id) REFERENCES Skillsets(id)
+    FOREIGN KEY (user_id) REFERENCES Users(id) ON DELETE CASCADE,
+    FOREIGN KEY (skill_id) REFERENCES Skillsets(id) ON DELETE CASCADE
 );
 
 CREATE TABLE UserPreferences(
     preferred BOOLEAN,
     user_id INT,
     preference_id INT,
-    FOREIGN KEY (user_id) REFERENCES Users(id),
-    FOREIGN KEY (preference_id) REFERENCES Preferences(id)
+    FOREIGN KEY (user_id) REFERENCES Users(id) ON DELETE CASCADE,
+    FOREIGN KEY (preference_id) REFERENCES Preferences(id) ON DELETE CASCADE
 );
 
 CREATE TABLE UserOnboarding(

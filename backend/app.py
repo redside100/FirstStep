@@ -62,9 +62,9 @@ def update_user():
         first_name=json_body["firstName"],
         last_name=json_body["lastName"],
         program_id=json_body["program"]["id"],
-        avatar_url=json_body["avatarURL"],
+        avatar_url=(json_body["avatarURL"] if "avatarURL" in json_body else ""), # TODO temporary workaround, without ORM, hard to insert NULL
         display_name=json_body["displayName"],
-        bio=json_body["bio"]
+        bio=(json_body["bio"] if "bio" in json_body else "")
     )
     db.update_user(user)
     return '', 204
@@ -195,25 +195,29 @@ def delete_group():
 
 @app.get('/global/matching/current')
 def get_matching_round():
-    data = db.get_matching_rounds()
+    result = db.get_matching_rounds()
+    data = { "matchRounds": result }
     return jsonify(data), 200
 
 
 @app.get('/global/skillsets/all')
 def get_all_skillsets():
-    data = db.get_all_skillsets()
+    result = db.get_all_skillsets()
+    data = { "skillsets": result }
     return jsonify(data), 200
 
 
 @app.get('/global/preferences/all')
 def get_all_preferences():
-    data = db.get_all_preferences()
+    result = db.get_all_preferences()
+    data = { "preferences": result }
     return jsonify(data), 200
 
 
 @app.get('/global/programs/all')
 def get_all_programs():
-    data = db.get_all_programs()
+    result = db.get_all_programs()
+    data = { "programs": result }
     return jsonify(data), 200
 
 
