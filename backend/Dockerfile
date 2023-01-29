@@ -4,7 +4,7 @@ WORKDIR /app
 
 # Build cbc binary (https://python-mip.readthedocs.io/en/latest/install.html) (modified)
 # install dependencies to build
-RUN apt-get update && apt-get install -y \
+RUN apt-get update -y && apt-get install -y \
     gcc \
     g++ \
     gfortran \
