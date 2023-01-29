@@ -4,7 +4,7 @@ WORKDIR /app
 
 # Build cbc binary (https://python-mip.readthedocs.io/en/latest/install.html) (modified)
 # install dependencies to build
-RUN apt-get update && apt-get upgrade
+RUN apt-get update -y && apt-get upgrade -y
 RUN apt-get install -y gcc g++ gfortran liblapack-dev libamd2 libcholmod3 libmetis-dev libsuitesparse-dev libnauty2-dev git
 # directory to download and compile CBC
 RUN mkdir -p ~/build; cd ~/build
