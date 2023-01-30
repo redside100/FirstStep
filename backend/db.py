@@ -14,7 +14,7 @@ connection_pool = None
 
 MIN_CONNECTIONS = 0
 MAX_CONNECTIONS = 50
-CONNECTION_TIMEOUT = 25
+CONNECTION_TIMEOUT = 10
 def init_db(host, port, user, password, database):
     global connection_pool
     for _ in range(CONNECTION_TIMEOUT):

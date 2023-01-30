@@ -1,9 +1,10 @@
-version: "3.9"
 services:
   fs_postgres:
     build: postgres
     ports:
       - "5432:5432"
+    healthcheck:
+      test: pg_isready -U postgres
   fs_backend:
     build: backend
     ports:
@@ -19,6 +20,9 @@ services:
       FLASK_ENV: development
     volumes:
       - ./backend:/app
+    depends_on:
+      fs_postgres:
+        condition: service_healthy
   fs_frontend:
     build: frontend
     ports:
