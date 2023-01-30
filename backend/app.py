@@ -272,8 +272,7 @@ def init():
 
     logging.basicConfig(level=logging.INFO)
 
-    connections = db.init_db(config['POSTGRES_HOST'], config['POSTGRES_PORT'], config['POSTGRES_USER'], config['POSTGRES_PASSWORD'],
-               config['POSTGRES_DB'])
+    connections = db.init_db(config['POSTGRES_HOST'], config['POSTGRES_PORT'], config['POSTGRES_USER'], config['POSTGRES_PASSWORD'], config['POSTGRES_DB'])
 
     if connections:
         # Generate 50 users with mock data if no users are in the table
