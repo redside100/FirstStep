@@ -30,3 +30,11 @@ def reformat_user_skills(rows):
 def reformat_user_preferences(rows):
     formatted_rows = list(map(lambda r: { 'attributeId': r['preference_id'], 'data': r['preferred'] }, rows))
     return formatted_rows
+
+def reformat_join_matchround_resp(user_id, data):
+    return {
+        "userId": user_id,
+        "matchroundId": data['id'],
+        'success': True,
+        'currentMatchround': data,
+    }
