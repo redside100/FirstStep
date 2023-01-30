@@ -33,7 +33,7 @@ def init():
 
 
 def match():
-    if not db.connection:
+    if not db.connection_pool:
         logging.error('No postgres connection, cannot match users')
         return
 
