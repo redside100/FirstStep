@@ -6,7 +6,7 @@ from flask_cors import CORS
 
 import matcher
 from entities.user import UserUpdate, OnboardingStatus
-from entities.group import DatabaseGroup
+from entities.group import DatabaseGroup, GroupCommitmentOptions
 from util import generate_database_user
 from integration import reformat_user_payload, convert_user_to_profile, reformat_user_skills, reformat_user_preferences, reformat_join_matchround_resp
 import db
@@ -162,7 +162,7 @@ def create_group():
 def get_group():
     user_id = request.args.get("userId")
     response = db.get_group_by_user_id(user_id)
-    return jsonify(response), 200
+    return jsonify({ 'userId': user_id, 'group': response }), 200
 
 
 @app.post('/group/profile')
@@ -199,8 +199,21 @@ def group_commitment():
 @app.post('/group/commitment')
 def commit_group():
     data = request.get_json()
-    db.commit_group(data["groupId"], data["commit"])
-    return '', 204
+    # temporary patches, no idea why the endpoint above it exists
+    user_id = data["userId"]
+    group_id = data["groupId"]
+    action = data['action']
+    hasGroup = True
+    # reason = data['reason'] # unused, should be logged somewhere
+    if action == GroupCommitmentOptions.Commit.value:
+        # db.commit_group(data["groupId"], data["commit"])
+        pass
+    elif action == GroupCommitmentOptions.Leave.value:
+        db.group_commitment(user_id, group_id, False)
+        hasGroup = False
+    updated_group = db.get_group_by_user_id(user_id)
+    response = { 'userId': user_id, 'hasGroup': hasGroup, 'group': updated_group }
+    return  jsonify(response), 200
 
 
 @app.delete('/group/profile')

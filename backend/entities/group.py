@@ -2,7 +2,12 @@ from dataclasses import dataclass
 from typing import List
 from entities.user import User
 from entities.rating import Rating
+from enum import Enum
 
+class GroupCommitmentOptions(Enum):
+  Leave = 0 # a member leaves the group
+  Commit = 1 # Votes to keep the group
+  Undecided = 2 # ???
 
 @dataclass
 class Group:
