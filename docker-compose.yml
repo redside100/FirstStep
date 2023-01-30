@@ -19,9 +19,9 @@ services:
       FLASK_ENV: development
     volumes:
       - ./backend:/app
-  fs_frontend:
-    build: frontend
-    ports:
-      - "3000:3000"
-    depends_on:
-      - fs_backend
+  # fs_frontend:
+  #   build: frontend
+  #   ports:
+  #     - "3000:3000"
+  #   depends_on:
+  #     - fs_backend
