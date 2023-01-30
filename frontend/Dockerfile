@@ -8,4 +8,4 @@ COPY firststep-fe/package-lock.json .
 RUN npm install
 
 COPY firststep-fe .
-CMD ["npm", "start"]
+CMD ["npm", "run", "start-prod"]
