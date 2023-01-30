@@ -2,6 +2,7 @@ FROM python:3.9.13-buster
 
 WORKDIR /app
 
+COPY * /app/
 # Build cbc binary (https://python-mip.readthedocs.io/en/latest/install.html) (modified)
 # install dependencies to build
 RUN apt-get update -y && apt-get install -y \
@@ -25,8 +26,6 @@ RUN bash coinbrew build Cbc@master --no-prompt --prefix=/home/fs/prog/ --tests=n
 
 RUN export LD_LIBRARY_PATH="/home/fs/prog/lib"
 RUN export DYLD_LIBRARY_PATH="/home/fs/prog/lib"
-
-COPY * /app/
 
 RUN pip3 install -r requirements.txt
 
