@@ -70,7 +70,11 @@ def hello_world():  # put application's code here
 def register():
     data = request.get_json()
     if db.get_user(data["email"]):
-        return jsonify({"message": "Email is already registered."}, 400)
+        return jsonify({"error": "Email is already registered."}, 200)
+
+    email_regex = re.compile(r"[^@]+@uwaterloo.ca")
+    if not email_regex.match(data["email"]):
+        return jsonify({"error": "Invalid email."}, 200)
 
     otp = str(random.randint(0, 999999)).zfill(6)
     otp_map[data["email"]] = (otp, int(time.time()) + 600)
@@ -86,15 +90,16 @@ def register():
     logging.info(f"Sent verification email to {data} [{otp}]")
     return jsonify({"message": f"Verification email sent to {data['email']}."}, 200)
 
+
 @app.post('/login')
 def login():
     data = request.get_json()
     if not db.get_user(data["email"]):
-        return jsonify({"message": "Invalid credentials."}, 400)
+        return jsonify({"error": "Invalid credentials."}, 422)
 
     user_id = db.get_user(data["email"])['id']
     if not bcrypt.checkpw(data["password"], db.get_hashed_password(user_id)):
-        return jsonify({"message": "Invalid credentials."}, 400)
+        return jsonify({"error": "Invalid credentials."}, 422)
 
     token = jwt.encode({'id': user_id}, app.config['JWT_SECRET'])
     return jsonify({"token": token}, 200)
@@ -112,7 +117,7 @@ def create_user():
     otp = data["otp"]
 
     if data["email"] not in otp_map:
-        return jsonify({"message": "No OTP was requested for this email."}, 400)
+        return jsonify({"message": "No verfication code was requested for this email."}, 200)
 
     otp_check = otp_map[data["email"]]
 
@@ -121,9 +126,9 @@ def create_user():
     cur_time = int(time.time())
     if cur_time > expire:
         del otp_check[data["email"]]
-        return jsonify({"message": "OTP is expired."}, 400)
+        return jsonify({"error": "Verification code is expired."}, 200)
     if not otp == real:
-        return jsonify({"message": "Incorrect OTP."}, 400)
+        return jsonify({"error": "Verification code is incorrect."}, 200)
 
     password = data["password"]
 
@@ -321,7 +326,7 @@ def commit_group(user_id):
     group_id = data["groupId"]
 
     if not db.get_user_by_id(user_id)['group_id'] == group_id:
-        return jsonify({'message': 'User does not belong to this group.'}, 400)
+        return jsonify({'error': 'User does not belong to this group.'}, 200)
 
     action = data['action']
     hasGroup = True
@@ -342,7 +347,7 @@ def commit_group(user_id):
 def delete_group(user_id):
     group_id = request.args.get("groupId")
     if not db.get_user_by_id(user_id)['group_id'] == group_id:
-        return jsonify({'message': 'User does not belong to this group.'}, 400)
+        return jsonify({'error': 'User does not belong to this group.'}, 200)
     db.delete_group(group_id)
     return jsonify({"deleted": True}), 200
 
