@@ -98,7 +98,7 @@ def login():
         return jsonify({"error": "Invalid credentials."}), 422
 
     user_id = db.get_user(data["email"])['id']
-    if not bcrypt.checkpw(data["password"], db.get_hashed_password(user_id)):
+    if not bcrypt.checkpw(data["password"].encode('utf-8'), db.get_hashed_password(user_id)):
         return jsonify({"error": "Invalid credentials."}), 422
 
     token = jwt.encode({'id': user_id}, app.config['JWT_SECRET'])
@@ -131,6 +131,8 @@ def create_user():
         return jsonify({"error": "Verification code is incorrect."}), 200
 
     password = data["password"]
+    if not 8 <= len(password) <= 32:
+        return jsonify({"error": "Password must be between 8 to 32 characters."}), 200
 
     user = UserUpdate(
         id=0,  # unused
