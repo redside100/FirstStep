@@ -84,8 +84,9 @@ def register():
                os.environ.get('EMAIL_PASS'))
 
     logging.info(f"Sent verification email to {data} [{otp}]")
+    return jsonify({"message": f"Verification email sent to {data['email']}."}, 200)
 
-
+@app.post('/login')
 def login():
     data = request.get_json()
     if not db.get_user(data["email"]):
@@ -98,6 +99,12 @@ def login():
     token = jwt.encode({'id': user_id}, app.config['JWT_SECRET'])
     return jsonify({"token": token}, 200)
 
+
+# Just delete the token from client's session storage / cookies
+# @require_jwt
+# @app.post('/logout')
+# def logout(user_id):
+#     return jsonify({"message": "ok"}, 200)
 
 @app.post('/user')
 def create_user():
@@ -296,6 +303,7 @@ def update_members(user):
     return '', 204
 
 
+# not used?
 @require_jwt
 @app.post('/group/matching')
 def group_commitment(user_id):
