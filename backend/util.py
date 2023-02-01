@@ -1,3 +1,6 @@
+import smtplib
+from email.mime.text import MIMEText
+from functools import wraps
 from typing import List
 
 from entities.user import User, UserUpdate, Rating
@@ -112,7 +115,7 @@ def generate_database_user():
     last_name = names.get_last_name()
     return UserUpdate(
         id=0,  # unused due to auto increment generation
-        email=f"{first_name}_{last_name}@uwaterloo.ca",
+        email=f"{first_name}.{last_name}@uwaterloo.ca",
         class_year=random.randint(2020, 2030),
         first_name=first_name,
         last_name=last_name,
@@ -121,3 +124,14 @@ def generate_database_user():
         bio="Life is bigcat",
         display_name=f"{first_name}-{last_name}{random.randint(0, 100)}"
     )
+
+
+def send_email(subject, body, sender, recipients, password):
+    msg = MIMEText(body)
+    msg['Subject'] = subject
+    msg['From'] = sender
+    msg['To'] = ', '.join(recipients)
+    smtp_server = smtplib.SMTP_SSL('smtp.gmail.com', 465)
+    smtp_server.login(sender, password)
+    smtp_server.sendmail(sender, recipients, msg.as_string())
+    smtp_server.quit()

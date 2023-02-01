@@ -58,6 +58,12 @@ CREATE TABLE Users(
     FOREIGN KEY (match_round_id) REFERENCES MatchRounds(id) ON DELETE SET NULL
 );
 
+CREATE TABLE UserAuth(
+    user_id INT,
+    h_password VARCHAR(128),
+    FOREIGN KEY(user_id) REFERENCES Users(id)
+);
+
 CREATE TABLE UserSkills(
     rating FLOAT NOT NULL,
     user_id INT,

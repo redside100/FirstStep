@@ -1,21 +1,62 @@
 import logging
 import os
+import random
+from functools import wraps
 
+import bcrypt
 from flask import Flask, request, jsonify
 from flask_cors import CORS
 
 import matcher
 from entities.user import UserUpdate, OnboardingStatus
 from entities.group import DatabaseGroup, GroupCommitmentOptions
-from util import generate_database_user
-from integration import reformat_user_payload, convert_user_to_profile, reformat_user_skills, reformat_user_preferences, reformat_join_matchround_resp
+from util import generate_database_user, send_email
+from integration import reformat_user_payload, convert_user_to_profile, reformat_user_skills, reformat_user_preferences, \
+    reformat_join_matchround_resp
 import db
 import re
 import time
+import jwt
+import smtplib
+from email.message import EmailMessage
 
 app = Flask(__name__)
+app.config["JWT_ISSUER"] = "uwfs"  # Issuer of tokens
+app.config["JWT_AUTHTYPE"] = "HS256"  # HS256, HS512, RS256, or RS512
+app.config["JWT_SECRET"] = os.environ.get(
+    'JWT_SECRET')  # string for HS256/HS512, bytes (RSA Private Key) for RS256/RS512
+app.config["JWT_AUTHMAXAGE"] = 3600
+app.config["JWT_REFRESHMAXAGE"] = 604800
+
 CORS(app)
 config = {}
+otp_map = {}
+
+
+def require_jwt(f):
+    @wraps(f)
+    def decorated(*args, **kwargs):
+        token = None
+        if 'x-access-token' in request.headers:
+            token = request.headers['x-access-token']
+        if not token:
+            return jsonify({'message': 'Missing x-access-token header.'}), 401
+
+        try:
+            data = jwt.decode(token, app.config['JWT_SECRET'])
+            user_id = db.get_user_by_id(data['id'])
+        except jwt.ExpiredSignatureError:
+            return jsonify({
+                'message': 'Expired jwt.'
+            }), 401
+        except:
+            return jsonify({
+                'message': 'Invalid jwt.'
+            }), 401
+
+        return f(user_id, *args, **kwargs)
+
+    return decorated
 
 
 @app.route('/')
@@ -25,9 +66,60 @@ def hello_world():  # put application's code here
     }
 
 
+@app.post('/register')
+def register():
+    data = request.get_json()
+    if db.get_user(data["email"]):
+        return jsonify({"message": "Email is already registered."}, 400)
+
+    otp = str(random.randint(0, 999999)).zfill(6)
+    otp_map[data["email"]] = (otp, int(time.time()) + 600)
+
+    send_email("Your FirstStep Verification Code",
+               f"Thanks for signing up for FirstStep!\n\n"
+               f"Your verification code is {otp}.\n\n"
+               f"This code will expire in 10 minutes.",
+               os.environ.get('EMAIL_USER'),
+               [data["email"]],
+               os.environ.get('EMAIL_PASS'))
+
+    logging.info(f"Sent verification email to {data} [{otp}]")
+
+
+def login():
+    data = request.get_json()
+    if not db.get_user(data["email"]):
+        return jsonify({"message": "Invalid credentials."}, 400)
+
+    user_id = db.get_user(data["email"])['id']
+    if not bcrypt.checkpw(data["password"], db.get_hashed_password(user_id)):
+        return jsonify({"message": "Invalid credentials."}, 400)
+
+    token = jwt.encode({'id': user_id}, app.config['JWT_SECRET'])
+    return jsonify({"token": token}, 200)
+
+
 @app.post('/user')
 def create_user():
     data = request.get_json()
+    otp = data["otp"]
+
+    if data["email"] not in otp_map:
+        return jsonify({"message": "No OTP was requested for this email."}, 400)
+
+    otp_check = otp_map[data["email"]]
+
+    real = otp_check[0]
+    expire = otp_check[1]
+    cur_time = int(time.time())
+    if cur_time > expire:
+        del otp_check[data["email"]]
+        return jsonify({"message": "OTP is expired."}, 400)
+    if not otp == real:
+        return jsonify({"message": "Incorrect OTP."}, 400)
+
+    password = data["password"]
+
     user = UserUpdate(
         id=0,  # unused
         email=data["email"],
@@ -39,10 +131,13 @@ def create_user():
         bio=data['bio'],
         display_name=data['displayName']
     )
-    user_id = db.create_user(user)
+    user_id = db.create_user(user, password)
+
+    del otp_check[data["email"]]
     return jsonify({"id": user_id}), 201
 
 
+@require_jwt
 @app.get('/user/profile')
 def get_user():
     email = request.args.get("email")
@@ -51,11 +146,11 @@ def get_user():
     return jsonify(formatted_user), 200
 
 
+@require_jwt
 @app.post('/user/profile')
-def update_user():
+def update_user(user_id):
     data = request.get_json()
     json_body = data["newProfile"]
-    user_id = json_body["id"]
     user = UserUpdate(
         id=user_id,
         email=json_body["email"],
@@ -63,7 +158,8 @@ def update_user():
         first_name=json_body["firstName"],
         last_name=json_body["lastName"],
         program_id=json_body["program"]["id"],
-        avatar_url=(json_body["avatarURL"] if "avatarURL" in json_body else ""), # TODO temporary workaround, without ORM, hard to insert NULL
+        avatar_url=(json_body["avatarURL"] if "avatarURL" in json_body else ""),
+        # TODO temporary workaround, without ORM, hard to insert NULL
         display_name=json_body["displayName"],
         bio=(json_body["bio"] if "bio" in json_body else "")
     )
@@ -71,26 +167,29 @@ def update_user():
     updated_user = db.get_user_by_id(user_id)
     db.update_user_onboarding(user_id, OnboardingStatus.Step1.value)
     updated_profile = convert_user_to_profile(updated_user)
-    payload = { 'updatedProfile': updated_profile, 'userId': user_id }
+    payload = {'updatedProfile': updated_profile, 'userId': user_id}
     return jsonify(payload), 200
 
 
+@require_jwt
 @app.get('/user/skillsets')
 def get_user_skillsets():
     user_id = request.args.get("userId")
     rows = db.get_user_skillsets(user_id)
-    data = { "userId": user_id, "skillsets": reformat_user_skills(rows) }
+    data = {"userId": user_id, "skillsets": reformat_user_skills(rows)}
     return jsonify(data), 200
 
 
+@require_jwt
 @app.get('/user/preferences')
 def get_user_preferences():
     user_id = request.args.get("userId")
     rows = db.get_user_preferences(user_id)
-    data = { "userId": user_id, "preferences": reformat_user_preferences(rows) }
+    data = {"userId": user_id, "preferences": reformat_user_preferences(rows)}
     return jsonify(data), 200
 
 
+@require_jwt
 @app.post('/user/skillsets')
 def update_user_skillsets():
     data = request.get_json()
@@ -99,10 +198,11 @@ def update_user_skillsets():
     db.update_user_skills(user_id, skillsets)
     db.update_user_onboarding(user_id, OnboardingStatus.Step2.value)
     rows = db.get_user_skillsets(user_id)
-    payload = { "userId": user_id, "updatedSkillsets": reformat_user_skills(rows) }
+    payload = {"userId": user_id, "updatedSkillsets": reformat_user_skills(rows)}
     return jsonify(payload), 200
 
 
+@require_jwt
 @app.post('/user/preferences')
 def update_user_preferences():
     data = request.get_json()
@@ -111,10 +211,11 @@ def update_user_preferences():
     db.update_user_preferences(user_id, preferences)
     db.update_user_onboarding(user_id, OnboardingStatus.Completed.value)
     rows = db.get_user_preferences(user_id)
-    payload = { "userId": user_id, "updatedPreferences": reformat_user_preferences(rows) }
+    payload = {"userId": user_id, "updatedPreferences": reformat_user_preferences(rows)}
     return jsonify(payload), 200
 
 
+@require_jwt
 @app.post('/user/matching/join')
 def update_user_matching_join():
     data = request.get_json()
@@ -124,6 +225,7 @@ def update_user_matching_join():
     return jsonify(reformat_join_matchround_resp(user_id, data)), 200
 
 
+@require_jwt
 @app.post('/user/matching/leave')
 def update_user_matching_leave():
     data = request.get_json()
@@ -138,6 +240,7 @@ def update_user_matching_leave():
     return jsonify(payload), 200
 
 
+@require_jwt
 @app.delete('/user/profile')
 def delete_user():
     user_id = request.args.get("userId")
@@ -145,6 +248,7 @@ def delete_user():
     return jsonify({"deleted": True}), 200
 
 
+@require_jwt
 @app.post('/group')
 def create_group():
     data = request.get_json()
@@ -159,13 +263,15 @@ def create_group():
     return jsonify({"id": group_id}), 201
 
 
+@require_jwt
 @app.get('/group/profile')
 def get_group():
     user_id = request.args.get("userId")
     response = db.get_group_by_user_id(user_id)
-    return jsonify({ 'userId': user_id, 'group': response }), 200
+    return jsonify({'userId': user_id, 'group': response}), 200
 
 
+@require_jwt
 @app.post('/group/profile')
 def update_group():
     data = request.get_json()
@@ -180,8 +286,9 @@ def update_group():
     return '', 204
 
 
+@require_jwt
 @app.post('/group/members')
-def update_members():
+def update_members(user):
     data = request.get_json()
     group_id = data["id"]
     members = data["members"]
@@ -189,20 +296,25 @@ def update_members():
     return '', 204
 
 
+@require_jwt
 @app.post('/group/matching')
-def group_commitment():
+def group_commitment(user_id):
     data = request.get_json()
     commitment = False if data["action"] == 0 else True
-    db.group_commitment(data["userId"], data["groupId"], commitment)
+    db.group_commitment(user_id, data["groupId"], commitment)
     return '', 204
 
 
+@require_jwt
 @app.post('/group/commitment')
-def commit_group():
+def commit_group(user_id):
     data = request.get_json()
     # temporary patches, no idea why the endpoint above it exists
-    user_id = data["userId"]
     group_id = data["groupId"]
+
+    if not db.get_user_by_id(user_id)['group_id'] == group_id:
+        return jsonify({'message': 'User does not belong to this group.'}, 400)
+
     action = data['action']
     hasGroup = True
     # reason = data['reason'] # unused, should be logged somewhere
@@ -213,13 +325,16 @@ def commit_group():
         db.group_commitment(user_id, group_id, False)
         hasGroup = False
     updated_group = db.get_group_by_user_id(user_id)
-    response = { 'userId': user_id, 'hasGroup': hasGroup, 'group': updated_group }
-    return  jsonify(response), 200
+    response = {'userId': user_id, 'hasGroup': hasGroup, 'group': updated_group}
+    return jsonify(response), 200
 
 
+@require_jwt
 @app.delete('/group/profile')
-def delete_group():
+def delete_group(user_id):
     group_id = request.args.get("groupId")
+    if not db.get_user_by_id(user_id)['group_id'] == group_id:
+        return jsonify({'message': 'User does not belong to this group.'}, 400)
     db.delete_group(group_id)
     return jsonify({"deleted": True}), 200
 
@@ -227,28 +342,28 @@ def delete_group():
 @app.get('/global/matching/current')
 def get_matching_round():
     result = db.get_matching_rounds()
-    data = { "matchRounds": result }
+    data = {"matchRounds": result}
     return jsonify(data), 200
 
 
 @app.get('/global/skillsets/all')
 def get_all_skillsets():
     result = db.get_all_skillsets()
-    data = { "skillsets": result }
+    data = {"skillsets": result}
     return jsonify(data), 200
 
 
 @app.get('/global/preferences/all')
 def get_all_preferences():
     result = db.get_all_preferences()
-    data = { "preferences": result }
+    data = {"preferences": result}
     return jsonify(data), 200
 
 
 @app.get('/global/programs/all')
 def get_all_programs():
     result = db.get_all_programs()
-    data = { "programs": result }
+    data = {"programs": result}
     return jsonify(data), 200
 
 
@@ -273,7 +388,8 @@ def init():
 
     logging.basicConfig(level=logging.INFO)
 
-    connections = db.init_db(config['POSTGRES_HOST'], config['POSTGRES_PORT'], config['POSTGRES_USER'], config['POSTGRES_PASSWORD'], config['POSTGRES_DB'])
+    connections = db.init_db(config['POSTGRES_HOST'], config['POSTGRES_PORT'], config['POSTGRES_USER'],
+                             config['POSTGRES_PASSWORD'], config['POSTGRES_DB'])
 
     retry_limit = 10
     for _ in range(retry_limit):
@@ -284,19 +400,18 @@ def init():
 
                 if users is None:
                     test_user = generate_database_user()
-                    test_user.email = 'test@uwaterloo.ca'
-                    db.create_user(test_user, mock=True)
+                    test_user.email = 'admin@uwaterloo.ca'
+                    db.create_user(test_user, 'lifeisbigcat', mock=True)
                     for i in range(49):
                         user = generate_database_user()
-                        db.create_user(user, mock=True)
+                        db.create_user(user, 'lifeisbigcat', mock=True)
             break
         except:
-            logging.warn("Connection pool not ready. Trying again in 1 second.")
+            logging.warning("Connection pool not ready. Trying again in 1 second.")
             time.sleep(1)
 
     # Start matching cronjob
     matcher.init()
-
 
 if __name__ == '__main__':
     init()

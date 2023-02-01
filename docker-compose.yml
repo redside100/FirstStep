@@ -18,6 +18,10 @@ services:
       POSTGRES_PASSWORD: default
       POSTGRES_DB: master
       FLASK_ENV: development
+      JWT_SECRET: "lifeisbigcat"
+      EMAIL_USER: "uwfirststep@gmail.com"
+      EMAIL_PASS: "skhcbyydtaiankse"
+
     volumes:
       - ./backend:/app
     depends_on:

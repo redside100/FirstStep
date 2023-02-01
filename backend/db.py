@@ -2,6 +2,7 @@ import logging
 import time
 import random
 
+import bcrypt
 import psycopg2
 from psycopg2 import pool
 from psycopg2.extras import RealDictCursor
@@ -175,7 +176,15 @@ def get_group_by_user_id(cursor, connection, user_id):
 
 
 @use_connection
-def create_user(cursor, connection, user, mock=False):
+def get_hashed_password(cursor, connection, user_id):
+    user_auth = cursor.execute(f"SELECT h_password FROM UserAuth WHERE user_id = {user_id}").fetchone()
+    if user_auth is None:
+        return None
+    return user_auth['h_password']
+
+
+@use_connection
+def create_user(cursor, connection, user, password, mock=False):
     cursor.execute(f"INSERT INTO "
                    f"Users (email, class_year, first_name, last_name, program_id, avatar_url, bio, display_name)"
                    f"VALUES "
@@ -183,6 +192,8 @@ def create_user(cursor, connection, user, mock=False):
                    f"'{user.avatar_url}', '{user.bio}', '{user.display_name}') RETURNING id")
     user_id = cursor.fetchone()["id"]
 
+    h_password = bcrypt.hashpw(password, bcrypt.hashpw(password, bcrypt.gensalt(14)))
+    cursor.execute(f"INSERT INTO UserAuth (user_id, h_password) VALUES ({user_id}, '{h_password}')")
     skillsets = len(get_all_skillsets())
     for i in range(skillsets):
         if not mock:
