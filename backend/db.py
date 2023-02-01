@@ -192,7 +192,7 @@ def create_user(cursor, connection, user, password, mock=False):
                    f"'{user.avatar_url}', '{user.bio}', '{user.display_name}') RETURNING id")
     user_id = cursor.fetchone()["id"]
 
-    h_password = bcrypt.hashpw(password.encode('utf-8'), bcrypt.hashpw(password, bcrypt.gensalt(14)))
+    h_password = bcrypt.hashpw(password.encode('utf-8'), bcrypt.gensalt(14))
     cursor.execute(f"INSERT INTO UserAuth (user_id, h_password) VALUES ({user_id}, '{h_password}')")
 
     skillsets = len(get_all_skillsets())
