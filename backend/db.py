@@ -194,6 +194,7 @@ def create_user(cursor, connection, user, password, mock=False):
 
     h_password = bcrypt.hashpw(password, bcrypt.hashpw(password, bcrypt.gensalt(14)))
     cursor.execute(f"INSERT INTO UserAuth (user_id, h_password) VALUES ({user_id}, '{h_password}')")
+
     skillsets = len(get_all_skillsets())
     for i in range(skillsets):
         if not mock:
