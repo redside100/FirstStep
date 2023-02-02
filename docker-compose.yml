@@ -20,7 +20,7 @@ services:
       FLASK_ENV: development
       JWT_SECRET: "lifeisbigcat"
       EMAIL_USER: "uwfirststep@gmail.com"
-      EMAIL_PASS: "skhcbyydtaiankse"
+      EMAIL_PASS: "uupbxdqdqqkunzyu"
 
     volumes:
       - ./backend:/app

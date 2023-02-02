@@ -177,7 +177,8 @@ def get_group_by_user_id(cursor, connection, user_id):
 
 @use_connection
 def get_hashed_password(cursor, connection, user_id):
-    user_auth = cursor.execute(f"SELECT h_password FROM UserAuth WHERE user_id = {user_id}").fetchone()
+    cursor.execute(f"SELECT h_password FROM UserAuth WHERE user_id = {user_id}")
+    user_auth = cursor.fetchone()
     if user_auth is None:
         return None
     return user_auth['h_password']
@@ -192,8 +193,8 @@ def create_user(cursor, connection, user, password, mock=False):
                    f"'{user.avatar_url}', '{user.bio}', '{user.display_name}') RETURNING id")
     user_id = cursor.fetchone()["id"]
 
-    h_password = bcrypt.hashpw(password.encode('utf-8'), bcrypt.gensalt(14))
-    cursor.execute(f"INSERT INTO UserAuth (user_id, h_password) VALUES ({user_id}, '{h_password}')")
+    h_password = bcrypt.hashpw(password.encode('utf-8'), bcrypt.gensalt(8))
+    cursor.execute(f"INSERT INTO UserAuth (user_id, h_password) VALUES ({user_id}, '{h_password.decode('utf-8')}')")
 
     skillsets = len(get_all_skillsets())
     for i in range(skillsets):

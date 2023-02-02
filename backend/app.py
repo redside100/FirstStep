@@ -23,8 +23,7 @@ from email.message import EmailMessage
 app = Flask(__name__)
 app.config["JWT_ISSUER"] = "uwfs"  # Issuer of tokens
 app.config["JWT_AUTHTYPE"] = "HS256"  # HS256, HS512, RS256, or RS512
-app.config["JWT_SECRET"] = os.environ.get(
-    'JWT_SECRET')  # string for HS256/HS512, bytes (RSA Private Key) for RS256/RS512
+app.config["JWT_SECRET"] = os.environ.get('JWT_SECRET')  # string for HS256/HS512, bytes (RSA Private Key) for RS256/RS512
 app.config["JWT_AUTHMAXAGE"] = 3600
 app.config["JWT_REFRESHMAXAGE"] = 604800
 
@@ -36,15 +35,15 @@ otp_map = {}
 def require_jwt(f):
     @wraps(f)
     def decorated(*args, **kwargs):
-        token = None
-        if 'x-access-token' in request.headers:
-            token = request.headers['x-access-token']
-        if not token:
+        token = request.headers.get('x-access-token')
+        if token is None:
             return jsonify({'message': 'Missing x-access-token header.'}), 401
 
         try:
             data = jwt.decode(token, app.config['JWT_SECRET'])
             user_id = db.get_user_by_id(data['id'])
+            if user_id is None:
+                raise Exception("User doesn't exist")
         except jwt.ExpiredSignatureError:
             return jsonify({
                 'message': 'Expired jwt.'
@@ -95,14 +94,14 @@ def register():
 def login():
     data = request.get_json()
     if not db.get_user(data["email"]):
-        return jsonify({"error": "Invalid credentials."}), 422
+        return jsonify({"error": "Invalid credentials."}), 200
 
     user_id = db.get_user(data["email"])['id']
-    if not bcrypt.checkpw(data["password"].encode('utf-8'), db.get_hashed_password(user_id)):
-        return jsonify({"error": "Invalid credentials."}), 422
+    if not bcrypt.checkpw(data["password"].encode('utf-8'), db.get_hashed_password(user_id).encode('utf-8')):
+        return jsonify({"error": "Invalid credentials."}), 200
 
     token = jwt.encode({'id': user_id}, app.config['JWT_SECRET'])
-    return jsonify({"token": token}, 200)
+    return jsonify({"token": token}), 200
 
 
 # Just delete the token from client's session storage / cookies
@@ -147,12 +146,12 @@ def create_user():
     )
     user_id = db.create_user(user, password)
 
-    del otp_check[data["email"]]
+    del otp_map[data["email"]]
     return jsonify({"id": user_id}), 201
 
 
-@require_jwt
 @app.get('/user/profile')
+@require_jwt
 def get_user():
     email = request.args.get("email")
     user = db.get_user(email)
@@ -160,8 +159,8 @@ def get_user():
     return jsonify(formatted_user), 200
 
 
-@require_jwt
 @app.post('/user/profile')
+@require_jwt
 def update_user(user_id):
     data = request.get_json()
     json_body = data["newProfile"]
@@ -185,8 +184,8 @@ def update_user(user_id):
     return jsonify(payload), 200
 
 
-@require_jwt
 @app.get('/user/skillsets')
+@require_jwt
 def get_user_skillsets():
     user_id = request.args.get("userId")
     rows = db.get_user_skillsets(user_id)
@@ -194,8 +193,8 @@ def get_user_skillsets():
     return jsonify(data), 200
 
 
-@require_jwt
 @app.get('/user/preferences')
+@require_jwt
 def get_user_preferences():
     user_id = request.args.get("userId")
     rows = db.get_user_preferences(user_id)
@@ -203,8 +202,8 @@ def get_user_preferences():
     return jsonify(data), 200
 
 
-@require_jwt
 @app.post('/user/skillsets')
+@require_jwt
 def update_user_skillsets():
     data = request.get_json()
     user_id = data["userId"]
@@ -216,8 +215,8 @@ def update_user_skillsets():
     return jsonify(payload), 200
 
 
-@require_jwt
 @app.post('/user/preferences')
+@require_jwt
 def update_user_preferences():
     data = request.get_json()
     user_id = data["userId"]
@@ -229,8 +228,8 @@ def update_user_preferences():
     return jsonify(payload), 200
 
 
-@require_jwt
 @app.post('/user/matching/join')
+@require_jwt
 def update_user_matching_join():
     data = request.get_json()
     user_id = data["userId"]
@@ -239,8 +238,8 @@ def update_user_matching_join():
     return jsonify(reformat_join_matchround_resp(user_id, data)), 200
 
 
-@require_jwt
 @app.post('/user/matching/leave')
+@require_jwt
 def update_user_matching_leave():
     data = request.get_json()
     user_id = data["userId"]
@@ -254,16 +253,16 @@ def update_user_matching_leave():
     return jsonify(payload), 200
 
 
-@require_jwt
 @app.delete('/user/profile')
+@require_jwt
 def delete_user():
     user_id = request.args.get("userId")
     db.delete_user(user_id)
     return jsonify({"deleted": True}), 200
 
 
-@require_jwt
 @app.post('/group')
+@require_jwt
 def create_group():
     data = request.get_json()
     group = DatabaseGroup(
@@ -277,16 +276,16 @@ def create_group():
     return jsonify({"id": group_id}), 201
 
 
-@require_jwt
 @app.get('/group/profile')
+@require_jwt
 def get_group():
     user_id = request.args.get("userId")
     response = db.get_group_by_user_id(user_id)
     return jsonify({'userId': user_id, 'group': response}), 200
 
 
-@require_jwt
 @app.post('/group/profile')
+@require_jwt
 def update_group():
     data = request.get_json()
     group = DatabaseGroup(
@@ -300,8 +299,8 @@ def update_group():
     return '', 204
 
 
-@require_jwt
 @app.post('/group/members')
+@require_jwt
 def update_members(user):
     data = request.get_json()
     group_id = data["id"]
@@ -311,8 +310,8 @@ def update_members(user):
 
 
 # not used?
-@require_jwt
 @app.post('/group/matching')
+@require_jwt
 def group_commitment(user_id):
     data = request.get_json()
     commitment = False if data["action"] == 0 else True
@@ -320,8 +319,8 @@ def group_commitment(user_id):
     return '', 204
 
 
-@require_jwt
 @app.post('/group/commitment')
+@require_jwt
 def commit_group(user_id):
     data = request.get_json()
     # temporary patches, no idea why the endpoint above it exists
@@ -344,12 +343,12 @@ def commit_group(user_id):
     return jsonify(response), 200
 
 
-@require_jwt
 @app.delete('/group/profile')
+@require_jwt
 def delete_group(user_id):
     group_id = request.args.get("groupId")
     if not db.get_user_by_id(user_id)['group_id'] == group_id:
-        return jsonify({'error': 'User does not belong to this group.'}, 200)
+        return jsonify({'error': 'User does not belong to this group.'}), 200
     db.delete_group(group_id)
     return jsonify({"deleted": True}), 200
 
@@ -416,10 +415,12 @@ def init():
                 if users is None:
                     test_user = generate_database_user()
                     test_user.email = 'admin@uwaterloo.ca'
+                    logging.info('Create test users...')
                     db.create_user(test_user, 'lifeisbigcat', mock=True)
                     for i in range(49):
                         user = generate_database_user()
                         db.create_user(user, 'lifeisbigcat', mock=True)
+                    logging.info('Finished creating test users.')
             break
         except:
             logging.warning("Connection pool not ready. Trying again in 1 second.")
