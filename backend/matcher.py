@@ -15,7 +15,7 @@ from consts import *
 
 scheduler = None
 
-MATCHER_DEBUG = True
+MATCHER_DEBUG = False
 
 
 def init():
@@ -35,10 +35,11 @@ def init():
 
 
 def match():
-    cleanup_groups(False)
     if not db.connection_pool:
         logging.error('No postgres connection, cannot match users')
         return
+
+    cleanup_groups(False)
 
     users = []
     for db_user in db.get_all_users():
@@ -66,6 +67,10 @@ def match():
 
 
 def cleanup_groups(delete_permanent):
+    if not db.connection_pool:
+        logging.error('No postgres connection, cannot get groups users')
+        return
+
     groups = db.get_all_groups()
 
     if not groups:
