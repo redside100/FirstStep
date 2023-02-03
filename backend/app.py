@@ -41,11 +41,23 @@ def create_user():
     user_id = db.create_user(user)
     return jsonify({"id": user_id}), 201
 
-
 @app.get('/user/profile')
 def get_user():
     email = request.args.get("email")
     user = db.get_user(email)
+    formatted_user = reformat_user_payload(user)
+    return jsonify(formatted_user), 200
+
+@app.post('/user/profile')
+def get_or_create_user():
+    data = request.get_json()
+    email = data["email"]
+    first_name = data["firstName"]
+    last_name = data["lastName"]
+    user = db.get_user(email)
+    if user is None:
+        db.create_default_user(email, first_name, last_name)
+        user = db.get_user(email)
     formatted_user = reformat_user_payload(user)
     return jsonify(formatted_user), 200
 

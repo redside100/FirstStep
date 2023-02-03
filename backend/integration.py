@@ -4,13 +4,13 @@ def convert_user_to_profile(user):
     return {
         "id": user['id'],
         "email": user['email'],
-        "classYear": user['class_year'],
+        "classYear": user['class_year'] if 'class_year' in user else None,
         "firstName": user['first_name'],
         "lastName": user['last_name'],
-        "program": user['program'],
-        "avatarURL": user['avatar_url'],
+        "program": user['program'] if 'program' in user else None,
+        "avatarURL": user['avatar_url'] if 'avatar_url' in user else None,
         "displayName": user['display_name'],
-        "bio": user['bio'],
+        "bio": user['bio'] if 'bio' in user else None,
     }
 
 def reformat_user_payload(user):

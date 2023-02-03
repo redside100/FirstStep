@@ -199,6 +199,20 @@ def create_user(cursor, connection, user, mock=False):
     return user_id
 
 @use_connection
+def create_default_user(cursor, connection, email, first, last):
+    cursor.execute(f"INSERT INTO "
+                   f"Users (email, first_name, last_name, display_name)"
+                   f"VALUES "
+                   f"('{email}', '{first}', '{last}',"
+                   f"'{first} {last}') RETURNING id")
+    user_id = cursor.fetchone()["id"]
+
+    skillsets = len(get_all_skillsets())
+    cursor.execute(f"INSERT INTO UserOnboarding VALUES ({user_id}, 0, FALSE, FALSE)")
+    connection.commit()
+    return user_id
+
+@use_connection
 def update_user(cursor, connection, user):
     cursor.execute(f"UPDATE Users SET first_name = '{user.first_name}',"
                    f"last_name = '{user.last_name}', email = '{user.email}', class_year = {user.class_year},"
