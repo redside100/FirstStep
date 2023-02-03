@@ -15,7 +15,7 @@ from consts import *
 
 scheduler = None
 
-MATCHER_DEBUG = False
+MATCHER_DEBUG = True
 
 
 def init():
@@ -23,9 +23,11 @@ def init():
     scheduler = BackgroundScheduler(timezone='UTC')
     # 4 pm UTC, 12 pm EST
     if not MATCHER_DEBUG:
+        scheduler.add_job(cleanup_groups, trigger=CronTrigger(hour='15', day='*/2'), args=[True])
         scheduler.add_job(match, trigger=CronTrigger(hour='16'))
     else:
-        scheduler.add_job(match, trigger=CronTrigger(second='0'))
+        scheduler.add_job(cleanup_groups, trigger=CronTrigger(minute='*/2'), args=[True])
+        scheduler.add_job(match, trigger=CronTrigger(second='15'))
         logging.warning('Matcher is in debug mode! Groups will be made and deleted every minute!')
 
     scheduler.start()
@@ -33,11 +35,10 @@ def init():
 
 
 def match():
+    cleanup_groups(False)
     if not db.connection_pool:
         logging.error('No postgres connection, cannot match users')
         return
-
-    cleanup_groups()
 
     users = []
     for db_user in db.get_all_users():
@@ -64,7 +65,7 @@ def match():
     logging.info(f'Created {len(groups)} new groups.')
 
 
-def cleanup_groups():
+def cleanup_groups(delete_permanent):
     groups = db.get_all_groups()
 
     if not groups:
@@ -73,8 +74,7 @@ def cleanup_groups():
 
     deleted = 0
     for group in groups:
-        if not group['is_group_permanent']:
+        if group['is_group_permanent'] == delete_permanent:
             db.delete_group(group['id'])
             deleted += 1
-
-    logging.info(f'Deleted {deleted} non-permanent groups.')
+    logging.info(f'Deleted {deleted} groups. Permanent = {delete_permanent}')
