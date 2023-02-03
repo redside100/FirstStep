@@ -11,6 +11,7 @@ from util import generate_database_user
 from integration import reformat_user_payload, convert_user_to_profile, reformat_user_skills, reformat_user_preferences, reformat_join_matchround_resp
 import db
 import re
+import time
 
 app = Flask(__name__)
 CORS(app)
@@ -284,20 +285,26 @@ def init():
 
     logging.basicConfig(level=logging.INFO)
 
-    connections = db.init_db(config['POSTGRES_HOST'], config['POSTGRES_PORT'], config['POSTGRES_USER'], config['POSTGRES_PASSWORD'],
-               config['POSTGRES_DB'])
+    connections = db.init_db(config['POSTGRES_HOST'], config['POSTGRES_PORT'], config['POSTGRES_USER'], config['POSTGRES_PASSWORD'], config['POSTGRES_DB'])
 
-    if connections:
-        # Generate 50 users with mock data if no users are in the table
-        users = db.get_all_users()
+    retry_limit = 10
+    for _ in range(retry_limit):
+        try:
+            if connections:
+                # Generate 50 users with mock data if no users are in the table
+                users = db.get_all_users()
 
-        if users is None:
-            test_user = generate_database_user()
-            test_user.email = 'test@uwaterloo.ca'
-            db.create_user(test_user, mock=True)
-            for i in range(49):
-                user = generate_database_user()
-                db.create_user(user, mock=True)
+                if users is None:
+                    test_user = generate_database_user()
+                    test_user.email = 'test@uwaterloo.ca'
+                    db.create_user(test_user, mock=True)
+                    for i in range(49):
+                        user = generate_database_user()
+                        db.create_user(user, mock=True)
+            break
+        except:
+            logging.warn("Connection pool not ready. Trying again in 1 second.")
+            time.sleep(1)
 
     # Start matching cronjob
     matcher.init()
