@@ -4,6 +4,9 @@ import os
 from flask import Flask, request, jsonify
 from flask_cors import CORS
 
+from authlib.integrations.flask_oauth2 import ResourceProtector
+from validator import Auth0JWTBearerTokenValidator
+
 import matcher
 from entities.user import UserUpdate, OnboardingStatus
 from entities.group import DatabaseGroup, GroupCommitmentOptions
@@ -13,12 +16,23 @@ import db
 import re
 import time
 
+APP_DOMAIN = "dev-vnfigzt6dhh6seoy.us.auth0.com"
+APP_IDENTIFIER = "https://api.uwfs.live/"
+require_auth = ResourceProtector()
+validator = Auth0JWTBearerTokenValidator(
+    APP_DOMAIN,
+    APP_IDENTIFIER
+)
+require_auth.register_token_validator(validator)
+
+
 app = Flask(__name__)
 CORS(app)
 config = {}
 
 
 @app.route('/')
+@require_auth(None)
 def hello_world():  # put application's code here
     return {
         "message": "FirstStep API v1"
@@ -26,6 +40,7 @@ def hello_world():  # put application's code here
 
 
 @app.post('/user')
+@require_auth(None)
 def create_user():
     data = request.get_json()
     user = UserUpdate(
@@ -42,7 +57,9 @@ def create_user():
     user_id = db.create_user(user)
     return jsonify({"id": user_id}), 201
 
+
 @app.get('/user/profile')
+@require_auth(None)
 def get_user():
     email = request.args.get("email")
     user = db.get_user(email)
@@ -50,6 +67,7 @@ def get_user():
     return jsonify(formatted_user), 200
 
 @app.post('/user/profile')
+@require_auth(None)
 def get_or_create_user():
     data = request.get_json()
     email = data["email"]
@@ -64,6 +82,7 @@ def get_or_create_user():
 
 
 @app.post('/user/profile')
+@require_auth(None)
 def update_user():
     data = request.get_json()
     json_body = data["newProfile"]
@@ -88,6 +107,7 @@ def update_user():
 
 
 @app.get('/user/skillsets')
+@require_auth(None)
 def get_user_skillsets():
     user_id = request.args.get("userId")
     rows = db.get_user_skillsets(user_id)
@@ -96,6 +116,7 @@ def get_user_skillsets():
 
 
 @app.get('/user/preferences')
+@require_auth(None)
 def get_user_preferences():
     user_id = request.args.get("userId")
     rows = db.get_user_preferences(user_id)
@@ -104,6 +125,7 @@ def get_user_preferences():
 
 
 @app.post('/user/skillsets')
+@require_auth(None)
 def update_user_skillsets():
     data = request.get_json()
     user_id = data["userId"]
@@ -116,6 +138,7 @@ def update_user_skillsets():
 
 
 @app.post('/user/preferences')
+@require_auth(None)
 def update_user_preferences():
     data = request.get_json()
     user_id = data["userId"]
@@ -128,6 +151,7 @@ def update_user_preferences():
 
 
 @app.post('/user/matching/join')
+@require_auth(None)
 def update_user_matching_join():
     data = request.get_json()
     user_id = data["userId"]
@@ -137,6 +161,7 @@ def update_user_matching_join():
 
 
 @app.post('/user/matching/leave')
+@require_auth(None)
 def update_user_matching_leave():
     data = request.get_json()
     user_id = data["userId"]
@@ -151,6 +176,7 @@ def update_user_matching_leave():
 
 
 @app.delete('/user/profile')
+@require_auth(None)
 def delete_user():
     user_id = request.args.get("userId")
     db.delete_user(user_id)
@@ -158,6 +184,7 @@ def delete_user():
 
 
 @app.post('/group')
+@require_auth(None)
 def create_group():
     data = request.get_json()
     group = DatabaseGroup(
@@ -172,6 +199,7 @@ def create_group():
 
 
 @app.get('/group/profile')
+@require_auth(None)
 def get_group():
     user_id = request.args.get("userId")
     response = db.get_group_by_user_id(user_id)
@@ -179,6 +207,7 @@ def get_group():
 
 
 @app.post('/group/profile')
+@require_auth(None)
 def update_group():
     data = request.get_json()
     group = DatabaseGroup(
@@ -193,6 +222,7 @@ def update_group():
 
 
 @app.post('/group/members')
+@require_auth(None)
 def update_members():
     data = request.get_json()
     group_id = data["id"]
@@ -202,6 +232,7 @@ def update_members():
 
 
 @app.post('/group/matching')
+@require_auth(None)
 def group_commitment():
     data = request.get_json()
     commitment = False if data["action"] == 0 else True
@@ -210,6 +241,7 @@ def group_commitment():
 
 
 @app.post('/group/commitment')
+@require_auth(None)
 def commit_group():
     data = request.get_json()
     # temporary patches, no idea why the endpoint above it exists
@@ -230,6 +262,7 @@ def commit_group():
 
 
 @app.delete('/group/profile')
+@require_auth(None)
 def delete_group():
     group_id = request.args.get("groupId")
     db.delete_group(group_id)
@@ -237,6 +270,7 @@ def delete_group():
 
 
 @app.get('/global/matching/current')
+@require_auth(None)
 def get_matching_round():
     result = db.get_matching_rounds()
     data = { "matchRounds": result }
@@ -244,6 +278,7 @@ def get_matching_round():
 
 
 @app.get('/global/skillsets/all')
+@require_auth(None)
 def get_all_skillsets():
     result = db.get_all_skillsets()
     data = { "skillsets": result }
@@ -251,6 +286,7 @@ def get_all_skillsets():
 
 
 @app.get('/global/preferences/all')
+@require_auth(None)
 def get_all_preferences():
     result = db.get_all_preferences()
     data = { "preferences": result }
@@ -258,6 +294,7 @@ def get_all_preferences():
 
 
 @app.get('/global/programs/all')
+@require_auth(None)
 def get_all_programs():
     result = db.get_all_programs()
     data = { "programs": result }
@@ -265,6 +302,7 @@ def get_all_programs():
 
 
 @app.post('/onboarding/validate_email')
+@require_auth(None)
 def validate_email():
     data = request.get_json()
     email_regex = re.compile(r"[^@]+@uwaterloo.ca")
