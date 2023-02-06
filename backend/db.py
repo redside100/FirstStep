@@ -214,10 +214,27 @@ def create_default_user(cursor, connection, email, first, last):
 
 @use_connection
 def update_user(cursor, connection, user):
-    cursor.execute(f"UPDATE Users SET first_name = '{user.first_name}',"
-                   f"last_name = '{user.last_name}', email = '{user.email}', class_year = {user.class_year},"
-                   f" program_id = {user.program_id}, avatar_url = '{user.avatar_url}',"
-                   f" bio = '{user.bio}', display_name = '{user.display_name}' WHERE id = {user.id}")
+    query = "UPDATE USERS SET"
+    if not user.first_name == '':
+        query += f" first_name = '{user.first_name}',"
+    if not user.last_name == '':
+        query += f" last_name = '{user.last_name}',"
+    if not user.email == '':
+        query += f" email = '{user.email}',"
+    if not user.class_year == '':
+        query += f" class_year = {user.class_year},"
+    if not user.program_id == '':
+        query += f" program_id = {user.program_id},"
+    if not user.avatar_url == '':
+        query += f" avatar_url = '{user.avatar_url}',"
+    if not user.bio == '':
+        query += f" bio = '{user.bio}',"
+    if not user.display_name == '':
+        query += f" display_name = '{user.display_name}'"
+    else:
+        query = query.rstrip(',')
+    query += f" WHERE id = {user.id}"
+    cursor.execute(query)
     connection.commit()
 
 @use_connection
