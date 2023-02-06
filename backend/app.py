@@ -89,13 +89,13 @@ def update_user():
     user_id = json_body["id"]
     user = UserUpdate(
         id=user_id,
-        email=json_body["email"],
-        class_year=json_body["classYear"],
-        first_name=json_body["firstName"],
-        last_name=json_body["lastName"],
-        program_id=json_body["program"]["id"],
+        email=(json_body["email"] if "email" in json_body else ""),
+        class_year=(json_body["classYear"] if "classYear" in json_body else ""),
+        first_name=(json_body["firstName"] if "firstName" in json_body else ""),
+        last_name=(json_body["lastName"] if "lastName" in json_body else ""),
+        program_id=(json_body["program"]["id"] if "program" in json_body else ""),
         avatar_url=(json_body["avatarURL"] if "avatarURL" in json_body else ""), # TODO temporary workaround, without ORM, hard to insert NULL
-        display_name=json_body["displayName"],
+        display_name=(json_body["displayName"] if "displayName" in json_body else ""),
         bio=(json_body["bio"] if "bio" in json_body else "")
     )
     db.update_user(user)
