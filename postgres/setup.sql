@@ -63,7 +63,8 @@ CREATE TABLE UserSkills(
     user_id INT,
     skill_id INT,
     FOREIGN KEY (user_id) REFERENCES Users(id) ON DELETE CASCADE,
-    FOREIGN KEY (skill_id) REFERENCES Skillsets(id) ON DELETE CASCADE
+    FOREIGN KEY (skill_id) REFERENCES Skillsets(id) ON DELETE CASCADE,
+    CONSTRAINT user_id_skill_id unique (user_id, skill_id)
 );
 
 CREATE TABLE UserPreferences(
@@ -71,7 +72,8 @@ CREATE TABLE UserPreferences(
     user_id INT,
     preference_id INT,
     FOREIGN KEY (user_id) REFERENCES Users(id) ON DELETE CASCADE,
-    FOREIGN KEY (preference_id) REFERENCES Preferences(id) ON DELETE CASCADE
+    FOREIGN KEY (preference_id) REFERENCES Preferences(id) ON DELETE CASCADE,
+    CONSTRAINT user_id_preference_id unique (user_id, preference_id)
 );
 
 CREATE TABLE UserOnboarding(

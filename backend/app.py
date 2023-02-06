@@ -66,7 +66,7 @@ def get_user():
     formatted_user = reformat_user_payload(user)
     return jsonify(formatted_user), 200
 
-@app.post('/user/profile')
+@app.post('/user/default')
 @require_auth(None)
 def get_or_create_user():
     data = request.get_json()

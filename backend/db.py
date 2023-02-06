@@ -279,20 +279,31 @@ def commit_group(cursor, connection, group_id, commitment):
 
 @use_connection
 def update_user_skills(cursor, connection, user_id, skillsets):
-    for skills in skillsets:
+    insert_sql = '''
+        INSERT INTO UserSkills (user_id, skill_id, rating)
+        VALUES (%s, %s, %s)
+        ON CONFLICT (user_id, skill_id) DO UPDATE SET
+        (rating) = ROW(EXCLUDED.rating);
+    '''
+    for skills in skillsets: # TODO: should bulk insert instead
         skill_rating = skills["data"]
         skill_id = skills["attributeId"]
-        cursor.execute(f"UPDATE UserSkills SET rating = {skill_rating if skill_rating is not None else 'NULL'}"
-                       f" WHERE user_id = {user_id} AND skill_id = {skill_id}")
+        cursor.execute(insert_sql, (user_id, skill_id, skill_rating))
     connection.commit()
 
 @use_connection
 def update_user_preferences(cursor, connection, user_id, preferences):
-    for preference in preferences:
+    insert_sql = '''
+        INSERT INTO UserPreferences (user_id, preference_id, preferred)
+        VALUES (%s, %s, %s)
+        ON CONFLICT (user_id, preference_id) DO UPDATE SET
+        (preferred) = ROW(EXCLUDED.preferred);
+    '''
+    for preference in preferences: # TODO: should bulk insert instead
         preference_data = preference["data"]
         preference_id = preference["attributeId"]
-        cursor.execute(f"UPDATE UserPreferences SET preferred = {preference_data if preference_data is not None else 'NULL'}"
-                       f" WHERE user_id = {user_id} AND preference_id = {preference_id}")
+        preferred = preference_data if preference_data is not None else False
+        cursor.execute(insert_sql, (user_id, preference_id, preferred))
     connection.commit()
 
 @use_connection

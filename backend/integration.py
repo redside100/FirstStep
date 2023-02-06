@@ -24,10 +24,14 @@ def reformat_user_payload(user):
     return user
     
 def reformat_user_skills(rows):
+    if rows is None:
+        return []
     formatted_rows = list(map(lambda r: { 'attributeId': r['skill_id'], 'data': r['rating'] }, rows))
     return formatted_rows
 
 def reformat_user_preferences(rows):
+    if rows is None:
+        return []
     formatted_rows = list(map(lambda r: { 'attributeId': r['preference_id'], 'data': r['preferred'] }, rows))
     return formatted_rows
 
