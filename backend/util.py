@@ -95,12 +95,12 @@ def generate_test_user(user_id=None):
         avatar_url="https://www.allaboutbirds.org/guide/assets/photo/59953191-480px.jpg",
         bio="Life is bigcat",
         ratings=Rating(
-            distributed=random.randint(1, 5),
-            leadership=random.randint(1, 5),
-            database=random.randint(1, 5),
-            writing=random.randint(1, 5),
-            hardware=random.randint(1, 5),
-            embedded=random.randint(1, 5)
+            distributed=random.randint(1, 10),
+            leadership=random.randint(1, 10),
+            database=random.randint(1, 10),
+            writing=random.randint(1, 10),
+            hardware=random.randint(1, 10),
+            embedded=random.randint(1, 10)
         ),
         group_id=0
     )

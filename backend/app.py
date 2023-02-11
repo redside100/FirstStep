@@ -334,6 +334,16 @@ def debug():
         return jsonify({"data": db.get_all_groups()}), 200
     elif cmd == 'get_all_users':
         return jsonify({"data": db.get_all_users()}), 200
+    elif cmd == 'get_all_skillsets':
+        return jsonify({"data": db.get_all_skillsets()}), 200
+    elif cmd == 'get_user_skillsets':
+        if args is None:
+            return jsonify({"error": "Missing args parameter."}), 400
+        if isinstance(args.get("id"), int):
+            return jsonify({"data": db.get_user_skillsets(user_id=args.get("id"))}), 200
+        else:
+            return jsonify({"error": "Need args id parameter to be an integer."}), 200
+
     else:
         return jsonify({"error": "Unknown debug cmd."}), 400
 
