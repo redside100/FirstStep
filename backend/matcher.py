@@ -39,7 +39,7 @@ def match():
         logging.error('No postgres connection, cannot match users')
         return
 
-    cleanup_groups(False)
+    deleted = cleanup_groups(False)
 
     users = []
     for db_user in db.get_all_users():
@@ -65,17 +65,19 @@ def match():
 
     logging.info(f'Created {len(groups)} new groups.')
 
+    return len(groups), deleted
+
 
 def cleanup_groups(delete_permanent):
     if not db.connection_pool:
         logging.error('No postgres connection, cannot get groups users')
-        return
+        return 0
 
     groups = db.get_all_groups()
 
     if not groups:
         logging.info(f'No groups to delete.')
-        return
+        return 0
 
     deleted = 0
     for group in groups:
@@ -83,3 +85,5 @@ def cleanup_groups(delete_permanent):
             db.delete_group(group['id'])
             deleted += 1
     logging.info(f'Deleted {deleted} groups. Permanent = {delete_permanent}')
+
+    return deleted

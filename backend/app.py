@@ -312,6 +312,32 @@ def validate_email():
     return jsonify({"is_new_valid_email": valid_email, "rejection_reason": None}), 200
 
 
+@app.post('/debug')
+def debug():
+    secret: str = request.headers.get('uwfs-secret')
+    if secret is None or secret != 'avocadoscado':
+        return jsonify({"error": ":("}), 403
+
+    data = request.get_json()
+    cmd: str = data.get("cmd")
+
+    args: str = data.get("args")
+
+    if cmd is None:
+        return jsonify({"error": "Missing cmd parameter."}), 400
+
+    cmd = cmd.lower()
+    if cmd == 'match':
+        made, deleted = matcher.match()
+        return jsonify({"message": f"Made {made} groups, deleted {deleted}."}), 200
+    elif cmd == 'get_all_groups':
+        return jsonify({"data": db.get_all_groups()}), 200
+    elif cmd == 'get_all_users':
+        return jsonify({"data": db.get_all_users()}), 200
+    else:
+        return jsonify({"error": "Unknown debug cmd."}), 400
+
+
 def init():
     global config
     config['POSTGRES_HOST'] = os.environ.get('POSTGRES_HOST') if os.environ.get('POSTGRES_HOST') else 'localhost'
