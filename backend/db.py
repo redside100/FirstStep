@@ -99,6 +99,14 @@ def get_all_programs(cursor, connection):
     return None
 
 @use_connection
+def get_all_matchrounds(cursor, connection):
+    cursor.execute("SELECT * FROM MatchRounds")
+    data = cursor.fetchall()
+    if data:
+        return data
+    return None
+
+@use_connection
 def get_user(cursor, connection, email):
     cursor.execute(f"SELECT * FROM Users WHERE email = '{email}'")
     data = cursor.fetchone()
@@ -180,9 +188,10 @@ def create_matchround(cursor, connection, status, next_status, start, next_start
     cursor.execute(f"INSERT INTO"
                    f" MatchRounds (current_status, next_status, last_updated, current_start, next_start, next_end)"
                    f"VALUES "
-                   f"({status}, {next_status}, {current_time}, {start}, {next_start}, {next_end}) RETURNING id")
+                   f"({status}, {next_status}, to_timestamp({current_time}), to_timestamp({start}), to_timestamp({next_start}), to_timestamp({next_end})) RETURNING id")
 
     matchround_id = cursor.fetchone()["id"]
+    connection.commit()
     return matchround_id
 
 @use_connection
@@ -260,14 +269,12 @@ def update_matchround(cursor, connection, match_id, status, next_status, start, 
 
     cursor.execute(f"UPDATE MatchRounds SET current_status = {status},"
                    f" next_status = {next_status},"
-                   f" last_updated = {current_time},"
-                   f" start = {start},"
-                   f" current_start = {start},"
-                   f" next_start = {next_start},"
-                   f" next_end = {next_end} WHERE id = {match_id}")
+                   f" last_updated = to_timestamp({current_time}),"
+                   f" current_start = to_timestamp({start}),"
+                   f" next_start = to_timestamp({next_start}),"
+                   f" next_end = to_timestamp({next_end}) WHERE id = {match_id}")
 
-    matchround_id = cursor.fetchone()["id"]
-    return matchround_id
+    connection.commit()
 
 @use_connection
 def create_group(cursor, connection, group):

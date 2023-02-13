@@ -16,7 +16,7 @@ from consts import *
 scheduler = None
 current_matchround_id = None
 last_matchround_id = None
-MATCHER_DEBUG = True
+MATCHER_DEBUG = False
 
 
 def init():
@@ -28,15 +28,13 @@ def init():
         scheduler.add_job(cleanup_groups, trigger=CronTrigger(hour='15', day='*/2'), args=[True])
         scheduler.add_job(match, trigger=CronTrigger(hour='16'))
         start_time = get_next_matchtime()
-        current_matchround_id = db.create_matchround(status=2, next_status=3, start=start_time,
-                                                     current_start=start_time, next_start=start_time + 1,
+        current_matchround_id = db.create_matchround(status=2, next_status=3, start=start_time, next_start=start_time + 1,
                                                      next_end=start_time + 30)
     else:
         scheduler.add_job(cleanup_groups, trigger=CronTrigger(minute='*/2'), args=[True])
         scheduler.add_job(match, trigger=CronTrigger(second='15'))
         start_time = get_next_debug_matchtime()
-        current_matchround_id = db.create_matchround(status=2, next_status=3, start=start_time,
-                                                     current_start=start_time, next_start=start_time + 1,
+        current_matchround_id = db.create_matchround(status=2, next_status=3, start=start_time, next_start=start_time + 1,
                                                      next_end=start_time + 30)
         logging.warning('Matcher is in debug mode! Groups will be made and deleted every minute!')
 
@@ -57,7 +55,7 @@ def match():
     # update current status
     if current_matchround_id is not None:
         current_time = int(time.time())
-        db.update_matchround(last_matchround_id, status=3, next_status=4, start=current_time,
+        db.update_matchround(current_matchround_id, status=3, next_status=4, start=current_time,
                              next_start=current_time + 10, next_end=next_matchtime)
 
     users = []
@@ -99,13 +97,11 @@ def match():
     # create a new match round entry
     if not MATCHER_DEBUG:
         start_time = get_next_matchtime()
-        current_matchround_id = db.create_matchround(status=2, next_status=3, start=start_time,
-                                                     current_start=start_time, next_start=start_time + 1,
+        current_matchround_id = db.create_matchround(status=2, next_status=3, start=start_time, next_start=start_time + 1,
                                                      next_end=start_time + 30)
     else:
         start_time = get_next_debug_matchtime()
-        current_matchround_id = db.create_matchround(status=2, next_status=3, start=start_time,
-                                                     current_start=start_time, next_start=start_time + 1,
+        current_matchround_id = db.create_matchround(status=2, next_status=3, start=start_time, next_start=start_time + 1,
                                                      next_end=start_time + 30)
 
     return len(groups), deleted

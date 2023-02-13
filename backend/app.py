@@ -343,6 +343,8 @@ def debug():
             return jsonify({"data": db.get_user_skillsets(user_id=args.get("id"))}), 200
         else:
             return jsonify({"error": "Need args id parameter to be an integer."}), 200
+    elif cmd == 'get_all_matchrounds':
+        return jsonify({"data": db.get_all_matchrounds()}), 200
 
     else:
         return jsonify({"error": "Unknown debug cmd."}), 400
