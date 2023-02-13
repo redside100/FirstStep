@@ -10,24 +10,34 @@ from apscheduler.triggers.cron import CronTrigger
 from entities.group import DatabaseGroup
 from entities.rating import Rating
 from entities.user import User
-from util import create_groups
+from util import create_groups, get_next_matchtime, get_next_debug_matchtime
 from consts import *
 
 scheduler = None
-
-MATCHER_DEBUG = False
+current_matchround_id = None
+last_matchround_id = None
+MATCHER_DEBUG = True
 
 
 def init():
     global scheduler
+    global current_matchround_id
     scheduler = BackgroundScheduler(timezone='UTC')
     # 4 pm UTC, 12 pm EST
     if not MATCHER_DEBUG:
         scheduler.add_job(cleanup_groups, trigger=CronTrigger(hour='15', day='*/2'), args=[True])
         scheduler.add_job(match, trigger=CronTrigger(hour='16'))
+        start_time = get_next_matchtime()
+        current_matchround_id = db.create_matchround(status=2, next_status=3, start=start_time,
+                                                     current_start=start_time, next_start=start_time + 1,
+                                                     next_end=start_time + 30)
     else:
         scheduler.add_job(cleanup_groups, trigger=CronTrigger(minute='*/2'), args=[True])
         scheduler.add_job(match, trigger=CronTrigger(second='15'))
+        start_time = get_next_debug_matchtime()
+        current_matchround_id = db.create_matchround(status=2, next_status=3, start=start_time,
+                                                     current_start=start_time, next_start=start_time + 1,
+                                                     next_end=start_time + 30)
         logging.warning('Matcher is in debug mode! Groups will be made and deleted every minute!')
 
     scheduler.start()
@@ -35,11 +45,20 @@ def init():
 
 
 def match():
+    global current_matchround_id
+    global last_matchround_id
     if not db.connection_pool:
         logging.error('No postgres connection, cannot match users')
         return
 
     deleted = cleanup_groups(False)
+    next_matchtime = get_next_matchtime()
+
+    # update current status
+    if current_matchround_id is not None:
+        current_time = int(time.time())
+        db.update_matchround(last_matchround_id, status=3, next_status=4, start=current_time,
+                             next_start=current_time + 10, next_end=next_matchtime)
 
     users = []
     for db_user in db.get_all_users():
@@ -50,20 +69,44 @@ def match():
                 )
             ))
 
-    if not users:
+    groups = 0
+    if users:
+        n = len(users)
+        max_groups = int((n / MIN_GROUP_SIZE + n / MAX_GROUP_SIZE) / 2)
+        groups = create_groups(users, min_size=MIN_GROUP_SIZE, max_size=MAX_GROUP_SIZE, max_groups=max_groups)
+
+        for group in groups:
+            db_group = DatabaseGroup(0, 'New FYDP Group', False, datetime.utcnow().strftime('%Y-%m-%d %H:%M:%S'),
+                                     [user.id for user in group.members])
+            db.create_group(db_group)
+
+        logging.info(f'Created {len(groups)} new groups.')
+    else:
         logging.warning('No eligible users for matching round.')
-        return
 
-    n = len(users)
-    max_groups = int((n / MIN_GROUP_SIZE + n / MAX_GROUP_SIZE) / 2)
-    groups = create_groups(users, min_size=MIN_GROUP_SIZE, max_size=MAX_GROUP_SIZE, max_groups=max_groups)
+    current_time = int(time.time())
+    # set to teams assigned for current match round
+    if current_matchround_id is not None:
+        db.update_matchround(current_matchround_id, status=4, next_status=5, start=current_time,
+                             next_start=next_matchtime, next_end=next_matchtime)
 
-    for group in groups:
-        db_group = DatabaseGroup(0, 'New FYDP Group', False, datetime.utcnow().strftime('%Y-%m-%d %H:%M:%S'),
-                                 [user.id for user in group.members])
-        db.create_group(db_group)
+    # close out last match round
+    if last_matchround_id is not None:
+        db.update_matchround(last_matchround_id, status=5, next_status=5, start=current_time, next_start=current_time, next_end=current_time)
 
-    logging.info(f'Created {len(groups)} new groups.')
+    last_matchround_id = current_matchround_id
+
+    # create a new match round entry
+    if not MATCHER_DEBUG:
+        start_time = get_next_matchtime()
+        current_matchround_id = db.create_matchround(status=2, next_status=3, start=start_time,
+                                                     current_start=start_time, next_start=start_time + 1,
+                                                     next_end=start_time + 30)
+    else:
+        start_time = get_next_debug_matchtime()
+        current_matchround_id = db.create_matchround(status=2, next_status=3, start=start_time,
+                                                     current_start=start_time, next_start=start_time + 1,
+                                                     next_end=start_time + 30)
 
     return len(groups), deleted
 

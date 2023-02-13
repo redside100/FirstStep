@@ -173,6 +173,17 @@ def get_group_by_user_id(cursor, connection, user_id):
         return None
     return _get_group(user['group_id'])
 
+@use_connection
+def create_matchround(cursor, connection, status, next_status, start, next_start, next_end):
+    current_time = int(time.time())
+
+    cursor.execute(f"INSERT INTO"
+                   f" MatchRounds (current_status, next_status, last_updated, current_start, next_start, next_end)"
+                   f"VALUES "
+                   f"({status}, {next_status}, {current_time}, {start}, {next_start}, {next_end}) RETURNING id")
+
+    matchround_id = cursor.fetchone()["id"]
+    return matchround_id
 
 @use_connection
 def create_user(cursor, connection, user, mock=False):
@@ -241,6 +252,22 @@ def update_user(cursor, connection, user):
 def update_user_onboarding(cursor, connection, user_id, onboarding_status):
     cursor.execute(f"UPDATE UserOnboarding SET onboarding_status = {onboarding_status} WHERE user_id = {user_id} AND onboarding_status < {onboarding_status}")
     connection.commit()
+
+
+@use_connection
+def update_matchround(cursor, connection, match_id, status, next_status, start, next_start, next_end):
+    current_time = int(time.time())
+
+    cursor.execute(f"UPDATE MatchRounds SET current_status = {status},"
+                   f" next_status = {next_status},"
+                   f" last_updated = {current_time},"
+                   f" start = {start},"
+                   f" current_start = {start},"
+                   f" next_start = {next_start},"
+                   f" next_end = {next_end} WHERE id = {match_id}")
+
+    matchround_id = cursor.fetchone()["id"]
+    return matchround_id
 
 @use_connection
 def create_group(cursor, connection, group):

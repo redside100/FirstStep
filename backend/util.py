@@ -1,4 +1,7 @@
+from datetime import datetime, timedelta, timezone
 from typing import List
+
+from pytz import tzinfo
 
 from entities.user import User, UserUpdate, Rating
 from entities.group import Group
@@ -121,3 +124,23 @@ def generate_database_user():
         bio="Life is bigcat",
         display_name=f"{first_name}-{last_name}{random.randint(0, 100)}"
     )
+
+def get_next_matchtime():
+    current_time = datetime.utcnow()
+    if current_time.hour < 17:
+        return int(current_time.replace(hour=17, minute=0, second=0).replace(tzinfo=timezone.utc).timestamp())
+    else:
+        return int((current_time + timedelta(days=1))
+                   .replace(hour=17, minute=0, second=0)
+                   .replace(tzinfo=timezone.utc)
+                   .timestamp())
+
+
+def get_next_debug_matchtime():
+    current_time = datetime.utcnow()
+    if current_time.second < 15:
+        diff = 15 - current_time.second
+    else:
+        diff = 60 - current_time.second + 15
+
+    return int(current_time.replace(tzinfo=timezone.utc).timestamp() + diff)
