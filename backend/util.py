@@ -1,5 +1,6 @@
 from datetime import datetime, timedelta, timezone
 from typing import List
+import random
 
 from pytz import tzinfo
 
@@ -38,22 +39,25 @@ def create_groups(users: List[User], min_size=4, max_size=5, max_groups=None, ti
     m = Model()
 
     # x[i][j] = 1 => j'th user is part of group i
-    x = [[m.add_var(var_type=BINARY) for _ in range(n)] for _ in range(max_group_num)]
+    x = [[m.add_var(var_type=BINARY) for _ in range(n)]
+         for _ in range(max_group_num)]
 
     # Each group must be between min and max size (or empty)
     for i in range(max_group_num):
-        m += xsum(x[i][j] for j in range(n)) >= min_size or xsum(x[i][j] for j in range(n)) == 0
+        m += xsum(x[i][j] for j in range(n)) >= min_size or xsum(x[i][j]
+                                                                 for j in range(n)) == 0
         m += xsum(x[i][j] for j in range(n)) <= max_size
 
     # Each user cannot be in more than one group
     for j in range(n):
         m += xsum(x[i][j] for i in range(max_group_num)) == 1
-    
+
     # Every user must be included in a group
     m += xsum(x[i][j] for i in range(max_group_num) for j in range(n)) == n
 
     # summed ratings for all groups
-    data = [add_ratings([users[j].ratings.mul(x[i][j]) for j in range(n)]) for i in range(max_group_num)]
+    data = [add_ratings([users[j].ratings.mul(x[i][j])
+                        for j in range(n)]) for i in range(max_group_num)]
 
     # gonna be honest i'm 99% sure this is wrong but it looks like it works
     mean = add_ratings(data).div(len(data))
@@ -68,13 +72,15 @@ def create_groups(users: List[User], min_size=4, max_size=5, max_groups=None, ti
     try:
         x[0][0].x
     except exceptions.SolutionNotAvailable:
-        logging.error(f"Couldn't find a solution to group matching model (min {min_size}, max {max_size}, {n} users, max {max_group_num} groups)")
+        logging.error(
+            f"Couldn't find a solution to group matching model (min {min_size}, max {max_size}, {n} users, max {max_group_num} groups)")
         return []
 
     groups = []
 
     for i in range(max_group_num):
-        partial_group = Group(id=i, name=f"Test Group {i}", is_permanent=False, members=[])
+        partial_group = Group(
+            id=i, name=f"Test Group {i}", is_permanent=False, members=[])
         for j in range(n):
             if x[i][j].x == 1.0:
                 partial_group.members.append(users[j])
@@ -125,6 +131,7 @@ def generate_database_user():
         display_name=f"{first_name}-{last_name}{random.randint(0, 100)}"
     )
 
+
 def get_next_matchtime():
     current_time = datetime.utcnow()
     if current_time.hour < 17:
@@ -144,3 +151,19 @@ def get_next_debug_matchtime():
         diff = 60 - current_time.second + 15
 
     return int(current_time.replace(tzinfo=timezone.utc).timestamp() + diff)
+
+
+def gen_random_team_name():
+    names = [
+        "Blueberry",
+        "Blackberry",
+        "Losers",
+        "Randos",
+        "Slackers",
+        "Bananas",
+        "Maple Leaf",
+        "Blue Jays"
+    ]
+    index = random.randint(0, len(names)-1)
+    return names[index]
+

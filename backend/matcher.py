@@ -10,7 +10,7 @@ from apscheduler.triggers.cron import CronTrigger
 from entities.group import DatabaseGroup
 from entities.rating import Rating
 from entities.user import User
-from util import create_groups, get_next_matchtime, get_next_debug_matchtime
+from util import create_groups, get_next_matchtime, get_next_debug_matchtime, gen_random_team_name
 from consts import *
 
 scheduler = None
@@ -74,7 +74,7 @@ def match():
         groups = create_groups(users, min_size=MIN_GROUP_SIZE, max_size=MAX_GROUP_SIZE, max_groups=max_groups)
 
         for group in groups:
-            db_group = DatabaseGroup(0, 'New FYDP Group', False, datetime.utcnow().strftime('%Y-%m-%d %H:%M:%S'),
+            db_group = DatabaseGroup(0, gen_random_team_name(), False, datetime.utcnow().strftime('%Y-%m-%d %H:%M:%S'),
                                      [user.id for user in group.members])
             db.create_group(db_group)
 
