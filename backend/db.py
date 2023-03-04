@@ -235,27 +235,36 @@ def create_default_user(cursor, connection, email, first, last):
 @use_connection
 def update_user(cursor, connection, user):
     query = "UPDATE USERS SET"
+    params = []
     if not user.first_name == '':
-        query += f" first_name = '{user.first_name}',"
+        query += f" first_name = %s,"
+        params.append(user.first_name)
     if not user.last_name == '':
-        query += f" last_name = '{user.last_name}',"
+        query += f" last_name = %s,"
+        params.append(user.last_name)
     if not user.email == '':
-        query += f" email = '{user.email}',"
+        query += f" email = %s,"
+        params.append(user.email)
     if not user.class_year == '':
-        query += f" class_year = {user.class_year},"
+        query += f" class_year = %s,"
+        params.append(user.class_year)
     if not user.program_id == '':
-        query += f" program_id = {user.program_id},"
+        query += f" program_id = %s,"
+        params.append(user.program_id)
     if not user.avatar_url == '':
-        query += f" avatar_url = '{user.avatar_url}',"
+        query += f" avatar_url = %s,"
+        params.append(user.avatar_url)
     if not user.bio == '':
-        query += f" bio = '{user.bio}',"
+        query += f" bio = %s,"
+        params.append(user.bio)
     if not user.display_name == '':
-        query += f" display_name = '{user.display_name}'"
-    else:
-        query = query.rstrip(',')
-    query += f" WHERE id = {user.id}"
-    cursor.execute(query)
-    connection.commit()
+        query += f" display_name = %s,"
+        params.append(user.display_name)
+    query = query.rstrip(',')
+    if len(params) > 0:
+        query += f" WHERE id = {user.id}"
+        cursor.execute(query, tuple(e for e in params))
+        connection.commit()
 
 @use_connection
 def update_user_onboarding(cursor, connection, user_id, onboarding_status):
