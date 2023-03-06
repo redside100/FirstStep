@@ -199,8 +199,8 @@ def create_user(cursor, connection, user, mock=False):
     cursor.execute(f"INSERT INTO "
                    f"Users (email, class_year, first_name, last_name, program_id, avatar_url, bio, display_name)"
                    f"VALUES "
-                   f"('{user.email}', {user.class_year}, '{user.first_name}', '{user.last_name}', '{user.program_id}',"
-                   f"'{user.avatar_url}', '{user.bio}', '{user.display_name}') RETURNING id")
+                   f"(%s, %s, %s, %s, %s, %s, %s, %s) RETURNING id", 
+                   (user.email, user.class_year, user.first_name, user.last_name, user.program_id, user.avatar_url, user.bio, user.display_name))
     user_id = cursor.fetchone()["id"]
 
     skillsets = len(get_all_skillsets())

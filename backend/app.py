@@ -379,7 +379,9 @@ def init():
                         db.create_user(user, mock=True)
             break
         except:
-            logging.warn("Connection pool not ready. Trying again in 1 second.")
+            import traceback
+            traceback.print_exc()
+            logging.warn("Trying again in 1 second.")
             time.sleep(1)
 
     # Start matching cronjob
