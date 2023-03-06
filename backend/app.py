@@ -345,7 +345,14 @@ def debug():
             return jsonify({"error": "Need args id parameter to be an integer."}), 200
     elif cmd == 'get_all_matchrounds':
         return jsonify({"data": db.get_all_matchrounds()}), 200
-
+    elif cmd == 'set_user_group':
+        if args is None:
+            return jsonify({"error": "Missing args parameter."}), 400
+        if isinstance(args.get("user_id"), int) and isinstance(args.get("group_id"), int):
+            db.update_user_group(args.get("user_id"), args.get("group_id"))
+            return jsonify({"message": "ok"})
+        else:
+            return jsonify({"error": "Need args user_id and group_id parameters to be integers."}), 200
     else:
         return jsonify({"error": "Unknown debug cmd."}), 400
 

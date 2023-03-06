@@ -297,6 +297,11 @@ def create_group(cursor, connection, group):
     return group_id
 
 @use_connection
+def update_user_group(cursor, connection, user_id, group_id):
+    cursor.execute(f"UPDATE Users SET group_id = {group_id} WHERE id = {user_id}")
+    connection.commit()
+
+@use_connection
 def update_group(cursor, connection, group):
     cursor.execute(f"UPDATE Groups SET name = '{group.name}', is_group_permanent = {group.is_group_permanent}"
                    f" WHERE id = {group.id}")
