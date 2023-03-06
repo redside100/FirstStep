@@ -10,6 +10,7 @@ import random
 import logging
 import names
 import time
+import consts
 from mip import *
 
 
@@ -96,13 +97,14 @@ def generate_test_user(user_id=None):
     if not user_id:
         user_id = random.randint(1, 999999)
     current_time = int(time.time())
+    first_name = names.get_first_name()
     return User(
         id=user_id,
-        first_name=names.get_first_name(),
+        first_name=first_name,
         last_name=names.get_last_name(),
         program=random.choice(programs),
         avatar_url="https://www.allaboutbirds.org/guide/assets/photo/59953191-480px.jpg",
-        bio="Life is bigcat",
+        bio=random.choice(consts.USER_BIO_TEMPLATES).replace("%firstname%", first_name),
         ratings=Rating(
             distributed=random.randint(1, 10),
             leadership=random.randint(1, 10),
@@ -127,7 +129,7 @@ def generate_database_user():
         last_name=last_name,
         program_id=random.choice(programs),
         avatar_url="https://www.allaboutbirds.org/guide/assets/photo/59953191-480px.jpg",
-        bio="Life is bigcat",
+        bio=random.choice(consts.USER_BIO_TEMPLATES).replace("%firstname%", first_name),
         display_name=f"{first_name}-{last_name}{random.randint(0, 100)}"
     )
 

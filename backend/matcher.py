@@ -73,12 +73,15 @@ def match():
         max_groups = int((n / MIN_GROUP_SIZE + n / MAX_GROUP_SIZE) / 2)
         groups = create_groups(users, min_size=MIN_GROUP_SIZE, max_size=MAX_GROUP_SIZE, max_groups=max_groups)
 
-        for group in groups:
-            db_group = DatabaseGroup(0, gen_random_team_name(), False, datetime.utcnow().strftime('%Y-%m-%d %H:%M:%S'),
-                                     [user.id for user in group.members])
-            db.create_group(db_group)
+        if groups is not None:
+            for group in groups:
+                db_group = DatabaseGroup(0, gen_random_team_name(), False, datetime.utcnow().strftime('%Y-%m-%d %H:%M:%S'),
+                                        [user.id for user in group.members])
+                db.create_group(db_group)
 
-        logging.info(f'Created {len(groups)} new groups.')
+            logging.info(f'Created {len(groups)} new groups.')
+        else:
+            logging.warning('No groups were made (not enough users?)')
     else:
         logging.warning('No eligible users for matching round.')
 
@@ -104,7 +107,7 @@ def match():
         current_matchround_id = db.create_matchround(status=2, next_status=3, start=start_time, next_start=start_time + 1,
                                                      next_end=start_time + 30)
 
-    return len(groups), deleted
+    return len(groups) if groups else 0, deleted
 
 
 def cleanup_groups(delete_permanent):
