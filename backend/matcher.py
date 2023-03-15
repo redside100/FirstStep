@@ -60,7 +60,7 @@ def match():
 
     users = []
     for db_user in db.get_all_users():
-        if not db_user['match_round_id'] == 0:
+        if db_user['match_round_id'] and db_user['match_round_id'] !== 0:
             users.append(User.from_database(
                 db_user, Rating.from_database(
                     db.get_user_skillsets(db_user['id'])
