@@ -353,6 +353,12 @@ def debug():
             return jsonify({"message": "ok"})
         else:
             return jsonify({"error": "Need args user_id and group_id parameters to be integers."}), 200
+    elif cmd == "delete_user":
+        if args is None:
+            return jsonify({"error": "Missing args parameter."}), 400
+        if isinstance(args.get("user_id"), int):
+            db.delete_user(args.get("user_id"))
+            return jsonify({"message": "ok"})
     else:
         return jsonify({"error": "Unknown debug cmd."}), 400
 

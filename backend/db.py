@@ -219,6 +219,11 @@ def create_user(cursor, connection, user, mock=False):
     return user_id
 
 @use_connection
+def delete_user(cursor, connection, user_id):
+    cursor.execute(f"DELETE FROM Users WHERE id = {user_id}")
+    connection.commit()
+
+@use_connection
 def create_default_user(cursor, connection, email, first, last):
     cursor.execute(f"INSERT INTO "
                    f"Users (email, first_name, last_name, display_name)"
