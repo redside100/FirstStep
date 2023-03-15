@@ -196,11 +196,18 @@ def create_matchround(cursor, connection, status, next_status, start, next_start
 
 @use_connection
 def create_user(cursor, connection, user, mock=False):
-    cursor.execute(f"INSERT INTO "
-                   f"Users (email, class_year, first_name, last_name, program_id, avatar_url, bio, display_name)"
-                   f"VALUES "
-                   f"(%s, %s, %s, %s, %s, %s, %s, %s) RETURNING id", 
-                   (user.email, user.class_year, user.first_name, user.last_name, user.program_id, user.avatar_url, user.bio, user.display_name))
+    if not mock:
+        cursor.execute(f"INSERT INTO "
+                       f"Users (email, class_year, first_name, last_name, program_id, avatar_url, bio, display_name)"
+                       f"VALUES "
+                       f"(%s, %s, %s, %s, %s, %s, %s, %s) RETURNING id", 
+                       (user.email, user.class_year, user.first_name, user.last_name, user.program_id, user.avatar_url, user.bio, user.display_name))
+    else:
+        cursor.execute(f"INSERT INTO "
+                       f"Users (email, class_year, first_name, last_name, program_id, avatar_url, bio, display_name, match_round_id)"
+                       f"VALUES "
+                       f"(%s, %s, %s, %s, %s, %s, %s, %s, %s) RETURNING id", 
+                       (user.email, user.class_year, user.first_name, user.last_name, user.program_id, user.avatar_url, user.bio, user.display_name, 1))
     user_id = cursor.fetchone()["id"]
 
     skillsets = len(get_all_skillsets())
