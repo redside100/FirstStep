@@ -398,3 +398,9 @@ def remove_user_from_matching_round(cursor, connection, user_id, match_round_id)
     cursor.execute(f"UPDATE Users SET match_round_id = NULL"
                    f" WHERE id = {user_id} AND match_round_id = {match_round_id}")
     connection.commit()
+
+@use_connection
+def remove_user_from_matching_round_2(cursor, connection, user_id):
+    cursor.execute(f"UPDATE Users SET match_round_id = NULL"
+                   f" WHERE id = {user_id}")
+    connection.commit()
