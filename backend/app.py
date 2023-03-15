@@ -255,8 +255,8 @@ def commit_group():
         pass
     elif action == GroupCommitmentOptions.Leave.value:
         db.group_commitment(user_id, group_id, False)
-        db.remove_user_from_matching_round_2(user_id)
         hasGroup = False
+    db.remove_user_from_matching_round_2(user_id)
     updated_group = db.get_group_by_user_id(user_id)
     response = { 'userId': user_id, 'hasGroup': hasGroup, 'group': updated_group }
     return  jsonify(response), 200
