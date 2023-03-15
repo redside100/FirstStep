@@ -28,14 +28,14 @@ def init():
         scheduler.add_job(cleanup_groups, trigger=CronTrigger(hour='15', day='*/2'), args=[True])
         scheduler.add_job(match, trigger=CronTrigger(hour='16'))
         start_time = get_next_matchtime()
-        current_matchround_id = db.create_matchround(status=2, next_status=3, start=start_time, next_start=start_time + 1,
-                                                     next_end=start_time + 30)
+        current_matchround_id = db.create_matchround(status=2, next_status=3, start=start_time, next_start=start_time + 3600,
+                                                     next_end=start_time + 7200)
     else:
         scheduler.add_job(cleanup_groups, trigger=CronTrigger(minute='*/2'), args=[True])
         scheduler.add_job(match, trigger=CronTrigger(second='15'))
         start_time = get_next_debug_matchtime()
-        current_matchround_id = db.create_matchround(status=2, next_status=3, start=start_time, next_start=start_time + 1,
-                                                     next_end=start_time + 30)
+        current_matchround_id = db.create_matchround(status=2, next_status=3, start=start_time, next_start=start_time + 3600,
+                                                     next_end=start_time + 7200)
         logging.warning('Matcher is in debug mode! Groups will be made and deleted every minute!')
 
     scheduler.start()
@@ -100,12 +100,12 @@ def match():
     # create a new match round entry
     if not MATCHER_DEBUG:
         start_time = get_next_matchtime()
-        current_matchround_id = db.create_matchround(status=2, next_status=3, start=start_time, next_start=start_time + 1,
-                                                     next_end=start_time + 30)
+        current_matchround_id = db.create_matchround(status=2, next_status=3, start=start_time, next_start=start_time + 3600,
+                                                     next_end=start_time + 7200)
     else:
         start_time = get_next_debug_matchtime()
-        current_matchround_id = db.create_matchround(status=2, next_status=3, start=start_time, next_start=start_time + 1,
-                                                     next_end=start_time + 30)
+        current_matchround_id = db.create_matchround(status=2, next_status=3, start=start_time, next_start=start_time + 3600,
+                                                     next_end=start_time + 7200)
 
     return len(groups) if groups else 0, deleted
 
